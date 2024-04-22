@@ -15,6 +15,7 @@ type LinkedList[T any] struct {
 }
 
 type LinkedListNode[T any] struct {
-	Value T
-	Next  *LinkedListNode[T]
+	Item T
+	next *LinkedListNode[T]
 }
+
