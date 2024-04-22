@@ -53,3 +53,47 @@ func (list *LinkedList[T]) Add(item T) {
 	list.length += 1
 }
 
+func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
+	if list.length < index {
+		return &IndexOutOfBoundsError{
+			targetIndex: index,
+			listLength:  list.length,
+		}
+	}
+
+	// If we are inserting at the tail, we can simplify the call by just calling list.Add
+	if index == list.length {
+		list.Add(item)
+		return nil
+	}
+
+	// We now know we have to handle the insert logic ourselves, so let's make the Node
+
+	newNode := &LinkedListNode[T]{
+		Item: item,
+		next: nil,
+	}
+
+	// If we are inserting at the head of the list (index=0)
+	// We have a special case, as we splice into
+	// list.head rather than node.next
+	if index == 0 {
+		newNode.next = list.head
+		list.head = newNode
+		return nil
+	}
+
+	// If we are inserting anywhere except the head or tail, we walk along the list
+	//
+	// Starting from the head, walk (index-1) nodes along the list.
+	// This gives us the node *before* the splice position, i.e. the node to update next of
+	currentNode := list.head
+	for _ = range index - 1 {
+		currentNode = currentNode.next
+	}
+	newNode.next = currentNode.next
+	currentNode.next = newNode
+
+	return nil
+}
+
