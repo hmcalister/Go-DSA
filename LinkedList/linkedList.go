@@ -19,3 +19,11 @@ type LinkedListNode[T any] struct {
 	next *LinkedListNode[T]
 }
 
+func New[T any]() *LinkedList[T] {
+	return &LinkedList[T]{
+		head:   nil,
+		tail:   nil,
+		length: 0,
+	}
+}
+
