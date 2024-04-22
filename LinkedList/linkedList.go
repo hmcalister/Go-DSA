@@ -27,3 +27,10 @@ func New[T any]() *LinkedList[T] {
 	}
 }
 
+// Add a new item to the end of the list
+func (list *LinkedList[T]) Add(item T) {
+	newNode := &LinkedListNode[T]{
+		Item: item,
+		next: nil,
+	}
+
