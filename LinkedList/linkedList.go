@@ -15,9 +15,9 @@ type LinkedList[T any] struct {
 	length int
 }
 
-type LinkedListNode[T any] struct {
-	Item T
-	next *LinkedListNode[T]
+type linkedListNode[T any] struct {
+	item T
+	next *linkedListNode[T]
 }
 
 func New[T any]() *LinkedList[T] {
