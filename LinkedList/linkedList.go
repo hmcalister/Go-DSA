@@ -97,6 +97,7 @@ func (list *LinkedList[T]) Add(item T) {
 // list.AddAtIndex("(linked!)", 1)	// list = ["hello", "(linked!)", "world"]
 // ````
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
+	// Note here we allow list.length==index, as we *can* insert at the end of the list
 	if list.length < index {
 		return &IndexOutOfBoundsError{
 			targetIndex: index,
