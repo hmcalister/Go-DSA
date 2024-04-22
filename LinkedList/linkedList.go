@@ -69,6 +69,7 @@ func (list *LinkedList[T]) Add(item T) {
 	if list.length == 0 {
 		list.head = newNode
 		list.tail = newNode
+		list.length += 1
 		return
 	}
 
@@ -124,6 +125,7 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	if index == 0 {
 		newNode.next = list.head
 		list.head = newNode
+		list.length += 1
 		return nil
 	}
 
@@ -137,6 +139,7 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	}
 	newNode.next = currentNode.next
 	currentNode.next = newNode
+	list.length += 1
 
 	return nil
 }
