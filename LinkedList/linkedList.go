@@ -141,7 +141,7 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	return nil
 }
 
-// Remove the item from the end of the list
+// Remove and return the item from the end of the list
 //
 // Returns the item removed, or an error if the list is empty.
 func (list *LinkedList[T]) Remove() (T, error) {
