@@ -113,8 +113,8 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 
 	// We now know we have to handle the insert logic ourselves, so let's make the Node
 
-	newNode := &LinkedListNode[T]{
-		Item: item,
+	newNode := &linkedListNode[T]{
+		item: item,
 		next: nil,
 	}
 
