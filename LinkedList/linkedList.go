@@ -60,8 +60,8 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 
 // Add a new item to the end of the list
 func (list *LinkedList[T]) Add(item T) {
-	newNode := &LinkedListNode[T]{
-		Item: item,
+	newNode := &linkedListNode[T]{
+		item: item,
 		next: nil,
 	}
 
