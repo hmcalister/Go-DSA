@@ -15,5 +15,5 @@ type EmptyListError struct {
 }
 
 func (e *EmptyListError) Error() string {
-	return fmt.Sprint("cannot perform operation on an empty list")
+	return "cannot perform operation on an empty list"
 }
