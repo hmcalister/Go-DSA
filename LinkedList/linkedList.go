@@ -9,7 +9,7 @@ type LinkedList[T any] struct {
 	// Tail of the list, the last Node
 	//
 	// nil only when the length is zero
-	tail *LinkedListNode[T]
+	tail *linkedListNode[T]
 
 	// Length of the list, the total number of Nodes
 	length int
