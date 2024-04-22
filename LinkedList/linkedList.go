@@ -20,6 +20,7 @@ type linkedListNode[T any] struct {
 	next *linkedListNode[T]
 }
 
+// Create a new linked list
 func New[T any]() *LinkedList[T] {
 	return &LinkedList[T]{
 		head:   nil,
