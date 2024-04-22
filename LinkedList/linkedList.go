@@ -176,3 +176,63 @@ func (list *LinkedList[T]) Remove() (T, error) {
 
 	return removedNode.item, nil
 }
+
+// Remove and return the item from a particular index.
+//
+// Returns an error if the list is empty, or is the target index is out of range.
+//
+// Example:
+// ```
+// list := linkedlist.New[string]()
+// list.Add("hello")					// list = ["hello"]
+// list.Add("(linked!)")				// list = ["hello", "(linked!)"]
+// list.Add("world")					// list = ["hello", "(linked!)", "world"]
+//
+// item, err := list.RemoveAtIndex(1)	// list = ["hello", "world"]
+// fmt.Printf("%v", item)				// (linked!)
+// ```
+func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
+	if list.length == 0 {
+		// Apparently idiomatic "zero-value" of a generic T is *new(T)... feels odd.
+		// https://stackoverflow.com/questions/70585852/return-default-value-for-generic-type
+		return *new(T), &EmptyListError{}
+	}
+
+	if list.length <= index {
+		return *new(T), &IndexOutOfBoundsError{
+			targetIndex: index,
+			listLength:  list.length,
+		}
+	}
+
+	// If we are trying to remove from the end of the list, just call the regular Remove method
+	// This also handles the case of removing the head of a list of length 1
+	if index == list.length-1 {
+		return list.Remove()
+	}
+
+	// If we are trying to remove the head of the list,
+	// splice the head node out with list.head pointer
+	if index == 0 {
+		prevHead := list.head
+		list.head = list.head.next
+		list.length -= 1
+		return prevHead.item, nil
+	}
+
+	// Otherwise...
+	// We do the same traversal as in list.Remove but we stop some way along
+	// and splice the node out
+
+	currentNode := list.head
+	for _ = range index - 1 {
+		currentNode = currentNode.next
+	}
+
+	// currentNode is now one before the node in question,
+	// and we know it is not the last node (by above) if index==list.length-1
+	removedNode := currentNode.next
+	currentNode.next = removedNode.next
+	list.length -= 1
+	return removedNode.item, nil
+}
