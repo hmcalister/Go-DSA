@@ -53,6 +53,10 @@ func (list *LinkedList[T]) Add(item T) {
 	list.length += 1
 }
 
+// Add a new item to the list in the specified position.
+//
+// # Returns a IndexOutOfBoundsError if the specified index is out of bounds
+//
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	if list.length < index {
 		return &IndexOutOfBoundsError{
