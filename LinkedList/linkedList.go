@@ -34,3 +34,22 @@ func (list *LinkedList[T]) Add(item T) {
 		next: nil,
 	}
 
+	// If length is zero, tail is nil as we have an empty list
+	if list.length == 0 {
+		list.head = newNode
+		list.tail = newNode
+		return
+	}
+
+	// Otherwise, we add the node to the end of the list
+	//
+	// This is defined as tail.next
+	list.tail.next = newNode
+
+	// We also update the tail to be the newly inserted node
+	list.tail = newNode
+
+	// Finally, update the length
+	list.length += 1
+}
+
