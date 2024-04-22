@@ -4,7 +4,8 @@ type LinkedList[T any] struct {
 	// Head of the list, the first Node
 	//
 	// nil only when the length is zero
-	head *LinkedListNode[T]
+	head *linkedListNode[T]
+
 	// Tail of the list, the last Node
 	//
 	// nil only when the length is zero
