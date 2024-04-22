@@ -57,6 +57,14 @@ func (list *LinkedList[T]) Add(item T) {
 //
 // # Returns a IndexOutOfBoundsError if the specified index is out of bounds
 //
+// Example:
+//
+// ```
+// list := linkedlist.New[string]()
+// list.Add("hello")				// list = ["hello"]
+// list.Add("world")				// list = ["hello", "world"]
+// list.AddAtIndex("(linked!)", 1)	// list = ["hello", "(linked!)", "world"]
+// ````
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	if list.length < index {
 		return &IndexOutOfBoundsError{
