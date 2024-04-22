@@ -29,6 +29,11 @@ func New[T any]() *LinkedList[T] {
 	}
 }
 
+// Get the length of this linked list
+func (list *LinkedList[T]) Length() int {
+	return list.length
+}
+
 // Add a new item to the end of the list
 func (list *LinkedList[T]) Add(item T) {
 	newNode := &LinkedListNode[T]{
