@@ -34,6 +34,30 @@ func (list *LinkedList[T]) Length() int {
 	return list.length
 }
 
+// Get the item at the specified index
+//
+// Returns an error if the index is out of bounds
+func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
+	if list.length <= index {
+		return *new(T), &IndexOutOfBoundsError{
+			targetIndex: index,
+			listLength:  list.length,
+		}
+	}
+
+	// If we are requesting the final item, just access it directly
+	if index == list.length-1 {
+		return list.tail.item, nil
+	}
+
+	// Otherwise we perform list traversal
+	currentNode := list.head
+	for _ = range index {
+		currentNode = currentNode.next
+	}
+	return currentNode.item, nil
+}
+
 // Add a new item to the end of the list
 func (list *LinkedList[T]) Add(item T) {
 	newNode := &LinkedListNode[T]{
