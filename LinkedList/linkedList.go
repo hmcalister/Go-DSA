@@ -109,3 +109,11 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	return nil
 }
 
+func (list *LinkedList[T]) Remove() (T, error) {
+	if list.length == 0 {
+		// Apparently idiomatic "zero-value" of a generic T is *new(T)... feels odd.
+		// https://stackoverflow.com/questions/70585852/return-default-value-for-generic-type
+		return *new(T), &EmptyListError{}
+	}
+
+}
