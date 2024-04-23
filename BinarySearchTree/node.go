@@ -21,3 +21,15 @@ type BinarySearchTreeNode[T any] struct {
 	right *BinarySearchTreeNode[T]
 }
 
+// Return a new leaf node with item embedded
+func newLeafNode[T any](item T) *BinarySearchTreeNode[T] {
+	return &BinarySearchTreeNode[T]{
+		item:   item,
+		size:   1,
+		height: 0,
+		parent: nil,
+		left:   nil,
+		right:  nil,
+	}
+}
+
