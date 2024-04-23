@@ -1,7 +1,8 @@
 package linkedlist
 
-type linkedListNode[T any] struct {
+type LinkedListNode[T any] struct {
 	item T
-	next *linkedListNode[T]
-	prev *linkedListNode[T]
+	next *LinkedListNode[T]
+	prev *LinkedListNode[T]
 }
+

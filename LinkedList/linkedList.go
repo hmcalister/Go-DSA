@@ -4,12 +4,12 @@ type LinkedList[T any] struct {
 	// Head of the list, the first Node
 	//
 	// nil only when the length is zero
-	head *linkedListNode[T]
+	head *LinkedListNode[T]
 
 	// Tail of the list, the last Node
 	//
 	// nil only when the length is zero
-	tail *linkedListNode[T]
+	tail *LinkedListNode[T]
 
 	// Length of the list, the total number of Nodes
 	length int
@@ -200,7 +200,7 @@ func ReverseFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func
 
 // Add a new item to the end of the list
 func (list *LinkedList[T]) Add(item T) {
-	newNode := &linkedListNode[T]{
+	newNode := &LinkedListNode[T]{
 		item: item,
 	}
 
@@ -247,7 +247,7 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 		}
 	}
 
-	newNode := &linkedListNode[T]{
+	newNode := &LinkedListNode[T]{
 		item: item,
 	}
 
@@ -274,8 +274,8 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 
 	// Otherwise we have to do some traversal.
 	// Let's find the before and after splice nodes
-	var beforeSpliceNode *linkedListNode[T]
-	var afterSpliceNode *linkedListNode[T]
+	var beforeSpliceNode *LinkedListNode[T]
+	var afterSpliceNode *LinkedListNode[T]
 	if index > list.length/2 {
 		currentNode := list.tail
 		for range list.length - index - 1 {
@@ -389,9 +389,9 @@ func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 
 	// Otherwise we have to do some traversal.
 	// Let's find the before and after splice nodes
-	var beforeSpliceNode *linkedListNode[T]
-	var afterSpliceNode *linkedListNode[T]
-	var removedNode *linkedListNode[T]
+	var beforeSpliceNode *LinkedListNode[T]
+	var afterSpliceNode *LinkedListNode[T]
+	var removedNode *LinkedListNode[T]
 	if index > list.length/2 {
 		currentNode := list.tail
 		for range list.length - index - 2 {
