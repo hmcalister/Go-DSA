@@ -102,6 +102,9 @@ func TestRemoveFromSingleItemListWithRemoveAtIndex(t *testing.T) {
 	}
 }
 
+// Ensures the list can handle adding and removing multiple times
+//
+// Should again catch errors where the list does not correctly reset pointers after remove
 func TestMultipleAddsAndRemoves(t *testing.T) {
 	list := linkedlist.New[int]()
 	items := []int{10, 20, 30, 40, 50}
