@@ -220,6 +220,8 @@ func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 		return *new(T), &EmptyListError{}
 	}
 
+	// Note here we do not allow RemoveAtIndex(list.Length()) as this is "out of bounds"
+	// and unlike inserting it does not make sense to define it here.
 	if list.length <= index {
 		return *new(T), &IndexOutOfBoundsError{
 			targetIndex: index,
@@ -227,34 +229,55 @@ func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 		}
 	}
 
-	// If we are trying to remove from the end of the list, just call the regular Remove method
-	// This also handles the case of removing the head of a list of length 1
+	// If we are removing at the tail of the list,
+	// we have another special case. Here can can just call
+	// list.Remove()
 	if index == list.length-1 {
 		return list.Remove()
 	}
 
-	// If we are trying to remove the head of the list,
-	// splice the head node out with list.head pointer
+	// If we are removing at the head of the list (index=0)
+	// we have a special case, as we splice into
+	// list.head rather than node.next
 	if index == 0 {
-		prevHead := list.head
-		list.head = list.head.next
+		removedNode := list.head
+		// Set the list pointers correctly
+		list.head = removedNode.next
+		list.head.prev = nil
+
 		list.length -= 1
-		return prevHead.item, nil
+		return removedNode.item, nil
 	}
 
-	// Otherwise...
-	// We do the same traversal as in list.Remove but we stop some way along
-	// and splice the node out
-
-	currentNode := list.head
-	for _ = range index - 1 {
-		currentNode = currentNode.next
+	// Otherwise we have to do some traversal.
+	// Let's find the before and after splice nodes
+	var beforeSpliceNode *linkedListNode[T]
+	var afterSpliceNode *linkedListNode[T]
+	var removedNode *linkedListNode[T]
+	if index > list.length/2 {
+		currentNode := list.tail
+		for range list.length - index - 2 {
+			currentNode = currentNode.prev
+		}
+		afterSpliceNode = currentNode
+		removedNode = currentNode.prev
+		beforeSpliceNode = removedNode.prev
+	} else {
+		currentNode := list.head
+		for range index - 1 {
+			currentNode = currentNode.next
+		}
+		beforeSpliceNode = currentNode
+		removedNode = beforeSpliceNode.next
+		afterSpliceNode = removedNode.next
 	}
 
-	// currentNode is now one before the node in question,
-	// and we know it is not the last node (by above) if index==list.length-1
-	removedNode := currentNode.next
-	currentNode.next = removedNode.next
+	// And set the pointers correctly
+	beforeSpliceNode.next = afterSpliceNode
+	afterSpliceNode.prev = beforeSpliceNode
+	removedNode.next = nil
+	removedNode.prev = nil
+
 	list.length -= 1
 	return removedNode.item, nil
 }
