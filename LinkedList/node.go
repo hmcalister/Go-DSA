@@ -6,3 +6,8 @@ type LinkedListNode[T any] struct {
 	prev *LinkedListNode[T]
 }
 
+// Get the item of this node.
+func (node *LinkedListNode[T]) Item() T {
+	return node.item
+}
+
