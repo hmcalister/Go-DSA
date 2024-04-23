@@ -72,12 +72,28 @@ func TestRemoveFromPreviouslyEmptyList(t *testing.T) {
 	}
 }
 
+// Ensure removing a single item from a list using list.Remove operates as intended
 func TestRemoveFromSingleItemList(t *testing.T) {
 	list := linkedlist.New[int]()
 	storedItem := 1
 	list.Add(storedItem)
 
 	retrievedItem, err := list.Remove()
+	if err != nil {
+		t.Errorf("error when removing item from list: %v", err)
+	}
+	if retrievedItem != storedItem {
+		t.Errorf("removed item (%v) does not match inserted item (%v)", retrievedItem, storedItem)
+	}
+}
+
+// Ensure removing a single item from a list using list.RemoveAtIndex operates as intended
+func TestRemoveFromSingleItemListWithRemoveAtIndex(t *testing.T) {
+	list := linkedlist.New[int]()
+	storedItem := 1
+	list.Add(storedItem)
+
+	retrievedItem, err := list.RemoveAtIndex(0)
 	if err != nil {
 		t.Errorf("error when removing item from list: %v", err)
 	}
