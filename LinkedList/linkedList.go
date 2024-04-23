@@ -80,9 +80,11 @@ func (list *LinkedList[T]) Add(item T) {
 	// Otherwise, we add the node to the end of the list
 	//
 	// This is defined as tail.next
+	// we also ensure the previous is set correctly
 	list.tail.next = newNode
+	newNode.prev = list.tail
 
-	// We also update the tail to be the newly inserted node
+	// Update the tail to be the newly inserted node
 	list.tail = newNode
 
 	// Finally, update the length
