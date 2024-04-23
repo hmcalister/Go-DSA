@@ -114,3 +114,24 @@ func TestForwardFold(t *testing.T) {
 	}
 }
 
+func TestReverseFold(t *testing.T) {
+	list := linkedlist.New[string]()
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	concatString := linkedlist.ReverseFold(list, "", func(item string, accumulator string) string {
+		return accumulator + item
+	})
+
+	slices.Reverse(items)
+	expectedConcatString := ""
+	for _, item := range items {
+		expectedConcatString += item
+	}
+
+	if concatString != expectedConcatString {
+		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
+	}
+}
