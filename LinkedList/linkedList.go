@@ -35,6 +35,25 @@ func (list *LinkedList[T]) Length() int {
 	return list.length
 }
 
+// ----------------------------------------------------------------------------
+// Get and Find methods
+
+// Find and return the first item in the list satisfying a predicate function.
+// If no item satisfies the predicate, an error is returned instead
+//
+// The list is walked forward during this search
+func (list *LinkedList[T]) Find(predicate func(item T) bool) (T, error) {
+	currentNode := list.head
+	for currentNode != nil {
+		if predicate(currentNode.item) {
+			return currentNode.item, nil
+		}
+		currentNode = currentNode.next
+	}
+
+	return *new(T), &ItemNotFoundError{}
+}
+
 // Iterate over the list in the forward direction and apply a function to each item.
 //
 // It is expected that ForwardApply does *not* update the list items
