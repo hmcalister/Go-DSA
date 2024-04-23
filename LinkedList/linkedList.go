@@ -86,6 +86,34 @@ func (list *LinkedList[T]) FindAll(predicate func(item T) bool) []T {
 	return satisfyingItems
 }
 
+// Get the item at the specified index
+//
+// Returns an error if the index is out of bounds
+func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
+	if list.length <= index {
+		return *new(T), &IndexOutOfBoundsError{
+			targetIndex: index,
+			listLength:  list.length,
+		}
+	}
+
+	// If the target index is after the halfway point
+	// we can traverse backwards to find the node
+	if index > list.length/2 {
+		currentNode := list.tail
+		for range list.length - index - 1 {
+			currentNode = currentNode.prev
+		}
+		return currentNode.item, nil
+	} else {
+		currentNode := list.head
+		for range index {
+			currentNode = currentNode.next
+		}
+		return currentNode.item, nil
+	}
+}
+
 // Iterate over the list in the forward direction and apply a function to each item.
 //
 // It is expected that ForwardApply does *not* update the list items
@@ -168,33 +196,6 @@ func ReverseFold[T any, G any](list LinkedList[T], f func(item T, accumulator G)
 	return acc
 }
 
-// Get the item at the specified index
-//
-// Returns an error if the index is out of bounds
-func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
-	if list.length <= index {
-		return *new(T), &IndexOutOfBoundsError{
-			targetIndex: index,
-			listLength:  list.length,
-		}
-	}
-
-	// If the target index is after the halfway point
-	// we can traverse backwards to find the node
-	if index > list.length/2 {
-		currentNode := list.tail
-		for range list.length - index - 1 {
-			currentNode = currentNode.prev
-		}
-		return currentNode.item, nil
-	} else {
-		currentNode := list.head
-		for range index {
-			currentNode = currentNode.next
-		}
-		return currentNode.item, nil
-	}
-}
 
 // Add a new item to the end of the list
 func (list *LinkedList[T]) Add(item T) {
