@@ -45,3 +45,21 @@ func TestAddAtIndexDocumentationExample(t *testing.T) {
 	}
 }
 
+func TestRemoveAtIndexDocumentationExample(t *testing.T) {
+	list := linkedlist.New[string]()
+	list.Add("hello")     // list = ["hello"]
+	list.Add("(linked!)") // list = ["hello", "(linked!)"]
+	list.Add("world")     // list = ["hello", "(linked!)", "world"]
+
+	item, err := list.RemoveAtIndex(1) // list = ["hello", "world"]
+	if err != nil {
+		t.Errorf("error during remove at index")
+	}
+	if item != "(linked!)" {
+		t.Errorf("retrieved item does not match expected item")
+	}
+
+	if list.Length() != 2 {
+		t.Errorf("list length does not match expected")
+	}
+}
