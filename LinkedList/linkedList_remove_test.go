@@ -129,11 +129,48 @@ func TestMultipleAddsAndRemoves(t *testing.T) {
 	}
 }
 
-func TestRemoveAtIndex(t *testing.T) {
-	items := []int{10, 20, 30, 40, 50}
+// Tests that the list pointers are correct after multiple removals
+func TestPointerCorrectnessAfterRemove(t *testing.T) {
+	list := linkedlist.New[string]()
+	items := []string{"a", "b", "c", "d", "e", "f", "g"}
+	for _, item := range items {
+		list.Add(item)
+	}
 
-	removeHelper := func(t *testing.T, removeIndex int) {
-		list := linkedlist.New[int]()
+	// Remove each item one by one
+	for i := range len(items) {
+		list.Remove()
+		remainingItems := slices.Clone(items)[:len(items)-i-1]
+		// fmt.Printf("%v\n", remainingItems)
+
+		expectedConcatString := ""
+		for _, item := range remainingItems {
+			expectedConcatString += item
+		}
+		concatStr := ""
+		list.IterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("forward concatenated string (%v) does not match expected concatenated string (%v)", concatStr, expectedConcatString)
+		}
+
+		// Reverse the items to test back concat
+		slices.Reverse(remainingItems)
+
+		expectedConcatString = ""
+		for _, item := range remainingItems {
+			expectedConcatString += item
+		}
+		concatStr = ""
+		list.ReverseIterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("backwards concatenated string (%v) does not match expected concatenated string (%v)", concatStr, expectedConcatString)
+		}
+	}
+}
 
 		for _, item := range items {
 			list.Add(item)
