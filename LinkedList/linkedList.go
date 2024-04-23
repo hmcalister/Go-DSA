@@ -46,9 +46,20 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 		}
 	}
 
-	// If we are requesting the final item, just access it directly
-	if index == list.length-1 {
-		return list.tail.item, nil
+	// If the target index is after the halfway point
+	// we can traverse backwards to find the node
+	if index > list.length/2 {
+		currentNode := list.tail
+		for range list.length - index - 1 {
+			currentNode = currentNode.prev
+		}
+		return currentNode.item, nil
+	} else {
+		currentNode := list.head
+		for range index {
+			currentNode = currentNode.next
+		}
+		return currentNode.item, nil
 	}
 
 	// Otherwise we perform list traversal
