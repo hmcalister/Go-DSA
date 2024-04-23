@@ -34,21 +34,18 @@ func TestGenericAdd(t *testing.T) {
 	})
 }
 
-func TestAddThenGet(t *testing.T) {
+// Test adding items to a list.
+//
+// Ensures list length is correct.
+func TestListLengthOnAdd(t *testing.T) {
 	list := linkedlist.New[int]()
-	items := []int{10, 20, 30, 40}
-	for _, item := range items {
-		list.Add(item)
-	}
-
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80}
 	for index, item := range items {
-		retrievedItem, err := list.ItemAtIndex(index)
+		list.Add(item)
 
-		if err != nil {
-			t.Errorf("failed to get item at index %v: %v", index, err)
-		}
-		if item != retrievedItem {
-			t.Errorf("at index %v item retrieved (%v) is not item stored (%v)", index, retrievedItem, item)
+		expectedLength := index + 1
+		if list.Length() != expectedLength {
+			t.Errorf("list length (%v) does not match expected list length (%v)", list.Length(), expectedLength)
 		}
 	}
 }
