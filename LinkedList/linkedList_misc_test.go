@@ -25,3 +25,23 @@ func TestLinkedListInit(t *testing.T) {
 		linkedlist.New[S]()
 	})
 }
+
+func TestAddAtIndexDocumentationExample(t *testing.T) {
+	list := linkedlist.New[string]()
+	list.Add("hello")               // list = ["hello"]
+	list.Add("world")               // list = ["hello", "world"]
+	list.AddAtIndex("(linked!)", 1) // list = ["hello", "(linked!)", "world"]
+
+	if list.Length() != 3 {
+		t.Errorf("list length does not match expected")
+	}
+
+	item, err := list.ItemAtIndex(1)
+	if err != nil {
+		t.Errorf("error during remove at index")
+	}
+	if item != "(linked!)" {
+		t.Errorf("retrieved item does not match expected item")
+	}
+}
+
