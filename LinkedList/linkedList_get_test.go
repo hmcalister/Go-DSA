@@ -147,3 +147,25 @@ func TestFindFail(t *testing.T) {
 		list.Add(item)
 	}
 
+	_, err := list.Find(func(item int) bool { return item < 0 })
+	if err == nil {
+		t.Errorf("expected error during finding item, no error found")
+	}
+}
+
+func TestReverseFind(t *testing.T) {
+	list := linkedlist.New[int]()
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	item, err := list.ReverseFind(func(item int) bool { return item > 20 })
+	if err != nil {
+		t.Errorf("error encountered when finding item")
+	}
+	if item != 80 {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, 80)
+	}
+}
+
