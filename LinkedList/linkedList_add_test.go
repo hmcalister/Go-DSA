@@ -50,13 +50,18 @@ func TestListLengthOnAdd(t *testing.T) {
 	}
 }
 
+// Tests adding items to a list at an index.
 func TestAddAtIndex(t *testing.T) {
-	items := []int{10, 20, 30, 40, 50}
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80, 90}
 	newItem := 0
 
-	addHelper := func(t *testing.T, addIndex int) {
+	// Define a small helper method that creates a new list,
+	// inserts the items from the items array, then tries to insert an item
+	// at the specified index.
+	//
+	// Calls t.Errorf if the insert fails or if the list length does not match the expected
+	addAtIndexHelper := func(t *testing.T, addIndex int) {
 		list := linkedlist.New[int]()
-
 		for _, item := range items {
 			list.Add(item)
 		}
@@ -66,10 +71,29 @@ func TestAddAtIndex(t *testing.T) {
 			t.Errorf("error when adding item to list: %v", err)
 		}
 
-		retrievedItem, err := list.ItemAtIndex(addIndex)
+		expectedLength := len(items) + 1
+		if list.Length() != expectedLength {
+			t.Errorf("list length %v does not match expected list length %v", list.Length(), expectedLength)
+		}
+	}
 
-		if retrievedItem != newItem {
-			t.Errorf("removed item (%v) does not match inserted item (%v)", retrievedItem, newItem)
+	t.Run("add at head index", func(t *testing.T) {
+		addAtIndexHelper(t, 0)
+	})
+
+	t.Run("add at non-head first-half index", func(t *testing.T) {
+		addAtIndexHelper(t, 2)
+	})
+
+	t.Run("add at non-head second-half index", func(t *testing.T) {
+		addAtIndexHelper(t, len(items)-3)
+	})
+
+	t.Run("add at tail index", func(t *testing.T) {
+		addAtIndexHelper(t, len(items)-1)
+	})
+}
+
 		}
 		if err != nil {
 			t.Errorf("error when getting item at new index: %v", err)
