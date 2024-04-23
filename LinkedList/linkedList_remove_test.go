@@ -172,34 +172,61 @@ func TestPointerCorrectnessAfterRemove(t *testing.T) {
 	}
 }
 
+// Tests that the list pointers are correct after removal at an index
+func TestPointerCorrectnessAfterRemoveAtIndex(t *testing.T) {
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"}
+
+	removeAtIndexHelper := func(t *testing.T, targetIndex int) {
+		list := linkedlist.New[string]()
 		for _, item := range items {
 			list.Add(item)
 		}
+		list.RemoveAtIndex(targetIndex)
 
-		retrievedItem, err := list.RemoveAtIndex(removeIndex)
-		if err != nil {
-			t.Errorf("error when removing item from list: %v", err)
+		// slices.Delete *will* affect the original items array
+		// So we clone it
+		effectiveItems := slices.Delete(slices.Clone(items), targetIndex, targetIndex+1)
+		expectedConcatString := ""
+		for _, item := range effectiveItems {
+			expectedConcatString += item
 		}
-		if retrievedItem != items[removeIndex] {
-			t.Errorf("removed item (%v) does not match inserted item (%v)", retrievedItem, items[removeIndex])
+		concatStr := ""
+		list.IterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("forward concatenated string (%v) does not match expected concatenated string (%v) for deletion at index %v", concatStr, expectedConcatString, targetIndex)
 		}
 
-		expectedLength := len(items) - 1
-		if list.Length() != expectedLength {
-			t.Errorf("list length %v does not match expected list length %v", list.Length(), expectedLength)
+		// Reverse the items to test back concat
+		slices.Reverse(effectiveItems)
+		expectedConcatString = ""
+		for _, item := range effectiveItems {
+			expectedConcatString += item
+		}
+		concatStr = ""
+		list.ReverseIterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("backwards concatenated string (%v) does not match expected concatenated string (%v) for deletion at index %v", concatStr, expectedConcatString, targetIndex)
 		}
 	}
 
 	t.Run("remove at head index", func(t *testing.T) {
-		removeHelper(t, 0)
+		removeAtIndexHelper(t, 0)
+	})
+
+	t.Run("remove at non-head first-half index", func(t *testing.T) {
+		removeAtIndexHelper(t, 2)
+	})
+
+	t.Run("remove at non-tail second-half index", func(t *testing.T) {
+		removeAtIndexHelper(t, len(items)-3)
 	})
 
 	t.Run("remove at tail index", func(t *testing.T) {
-		removeHelper(t, len(items)-1)
-	})
-
-	t.Run("remove at middle index", func(t *testing.T) {
-		removeHelper(t, 2)
+		removeAtIndexHelper(t, len(items)-1)
 	})
 
 }
