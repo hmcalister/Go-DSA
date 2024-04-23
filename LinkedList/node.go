@@ -16,3 +16,7 @@ func (node *LinkedListNode[T]) Next() *LinkedListNode[T] {
 	return node.next
 }
 
+// Return the previous node from this node. May be null if this node is the head.
+func (node *LinkedListNode[T]) Previous() *LinkedListNode[T] {
+	return node.prev
+}
