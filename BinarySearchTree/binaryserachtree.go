@@ -114,3 +114,77 @@ func PostorderTraversalFold[T, G any](node *BinarySearchTreeNode[T], initialAccu
 	return currentAccumulator
 }
 
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Insert a new item into the tree.
+//
+// Returns an error if the item already exists in the tree.
+func (tree *BinarySearchTree[T]) Add(item T) error {
+	// If the tree is currently empty, add this item to the root
+	if tree.root == nil {
+		tree.root = newNode(item)
+	}
+
+	// We know the tree is nonempty,
+	// so we can now access root and walk the tree until this items position is found
+
+	var currentCompare int
+	var parentNode *BinarySearchTreeNode[T]
+	currentNode := tree.root
+
+	// We walk the tree until the node we are looking at is nil, i.e. we have reached a spot for this item
+	// at which point parentNode will be the parent node we can access to make a new child
+	for currentNode != nil {
+		parentNode = currentNode
+		currentCompare = tree.comparatorFunction(item, currentNode.item)
+
+		// If the item we are inserting is the same as this node, we reject it and return an error
+		if currentCompare == 0 {
+			return &ItemAlreadyPresentError[T]{item}
+		}
+
+		// Otherwise, we can walk to this node's left or right child based on currentCompare
+		// If currentCompare < 0, currentNode's item is *larger* than item so we walk left
+		// If currentCompare > 0, currentNode's item is *smaller* than item so we walk right
+		if currentCompare < 0 {
+			currentNode = currentNode.left
+		} else {
+			currentNode = currentNode.right
+		}
+	}
+
+	// We have no reached a nil node, meaning parentNode was the last non-nil node
+	// (and since we ensured that the tree was not empty, parentNode is definitely non-nil)
+	// The value of currentCompare will tell us if we are adding to currentNode's left or right
+
+	newNode := newNode(item)
+	newNode.parent = parentNode
+	if currentCompare < 0 {
+		parentNode.left = newNode
+	} else {
+		parentNode.right = newNode
+	}
+
+	// We now fix the size and height of each node by walking from parentNode up the tree
+	// incrementing size at each step (to account for the newly added node)
+	// and recomputing the height
+	for parentNode != nil {
+		parentNode.size += 1
+
+		// The left and right height default to -1, in case the left or right child are nil
+		leftHeight := -1
+		if parentNode.left != nil {
+			leftHeight = parentNode.left.height
+		}
+		rightHeight := -1
+		if parentNode.right != nil {
+			rightHeight = parentNode.right.height
+		}
+		parentNode.height = max(leftHeight, rightHeight) + 1
+		parentNode = parentNode.parent
+	}
+
+	return nil
+}
+
