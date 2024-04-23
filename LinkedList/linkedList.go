@@ -187,20 +187,15 @@ func (list *LinkedList[T]) Remove() (T, error) {
 		return removedNode.item, nil
 	}
 
-	// We must traverse the list to get the second-to-last node
-	// This could be improved with a doubly-linked-list,
-	// i.e. keep a pointer to next *and* previous
-
-	currentNode := list.head
-	for _ = range list.length - 2 {
-		currentNode = currentNode.next
-	}
-
-	// We can now set the list tail to the new, previously penultimate node
 	removedNode := list.tail
-	list.tail = currentNode
-	list.length -= 1
+	newTail := list.tail.prev
 
+	list.tail = newTail
+	removedNode.next = nil
+	removedNode.prev = nil
+	newTail.next = nil
+
+	list.length -= 1
 	return removedNode.item, nil
 }
 
