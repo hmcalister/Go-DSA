@@ -33,3 +33,16 @@ func DefaultFloat64Comparator(a, b float64) int {
 	return 0
 }
 
+// Strings are compared lexicographically
+
+func DefaultStringComparator(a, b string) int {
+	if a < b {
+		return -1
+	}
+
+	if a > b {
+		return +1
+	}
+
+	return 0
+}
