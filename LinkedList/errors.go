@@ -21,3 +21,8 @@ func (e *EmptyListError) Error() string {
 }
 
 // ----------------------------------------------------------------------------
+type ItemNotFoundError struct{}
+
+func (e *ItemNotFoundError) Error() string {
+	return "item not found in list"
+}
