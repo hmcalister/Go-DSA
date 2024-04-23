@@ -31,3 +31,8 @@ func NewTreeFromNode[T any](rootNode *BinarySearchTreeNode[T], comparatorFunctio
 	}
 }
 
+// Get the root the binary search tree
+func (tree *BinarySearchTree[T]) Root() *BinarySearchTreeNode[T] {
+	return tree.root
+}
+
