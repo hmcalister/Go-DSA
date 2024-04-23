@@ -69,3 +69,7 @@ func (node *BinarySearchTreeNode[T]) Left() *BinarySearchTreeNode[T] {
 	return node.left
 }
 
+// Get the right child of this node. May be nil.
+func (node *BinarySearchTreeNode[T]) Right() *BinarySearchTreeNode[T] {
+	return node.right
+}
