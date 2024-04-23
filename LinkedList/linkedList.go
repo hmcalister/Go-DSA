@@ -67,7 +67,6 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 func (list *LinkedList[T]) Add(item T) {
 	newNode := &linkedListNode[T]{
 		item: item,
-		next: nil,
 	}
 
 	// If length is zero, tail is nil as we have an empty list
