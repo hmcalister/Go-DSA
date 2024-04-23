@@ -30,6 +30,15 @@ func New[T any]() *LinkedList[T] {
 	}
 }
 
+// Iterate over the list in the forward direction and apply a function to each item
+func (list *LinkedList[T]) IterateList(f func(item T)) {
+	currentNode := list.head
+	for currentNode != nil {
+		f(currentNode.item)
+		currentNode = currentNode.next
+	}
+}
+
 // Get the length of this linked list
 func (list *LinkedList[T]) Length() int {
 	return list.length
