@@ -149,7 +149,7 @@ func (list *LinkedList[T]) ForwardMap(f func(item T) T) {
 // This function returns the final accumulator.
 //
 // This function is not a method on LinkedList to allow for generic accumulators.
-func ForwardFold[T any, G any](list LinkedList[T], f func(item T, accumulator G) G, initialAccumulator G) G {
+func ForwardFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	currentNode := list.head
 	acc := initialAccumulator
 	for currentNode != nil {
@@ -190,7 +190,7 @@ func (list *LinkedList[T]) ReverseMap(f func(item T) T) {
 // This function returns the final accumulator.
 //
 // This function is not a method on LinkedList to allow for generic accumulators.
-func ReverseFold[T any, G any](list LinkedList[T], f func(item T, accumulator G) G, initialAccumulator G) G {
+func ReverseFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	currentNode := list.tail
 	acc := initialAccumulator
 	for currentNode != nil {
