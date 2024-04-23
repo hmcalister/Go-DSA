@@ -94,19 +94,43 @@ func TestAddAtIndex(t *testing.T) {
 	})
 }
 
+// Tests that the list pointers are correct after multiple additions
+func TestPointerCorrectnessAfterAdd(t *testing.T) {
+	list := linkedlist.New[string]()
+	items := []string{"a", "b", "c", "d", "e", "f", "g"}
+	for index, item := range items {
+		list.Add(item)
+		currentItems := slices.Clone(items)[:index+1]
+
+		expectedConcatString := ""
+		for _, item := range currentItems {
+			expectedConcatString += item
 		}
-		if err != nil {
-			t.Errorf("error when getting item at new index: %v", err)
+		concatStr := ""
+		list.IterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("forward concatenated string (%v) does not match expected concatenated string (%v)", concatStr, expectedConcatString)
 		}
 
-		expectedLength := len(items) + 1
-		if list.Length() != expectedLength {
-			t.Errorf("list length %v does not match expected list length %v", list.Length(), expectedLength)
+		// Reverse the items to test back concat
+		slices.Reverse(currentItems)
+
+		expectedConcatString = ""
+		for _, item := range currentItems {
+			expectedConcatString += item
+		}
+		concatStr = ""
+		list.ReverseIterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("backwards concatenated string (%v) does not match expected concatenated string (%v)", concatStr, expectedConcatString)
 		}
 	}
+}
 
-	t.Run("remove at head index", func(t *testing.T) {
-		addHelper(t, 0)
 	})
 
 	t.Run("remove at tail index", func(t *testing.T) {
