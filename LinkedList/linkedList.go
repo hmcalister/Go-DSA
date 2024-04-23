@@ -58,12 +58,22 @@ func (list *LinkedList[T]) ForwardMap(f func(item T) T) {
 	}
 }
 
+// Iterate over the give list and apply the function f to it.
 // The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on LinkedList to allow for generic accumulators.
+func ForwardFold[T any, G any](list LinkedList[T], f func(item T, accumulator G) G, initialAccumulator G) G {
 	currentNode := list.head
+	acc := initialAccumulator
 	for currentNode != nil {
-		currentNode.item = (currentNode.item)
+		acc = f(currentNode.item, acc)
 		currentNode = currentNode.next
 	}
+
+	return acc
 }
 
 // Iterate over the list in the reverse direction and apply a function to each item.
@@ -89,9 +99,22 @@ func (list *LinkedList[T]) ReverseMap(f func(item T) T) {
 	}
 }
 
-// Get the length of this linked list
-func (list *LinkedList[T]) Length() int {
-	return list.length
+// Iterate over the give list and apply the function f to it.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on LinkedList to allow for generic accumulators.
+func ReverseFold[T any, G any](list LinkedList[T], f func(item T, accumulator G) G, initialAccumulator G) G {
+	currentNode := list.tail
+	acc := initialAccumulator
+	for currentNode != nil {
+		acc = f(currentNode.item, acc)
+		currentNode = currentNode.prev
+	}
+
+	return acc
 }
 
 // Get the item at the specified index
