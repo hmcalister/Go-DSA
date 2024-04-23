@@ -39,11 +39,31 @@ func (list *LinkedList[T]) IterateApplyFunction(f func(item T)) {
 	}
 }
 
+// Iterate over the list in the forward direction and apply a function to each item
+// The result of this function is then assigned to the node at each step.
+func (list *LinkedList[T]) IterateMapFunction(f func(item T) T) {
+	currentNode := list.head
+	for currentNode != nil {
+		currentNode.item = (currentNode.item)
+		currentNode = currentNode.next
+	}
+}
+
 // Iterate over the list in the reverse direction and apply a function to each item
 func (list *LinkedList[T]) ReverseIterateApplyFunction(f func(item T)) {
 	currentNode := list.tail
 	for currentNode != nil {
 		f(currentNode.item)
+		currentNode = currentNode.prev
+	}
+}
+
+// Iterate over the list in the reverse direction and apply a function to each item
+// The result of this function is then assigned to the node at each step.
+func (list *LinkedList[T]) ReverseIterateMapFunction(f func(item T) T) {
+	currentNode := list.tail
+	for currentNode != nil {
+		currentNode.item = f(currentNode.item)
 		currentNode = currentNode.prev
 	}
 }
