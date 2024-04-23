@@ -1,11 +1,13 @@
 package linkedlist_test
 
 import (
+	"slices"
 	"testing"
 
 	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
 )
 
+// Generic function to test adding items to list of different data types
 func genericTestAdd[T any](t *testing.T, list *linkedlist.LinkedList[T], items []T) {
 	for index, item := range items {
 		list.Add(item)
@@ -17,6 +19,7 @@ func genericTestAdd[T any](t *testing.T, list *linkedlist.LinkedList[T], items [
 	}
 }
 
+// Test adding items of different data types to a list
 func TestGenericAdd(t *testing.T) {
 	t.Run("testAdd int", func(t *testing.T) {
 		genericTestAdd(t, linkedlist.New[int](), []int{1, 2, 3})
