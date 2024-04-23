@@ -6,16 +6,6 @@ import (
 	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
 )
 
-// define a helper that ensures function f panics
-func shouldPanic(t *testing.T, f func()) {
-	defer func() {
-		if r := recover(); r == nil {
-			t.Errorf("expected panic but did not find one")
-		}
-	}()
-	f()
-}
-
 func TestLinkedListInit(t *testing.T) {
 	t.Run("linked list int", func(t *testing.T) {
 		linkedlist.New[int]()
