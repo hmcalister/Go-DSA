@@ -61,13 +61,6 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 		}
 		return currentNode.item, nil
 	}
-
-	// Otherwise we perform list traversal
-	currentNode := list.head
-	for _ = range index {
-		currentNode = currentNode.next
-	}
-	return currentNode.item, nil
 }
 
 // Add a new item to the end of the list
