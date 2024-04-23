@@ -200,3 +200,15 @@ func TestFindAll(t *testing.T) {
 	}
 }
 
+func TestFindAllFail(t *testing.T) {
+	list := linkedlist.New[int]()
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	foundItems := list.FindAll(func(item int) bool { return item < 0 })
+	if len(foundItems) != 0 {
+		t.Errorf("length of found items (%v) does not match expected length %v", len(foundItems), 6)
+	}
+}
