@@ -110,39 +110,57 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 		}
 	}
 
-	// If we are inserting at the tail, we can simplify the call by just calling list.Add
-	if index == list.length {
-		list.Add(item)
-		return nil
-	}
-
-	// We now know we have to handle the insert logic ourselves, so let's make the Node
-
 	newNode := &linkedListNode[T]{
 		item: item,
-		next: nil,
 	}
 
 	// If we are inserting at the head of the list (index=0)
-	// We have a special case, as we splice into
+	// we have a special case, as we splice into
 	// list.head rather than node.next
 	if index == 0 {
+		// Set the list pointers correctly
 		newNode.next = list.head
+		list.head.prev = newNode
+
 		list.head = newNode
 		list.length += 1
 		return nil
 	}
 
-	// If we are inserting anywhere except the head or tail, we walk along the list
-	//
-	// Starting from the head, walk (index-1) nodes along the list.
-	// This gives us the node *before* the splice position, i.e. the node to update next of
-	currentNode := list.head
-	for _ = range index - 1 {
-		currentNode = currentNode.next
+	// If we are inserting at the tail of the list,
+	// we have another special case. Here can can just call
+	// list.Add()
+	if index == list.length {
+		list.Add(item)
+		return nil
 	}
-	newNode.next = currentNode.next
-	currentNode.next = newNode
+
+	// Otherwise we have to do some traversal.
+	// Let's find the before and after splice nodes
+	var beforeSpliceNode *linkedListNode[T]
+	var afterSpliceNode *linkedListNode[T]
+	if index > list.length/2 {
+		currentNode := list.tail
+		for range list.length - index - 1 {
+			currentNode = currentNode.prev
+		}
+		beforeSpliceNode = currentNode.prev
+		afterSpliceNode = currentNode
+	} else {
+		currentNode := list.head
+		for range index - 1 {
+			currentNode = currentNode.next
+		}
+		beforeSpliceNode = currentNode
+		afterSpliceNode = currentNode.next
+	}
+
+	// And set the pointers correctly
+	beforeSpliceNode.next = newNode
+	newNode.prev = beforeSpliceNode
+	afterSpliceNode.prev = newNode
+	newNode.next = afterSpliceNode
+
 	list.length += 1
 
 	return nil
