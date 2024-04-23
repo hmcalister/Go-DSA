@@ -50,3 +50,10 @@ func (node *BinarySearchTreeNode[T]) Size() int {
 	return node.size
 }
 
+// Get the height of this node, the number of steps from this node to the furthest leaf node.
+//
+// A leaf node has height 0.
+func (node *BinarySearchTreeNode[T]) Height() int {
+	return node.height
+}
+
