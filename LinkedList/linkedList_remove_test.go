@@ -57,9 +57,16 @@ func TestRemoveFromEmptyList(t *testing.T) {
 		t.Errorf("expected error when removing from empty list")
 	}
 
+}
+
+// Ensure removing from an empty list, although one that previously had elements, gives an error
+//
+// Should catch bugs where pointers are not correctly reset when list is emptied
+func TestRemoveFromPreviouslyEmptyList(t *testing.T) {
+	list := linkedlist.New[int]()
 	list.Add(1)
 	list.Remove()
-	_, err = list.Remove()
+	_, err := list.Remove()
 	if err == nil {
 		t.Errorf("found error when removing from empty list that previously had items")
 	}
