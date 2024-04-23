@@ -31,7 +31,7 @@ func New[T any]() *LinkedList[T] {
 }
 
 // Iterate over the list in the forward direction and apply a function to each item
-func (list *LinkedList[T]) IterateList(f func(item T)) {
+func (list *LinkedList[T]) IterateApplyFunction(f func(item T)) {
 	currentNode := list.head
 	for currentNode != nil {
 		f(currentNode.item)
@@ -40,7 +40,7 @@ func (list *LinkedList[T]) IterateList(f func(item T)) {
 }
 
 // Iterate over the list in the reverse direction and apply a function to each item
-func (list *LinkedList[T]) ReverseIterateList(f func(item T)) {
+func (list *LinkedList[T]) ReverseIterateApplyFunction(f func(item T)) {
 	currentNode := list.tail
 	for currentNode != nil {
 		f(currentNode.item)
