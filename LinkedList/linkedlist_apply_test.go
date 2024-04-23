@@ -48,3 +48,26 @@ func TestReverseApply(t *testing.T) {
 	}
 }
 
+func TestForwardMap(t *testing.T) {
+	list := linkedlist.New[string]()
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	globalCounter := 0
+	list.ForwardMap(func(item string) string {
+		newItem := fmt.Sprintf("%v, %v", item, globalCounter)
+		globalCounter += 1
+		return newItem
+	})
+
+	for index := range items {
+		item, _ := list.ItemAtIndex(index)
+		expectedItem := fmt.Sprintf("%v, %v", items[index], index)
+		if item != expectedItem {
+			t.Errorf("found item (%v) does not match expected item (%v)", item, expectedItem)
+		}
+	}
+}
+
