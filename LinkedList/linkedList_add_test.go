@@ -131,14 +131,61 @@ func TestPointerCorrectnessAfterAdd(t *testing.T) {
 	}
 }
 
+// Tests that the list pointers are correct after addition at an index
+func TestPointerCorrectnessAfterAddAtIndex(t *testing.T) {
+	items := []string{"a", "b", "c", "d", "e", "f", "g"}
+	newItem := "z"
+
+	addAtIndexHelper := func(t *testing.T, targetIndex int) {
+		list := linkedlist.New[string]()
+		for _, item := range items {
+			list.Add(item)
+		}
+		list.AddAtIndex(newItem, targetIndex)
+
+		// slices.Insert will not affect the original items array
+		effectiveItems := slices.Insert(items, targetIndex, newItem)
+		expectedConcatString := ""
+		for _, item := range effectiveItems {
+			expectedConcatString += item
+		}
+		concatStr := ""
+		list.IterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("forward concatenated string (%v) does not match expected concatenated string (%v) for deletion at index %v", concatStr, expectedConcatString, targetIndex)
+		}
+
+		// Reverse the items to test back concat
+		slices.Reverse(effectiveItems)
+		expectedConcatString = ""
+		for _, item := range effectiveItems {
+			expectedConcatString += item
+		}
+		concatStr = ""
+		list.ReverseIterateList(func(item string) {
+			concatStr += item
+		})
+		if expectedConcatString != concatStr {
+			t.Errorf("backwards concatenated string (%v) does not match expected concatenated string (%v) for deletion at index %v", concatStr, expectedConcatString, targetIndex)
+		}
+	}
+
+	t.Run("add at head index", func(t *testing.T) {
+		addAtIndexHelper(t, 0)
 	})
 
-	t.Run("remove at tail index", func(t *testing.T) {
-		addHelper(t, len(items)-1)
+	t.Run("add at non-head first-half index", func(t *testing.T) {
+		addAtIndexHelper(t, 2)
 	})
 
-	t.Run("remove at middle index", func(t *testing.T) {
-		addHelper(t, 2)
+	t.Run("add at non-tail second-half index", func(t *testing.T) {
+		addAtIndexHelper(t, len(items)-3)
+	})
+
+	t.Run("add at tail index", func(t *testing.T) {
+		addAtIndexHelper(t, len(items)-1)
 	})
 
 }
