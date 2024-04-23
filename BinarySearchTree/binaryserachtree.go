@@ -89,3 +89,28 @@ func InorderTraversalFold[T, G any](node *BinarySearchTreeNode[T], initialAccumu
 	return currentAccumulator
 }
 
+// Fold a function f over the tree Postorder.
+//
+// This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
+func TreePostorderTraversalFold[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	return PostorderTraversalFold(tree.root, initialAccumulator, f)
+}
+
+// Fold a function f (taking the current node item and the accumulator value) across the tree Postorder.
+// f must return the next value of the accumulator.
+//
+// Returns the final accumulator value
+func PostorderTraversalFold[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	currentAccumulator := initialAccumulator
+
+	if node.left != nil {
+		currentAccumulator = InorderTraversalFold(node.left, currentAccumulator, f)
+	}
+	if node.right != nil {
+		currentAccumulator = InorderTraversalFold(node.right, currentAccumulator, f)
+	}
+	currentAccumulator = f(node.item, currentAccumulator)
+
+	return currentAccumulator
+}
+
