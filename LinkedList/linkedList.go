@@ -201,6 +201,8 @@ func ReverseFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func
 	return acc
 }
 
+// ----------------------------------------------------------------------------
+// Add methods
 
 // Add a new item to the end of the list
 func (list *LinkedList[T]) Add(item T) {
