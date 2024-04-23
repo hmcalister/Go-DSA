@@ -73,3 +73,52 @@ func TestGetAtIndexAfterAdd(t *testing.T) {
 	})
 }
 
+// Tests adding items to a list at an index.
+func TestGetAtIndexAfterRemove(t *testing.T) {
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80, 90}
+
+	// Define a small helper method that creates a new list,
+	// inserts the items from the items array, then removes an item from an index.
+	//
+	// Calls t.Errorf if the remove fails or if the list length does not match the expected
+	removeHelper := func(t *testing.T, removeIndex int) {
+		list := linkedlist.New[int]()
+		for _, item := range items {
+			list.Add(item)
+		}
+
+		removedItem, err := list.RemoveAtIndex(removeIndex)
+		if err != nil {
+			t.Errorf("error when adding item to list: %v", err)
+		}
+		if removedItem != items[removeIndex] {
+			t.Errorf("removed item %v does not match the expected removed item %v at index %v", removedItem, items[removeIndex], removeIndex)
+		}
+
+		retrievedItem, err := list.ItemAtIndex(removeIndex)
+
+		if retrievedItem != items[removeIndex+1] {
+			t.Errorf("retrieved item (%v) does not match inserted item (%v)", retrievedItem, items[removeIndex+1])
+		}
+		if err != nil {
+			t.Errorf("error when getting item at new index: %v", err)
+		}
+	}
+
+	t.Run("remove at head index", func(t *testing.T) {
+		removeHelper(t, 0)
+	})
+
+	t.Run("remove at non-head first-half index", func(t *testing.T) {
+		removeHelper(t, 2)
+	})
+
+	t.Run("remove at non-head second-half index", func(t *testing.T) {
+		removeHelper(t, len(items)-3)
+	})
+
+	// We cannot remove and test getting at the tail, as the list will shrink
+	// 	t.Run("remove at tail index", func(t *testing.T) {
+	// 		removeHelper(t, len(items)-1)
+	// 	})
+}
