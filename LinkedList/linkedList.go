@@ -18,6 +18,7 @@ type LinkedList[T any] struct {
 type linkedListNode[T any] struct {
 	item T
 	next *linkedListNode[T]
+	prev *linkedListNode[T]
 }
 
 // Create a new linked list
