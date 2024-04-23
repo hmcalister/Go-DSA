@@ -27,3 +27,24 @@ func TestForwardApply(t *testing.T) {
 	}
 }
 
+func TestReverseApply(t *testing.T) {
+	list := linkedlist.New[string]()
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	concatString := ""
+	list.ReverseApply(func(item string) { concatString += item })
+
+	slices.Reverse(items)
+	expectedConcatString := ""
+	for _, item := range items {
+		expectedConcatString += item
+	}
+
+	if concatString != expectedConcatString {
+		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
+	}
+}
+
