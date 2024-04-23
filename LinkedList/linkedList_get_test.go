@@ -122,3 +122,21 @@ func TestGetAtIndexAfterRemove(t *testing.T) {
 	// 		removeHelper(t, len(items)-1)
 	// 	})
 }
+
+// Test Find
+func TestFind(t *testing.T) {
+	list := linkedlist.New[int]()
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	item, err := list.Find(func(item int) bool { return item > 20 })
+	if err != nil {
+		t.Errorf("error encountered when finding item")
+	}
+	if item != 30 {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, 30)
+	}
+}
+
