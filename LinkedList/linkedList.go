@@ -39,6 +39,15 @@ func (list *LinkedList[T]) IterateList(f func(item T)) {
 	}
 }
 
+// Iterate over the list in the reverse direction and apply a function to each item
+func (list *LinkedList[T]) ReverseIterateList(f func(item T)) {
+	currentNode := list.tail
+	for currentNode != nil {
+		f(currentNode.item)
+		currentNode = currentNode.prev
+	}
+}
+
 // Get the length of this linked list
 func (list *LinkedList[T]) Length() int {
 	return list.length
