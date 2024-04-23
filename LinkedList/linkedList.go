@@ -30,8 +30,15 @@ func New[T any]() *LinkedList[T] {
 	}
 }
 
-// Iterate over the list in the forward direction and apply a function to each item
-func (list *LinkedList[T]) IterateApplyFunction(f func(item T)) {
+// Get the length of this linked list
+func (list *LinkedList[T]) Length() int {
+	return list.length
+}
+
+// Iterate over the list in the forward direction and apply a function to each item.
+//
+// It is expected that ForwardApply does *not* update the list items
+func (list *LinkedList[T]) ForwardApply(f func(item T)) {
 	currentNode := list.head
 	for currentNode != nil {
 		f(currentNode.item)
@@ -42,6 +49,7 @@ func (list *LinkedList[T]) IterateApplyFunction(f func(item T)) {
 // Iterate over the list in the forward direction and apply a function to each item
 // The result of this function is then assigned to the node at each step.
 func (list *LinkedList[T]) IterateMapFunction(f func(item T) T) {
+// The function f also takes the current value of the accumulator.
 	currentNode := list.head
 	for currentNode != nil {
 		currentNode.item = (currentNode.item)
@@ -49,8 +57,10 @@ func (list *LinkedList[T]) IterateMapFunction(f func(item T) T) {
 	}
 }
 
-// Iterate over the list in the reverse direction and apply a function to each item
-func (list *LinkedList[T]) ReverseIterateApplyFunction(f func(item T)) {
+// Iterate over the list in the reverse direction and apply a function to each item.
+//
+// It is expected that ReverseApply does *not* update the list items
+func (list *LinkedList[T]) ReverseApply(f func(item T)) {
 	currentNode := list.tail
 	for currentNode != nil {
 		f(currentNode.item)
