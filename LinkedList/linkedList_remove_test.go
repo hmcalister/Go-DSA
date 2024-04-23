@@ -1,20 +1,22 @@
 package linkedlist_test
 
 import (
+	"slices"
 	"testing"
 
 	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
 )
 
+// a helper method to test removing items of a generic data type from a list.
+//
+// calls t.Errorf if the removed item is not the expected item, or if the length is not correct at a step.
 func genericTestAddThenRemove[T comparable](t *testing.T, list *linkedlist.LinkedList[T], items []T) {
 	for _, item := range items {
 		list.Add(item)
 	}
 
-	// reverse the items
-	for i, j := 0, len(items)-1; i < j; i, j = i+1, j-1 {
-		items[i], items[j] = items[j], items[i]
-	}
+	// reverse the items match the removal order
+	slices.Reverse(items)
 
 	for index, item := range items {
 		retrievedItem, err := list.Remove()
@@ -32,6 +34,7 @@ func genericTestAddThenRemove[T comparable](t *testing.T, list *linkedlist.Linke
 	}
 }
 
+// Test adding and removing for generic data types
 func TestGenericAddThenRemove(t *testing.T) {
 	t.Run("testAddThenRemove int", func(t *testing.T) {
 		genericTestAddThenRemove(t, linkedlist.New[int](), []int{1, 2, 3})
@@ -46,6 +49,7 @@ func TestGenericAddThenRemove(t *testing.T) {
 	})
 }
 
+// Ensure removing from an empty list gives an error
 func TestRemoveFromEmptyList(t *testing.T) {
 	list := linkedlist.New[int]()
 	_, err := list.Remove()
