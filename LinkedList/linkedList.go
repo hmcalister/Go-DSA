@@ -114,6 +114,11 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Apply, Map, and Fold methods
+//
+// Methods to apply a function across ALL nodes in a list
+
 // Iterate over the list in the forward direction and apply a function to each item.
 //
 // It is expected that ForwardApply does *not* update the list items
