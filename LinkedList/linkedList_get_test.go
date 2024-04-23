@@ -140,3 +140,10 @@ func TestFind(t *testing.T) {
 	}
 }
 
+func TestFindFail(t *testing.T) {
+	list := linkedlist.New[int]()
+	items := []int{10, 20, 30, 40, 50, 60, 70, 80}
+	for _, item := range items {
+		list.Add(item)
+	}
+
