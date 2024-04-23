@@ -64,3 +64,8 @@ func (node *BinarySearchTreeNode[T]) Parent() *BinarySearchTreeNode[T] {
 	return node.parent
 }
 
+// Get the left child of this node. May be nil.
+func (node *BinarySearchTreeNode[T]) Left() *BinarySearchTreeNode[T] {
+	return node.left
+}
+
