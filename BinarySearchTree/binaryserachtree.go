@@ -23,14 +23,6 @@ func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *BinarySear
 	}
 }
 
-// Create a new tree wrapper around a Node, allowing for a "subtree"
-func NewTreeFromNode[T any](rootNode *BinarySearchTreeNode[T], comparatorFunction comparator.ComparatorFunction[T]) *BinarySearchTree[T] {
-	return &BinarySearchTree[T]{
-		root:               rootNode,
-		comparatorFunction: comparatorFunction,
-	}
-}
-
 // Get the root the binary search tree
 func (tree *BinarySearchTree[T]) Root() *BinarySearchTreeNode[T] {
 	return tree.root
