@@ -45,14 +45,31 @@ func (tree *BinarySearchTree[T]) Root() *BinarySearchTreeNode[T] {
 
 }
 
+// ----------------------------------------------------------------------------
+// Apply Methods
+
+// Apply a function f to each node in a tree Preorder.
 //
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+// This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
+func (tree *BinarySearchTree[T]) ApplyTreePreorder(f func(item T)) {
+	tree.root.ApplyPreorder(f)
 }
 
+// Apply a function f to each node in a tree Inorder.
 //
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+// This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
+func (tree *BinarySearchTree[T]) ApplyTreeInorder(f func(item T)) {
+	tree.root.ApplyInorder(f)
 }
 
+// Apply a function f to each node in a tree Postorder.
 //
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
+func (tree *BinarySearchTree[T]) ApplyTreePostorder(f func(item T)) {
+	tree.root.ApplyPostorder(f)
 }
 
 //
