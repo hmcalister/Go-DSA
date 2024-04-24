@@ -373,3 +373,78 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 	return nil
 }
 
+// Remove the root node
+func (tree *BinarySearchTree[T]) removeRoot() {
+	// if the root is the ONLY node simply remove it
+	if tree.root.left == nil && tree.root.right == nil {
+		tree.root = nil
+		return
+	}
+
+	// if the root has only one child, replace the root with that child
+	if tree.root.left != nil && tree.root.right == nil {
+		// We have only a left child
+		removedRoot := tree.root
+		tree.root = tree.root.left
+
+		tree.root.parent = nil
+		removedRoot.left = nil
+		removedRoot.right = nil
+		return
+	}
+	if tree.root.left == nil && tree.root.right != nil {
+		// We have only a left child
+		removedRoot := tree.root
+		tree.root = tree.root.right
+
+		tree.root.parent = nil
+		removedRoot.left = nil
+		removedRoot.right = nil
+		return
+	}
+
+	// If the root has two children, swap the item with the successor and delete that
+	// Note that we must move down the tree, as here root must have a right child
+
+	rootSuccessor := tree.root.Successor()
+	tree.root.item, rootSuccessor.item = rootSuccessor.item, tree.root.item
+
+	// To delete rootSuccessor we must either have a leaf node, or a node with only a right child
+	// If the node had a left child, it would have been chosen as the successor.
+	if rootSuccessor.right != nil {
+		// Replace rootSuccessor with its right child and be done with it
+
+		// Note we can access parent because rootSuccessor cannot be root
+		parent := rootSuccessor.parent
+		child := rootSuccessor.right
+
+		if parent.left == rootSuccessor {
+			parent.left = child
+		} else {
+			parent.right = child
+		}
+		child.parent = parent
+
+		rootSuccessor.parent = nil
+		rootSuccessor.left = nil
+		rootSuccessor.right = nil
+
+		tree.removeFixupHelper(parent)
+		return
+	}
+
+	// The rootSuccessor is a leaf with no children
+
+	// Note we can access parent because rootSuccessor cannot be root
+	parent := rootSuccessor.parent
+	if parent.left == rootSuccessor {
+		parent.left = nil
+	} else {
+		parent.right = nil
+	}
+	rootSuccessor.parent = nil
+	rootSuccessor.left = nil
+	rootSuccessor.right = nil
+
+	tree.removeFixupHelper(parent)
+}
