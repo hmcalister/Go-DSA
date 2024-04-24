@@ -115,7 +115,9 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 
 // Iterate over the list in the forward direction and apply a function to each item.
 //
-// It is expected that ForwardApply does *not* update the list items
+// It is expected that ForwardApply does *not* update the list items.
+// To modify the list items, use ForwardMap.
+// To accumulate values over the list, use ForwardFold.
 func (list *LinkedList[T]) ForwardApply(f func(item T)) {
 	currentNode := list.head
 	for currentNode != nil {
@@ -127,7 +129,9 @@ func (list *LinkedList[T]) ForwardApply(f func(item T)) {
 // Iterate over the list in the forward direction and apply a function to each item
 // The result of this function is then assigned to the node at each step.
 //
-// ForwardMap can update the node items by returning the update value
+// ForwardMap can update the node items by returning the update value.
+// If you do not need to modify the list items, use ForwardApply.
+// To accumulate values over the list, use ForwardFold.
 func (list *LinkedList[T]) ForwardMap(f func(item T) T) {
 	currentNode := list.head
 	for currentNode != nil {
@@ -156,7 +160,9 @@ func ForwardFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func
 
 // Iterate over the list in the reverse direction and apply a function to each item.
 //
-// It is expected that ReverseApply does *not* update the list items
+// It is expected that ReverseApply does *not* update the list items.
+// To modify the list items, use ReverseMap.
+// To accumulate values over the list, use ReverseFold.
 func (list *LinkedList[T]) ReverseApply(f func(item T)) {
 	currentNode := list.tail
 	for currentNode != nil {
@@ -168,7 +174,9 @@ func (list *LinkedList[T]) ReverseApply(f func(item T)) {
 // Iterate over the list in the reverse direction and apply a function to each item
 // The result of this function is then assigned to the node at each step.
 //
-// ReverseMap can update the node items by returning the update value
+// ReverseMap can update the node items by returning the update value.
+// If you do not need to modify the list items, use ReverseApply.
+// To accumulate values over the list, use ReverseFold.
 func (list *LinkedList[T]) ReverseMap(f func(item T) T) {
 	currentNode := list.tail
 	for currentNode != nil {
