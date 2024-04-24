@@ -67,3 +67,10 @@ func (node *RedBlackTreeNode[T]) Height() int {
 	return node.height
 }
 
+// Get the parent of this node. May be nil
+//
+// The root node has a nil parent.
+func (node *RedBlackTreeNode[T]) Parent() *RedBlackTreeNode[T] {
+	return node.parent
+}
+
