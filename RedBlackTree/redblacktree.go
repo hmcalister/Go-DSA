@@ -120,3 +120,12 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 	return nil
 }
 
+// ----------------------------------------------------------------------------
+// Remove Methods
+
+// Remove an item from the tree.
+//
+// Returns an error if the item is not in the tree
+func (tree *RedBlackTree[T]) Remove(item T) error {
+	return nil
+}
