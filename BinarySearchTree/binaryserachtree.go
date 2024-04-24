@@ -193,7 +193,7 @@ func (tree *BinarySearchTree[T]) Add(item T) error {
 // A helper method to fixup nodes from a deleted node up to the root
 func (tree *BinarySearchTree[T]) removeFixupHelper(node *BinarySearchTreeNode[T]) {
 	for node != nil {
-		node.size += 1
+		node.size -= 1
 
 		// The left and right height default to -1, in case the left or right child are nil
 		leftHeight := -1
