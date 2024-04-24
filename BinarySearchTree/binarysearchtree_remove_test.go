@@ -574,3 +574,15 @@ func TestRemoveCheckOrdering(t *testing.T) {
 		removalAndCheckOrderingHelper(t, []int{4, 5, 3, 6, 2, 7, 1})
 	})
 
+	t.Run("check ordering many items random order", func(t *testing.T) {
+		numItems := 100
+		items := make([]int, numItems)
+		for i := range numItems {
+			items[i] = i
+		}
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+		removalAndCheckOrderingHelper(t, items)
+	})
+}
