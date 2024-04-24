@@ -109,3 +109,14 @@ func FoldTreeInorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f fu
 func FoldTreePostorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	return FoldNodePostorder(tree.root, initialAccumulator, f)
 }
+
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Insert a new item into the tree.
+//
+// Returns an error if the item already exists in the tree.
+func (tree *RedBlackTree[T]) Add(item T) error {
+	return nil
+}
+
