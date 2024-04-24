@@ -241,6 +241,9 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 			successorNode = successorNode.left
 		}
 		currentNode.item, successorNode.item = successorNode.item, currentNode.item
+
+		// Move target node to look at the newly replaced successor node to avoid (potentially incorrect) traversal
+		currentNode = successorNode
 		// And now our target element for removal is present at the successor, which is not the root, and thus can be handled by the remaining logic
 	}
 
