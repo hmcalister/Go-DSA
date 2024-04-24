@@ -207,11 +207,12 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 		return &ItemNotFoundError[T]{item}
 	}
 
+	currentNode := tree.root
+
 	// Ensure we are not deleting the root
 	if tree.comparatorFunction(item, tree.root.item) == 0 {
 		// Special case when deleting the root! We cannot set the parent pointers
 
-		currentNode := tree.root
 		// If we have no children, simply remove the root
 		if currentNode.left == nil && currentNode.right == nil {
 			tree.root = nil
