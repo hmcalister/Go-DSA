@@ -30,3 +30,16 @@ type RedBlackTreeNode[T any] struct {
 	// The right child of this node
 	right *RedBlackTreeNode[T]
 }
+
+// Create a new node from an item.
+func newNode[T any](item T) *RedBlackTreeNode[T] {
+	return &RedBlackTreeNode[T]{
+		item:   item,
+		size:   1,
+		height: 0,
+		parent: nil,
+		left:   nil,
+		right:  nil,
+	}
+}
+
