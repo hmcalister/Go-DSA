@@ -37,6 +37,7 @@ func newNode[T any](item T) *RedBlackTreeNode[T] {
 		item:   item,
 		size:   1,
 		height: 0,
+		color:  color_BLACK,
 		parent: nil,
 		left:   nil,
 		right:  nil,
