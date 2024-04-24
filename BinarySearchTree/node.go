@@ -73,3 +73,46 @@ func (node *BinarySearchTreeNode[T]) Left() *BinarySearchTreeNode[T] {
 func (node *BinarySearchTreeNode[T]) Right() *BinarySearchTreeNode[T] {
 	return node.right
 }
+
+// ----------------------------------------------------------------------------
+// Apply Methods
+
+// Apply a function f to each node in a tree Preorder.
+//
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+func (node *BinarySearchTreeNode[T]) ApplyPreorder(f func(item T)) {
+	f(node.item)
+	if node.left != nil {
+		node.left.ApplyPreorder(f)
+	}
+	if node.right != nil {
+		node.right.ApplyPreorder(f)
+	}
+}
+
+// Apply a function f to each node in a tree Inorder.
+//
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+func (node *BinarySearchTreeNode[T]) ApplyInorder(f func(item T)) {
+	f(node.item)
+	if node.left != nil {
+		node.left.ApplyInorder(f)
+	}
+	if node.right != nil {
+		node.right.ApplyInorder(f)
+	}
+}
+
+// Apply a function f to each node in a tree Postorder.
+//
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+func (node *BinarySearchTreeNode[T]) ApplyPostorder(f func(item T)) {
+	f(node.item)
+	if node.left != nil {
+		node.left.ApplyPostorder(f)
+	}
+	if node.right != nil {
+		node.right.ApplyPostorder(f)
+	}
+}
+
