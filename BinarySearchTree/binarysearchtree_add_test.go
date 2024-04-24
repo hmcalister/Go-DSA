@@ -45,3 +45,27 @@ func TestAddItems(t *testing.T) {
 	})
 }
 
+func TestAddItemsCheckOrdering(t *testing.T) {
+	addAndCheckOrderingHelper := func(t *testing.T, items []int) {
+		tree := binarysearchtree.New(comparator.DefaultIntegerComparator)
+
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		// An in-order traversal should give the items in a sorted order
+		slices.Sort(items)
+		expectedInorderTraversal := ""
+		for _, item := range items {
+			expectedInorderTraversal += fmt.Sprintf("%d,", item)
+		}
+		inorderTraversal := ""
+		tree.ApplyTreeInorder(func(item int) {
+			inorderTraversal += fmt.Sprintf("%d,", item)
+		})
+
+		if expectedInorderTraversal != inorderTraversal {
+			t.Errorf("inorder traversal (%v) does not match expected inorder traversal (%v)", inorderTraversal, expectedInorderTraversal)
+		}
+	}
+
