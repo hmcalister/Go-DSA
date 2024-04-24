@@ -130,6 +130,7 @@ func (tree *BinarySearchTree[T]) Add(item T) error {
 	// If the tree is currently empty, add this item to the root
 	if tree.root == nil {
 		tree.root = newNode(item)
+		return nil
 	}
 
 	// We know the tree is nonempty,
