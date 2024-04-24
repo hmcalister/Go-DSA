@@ -53,3 +53,9 @@ func (node *RedBlackTreeNode[T]) Item() T {
 	return node.item
 }
 
+// Get the size of this Node, the number of items in the subtree rooted at this node
+//
+// A leaf node has size 1.
+func (node *RedBlackTreeNode[T]) Size() int {
+	return node.size
+}
