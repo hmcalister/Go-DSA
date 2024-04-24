@@ -21,3 +21,12 @@ type ItemNotFoundError[T any] struct {
 func (e *ItemNotFoundError[T]) Error() string {
 	return fmt.Sprintf("item %#v not present in binary tree", e.item)
 }
+
+// Error for rotation is impossible due to, for example, the node not having the correct children present
+
+type RotationNotPossible[T any] struct {
+}
+
+func (e *RotationNotPossible[T]) Error() string {
+	return fmt.Sprintf("rotation is not possible around node")
+}
