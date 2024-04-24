@@ -61,3 +61,21 @@ func TestRemoveTwoChildNode(t *testing.T) {
 	}
 }
 
+func TestRemoveNodeWithOnlyLeftChild(t *testing.T) {
+	items := []int{5, 4, 3, 2, 1}
+	tree := binarysearchtree.New[int](comparator.DefaultIntegerComparator)
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	err := tree.Remove(3)
+	if err != nil {
+		t.Errorf("encountered error (%v) when removing one child node", err)
+	}
+
+	node, err := tree.Find(3)
+	if node != nil || err == nil {
+		t.Errorf("found node that should have been deleted after deleting one child node")
+	}
+}
+
