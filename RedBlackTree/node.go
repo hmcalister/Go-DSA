@@ -149,3 +149,19 @@ func (node *RedBlackTreeNode[T]) Predecessor() *RedBlackTreeNode[T] {
 	return nil
 }
 
+// ----------------------------------------------------------------------------
+// Apply Methods
+
+// Apply a function f to each node in a tree Preorder.
+//
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+func (node *RedBlackTreeNode[T]) ApplyNodePreorder(f func(item T)) {
+	f(node.item)
+	if node.left != nil {
+		node.left.ApplyNodePreorder(f)
+	}
+	if node.right != nil {
+		node.right.ApplyNodePreorder(f)
+	}
+}
+
