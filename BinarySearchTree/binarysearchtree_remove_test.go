@@ -161,3 +161,31 @@ func TestSizeAfterRemoval(t *testing.T) {
 		}
 	}
 
+	// We will construct this tree
+	// 				5
+	// 			/		\
+	// 		  3			  7
+	// 		/	\		/	\
+	// 	   1	 4	   6	  9
+	//
+	// And then remove the root, resulting in
+	// 				6
+	// 			/		\
+	// 		  3			  7
+	// 		/	\			\
+	// 	   1	 4	   		  9
+	t.Run("remove root node", func(t *testing.T) {
+		items := []int{5, 3, 7, 1, 4, 6, 9}
+		removalItem := 5
+		expectedSizeMap := map[int]int{
+			6: 6,
+			3: 3,
+			7: 2,
+			1: 1,
+			4: 1,
+			9: 1,
+		}
+
+		testSizeAfterRemovalHelper(t, items, removalItem, expectedSizeMap)
+	})
+
