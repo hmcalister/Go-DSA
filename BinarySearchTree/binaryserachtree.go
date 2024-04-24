@@ -77,7 +77,7 @@ func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) 
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
 func (tree *BinarySearchTree[T]) ApplyTreePreorder(f func(item T)) {
-	tree.root.ApplyPreorder(f)
+	tree.root.ApplyNodePreorder(f)
 }
 
 // Apply a function f to each node in a tree Inorder.
@@ -85,7 +85,7 @@ func (tree *BinarySearchTree[T]) ApplyTreePreorder(f func(item T)) {
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
 func (tree *BinarySearchTree[T]) ApplyTreeInorder(f func(item T)) {
-	tree.root.ApplyInorder(f)
+	tree.root.ApplyNodeInorder(f)
 }
 
 // Apply a function f to each node in a tree Postorder.
@@ -93,7 +93,7 @@ func (tree *BinarySearchTree[T]) ApplyTreeInorder(f func(item T)) {
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
 func (tree *BinarySearchTree[T]) ApplyTreePostorder(f func(item T)) {
-	tree.root.ApplyPostorder(f)
+	tree.root.ApplyNodePostorder(f)
 }
 
 // ----------------------------------------------------------------------------
@@ -103,21 +103,21 @@ func (tree *BinarySearchTree[T]) ApplyTreePostorder(f func(item T)) {
 //
 // This method is a wrapper for FoldPreorder(tree.root, initialAccumulator, f)
 func FoldTreePreorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
-	return FoldPreorder(tree.root, initialAccumulator, f)
+	return FoldNodePreorder(tree.root, initialAccumulator, f)
 }
 
 // Fold a function f over the tree Inorder.
 //
 // This method is a wrapper for FoldInorder(tree.root, initialAccumulator, f)
 func FoldTreeInorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
-	return FoldInorder(tree.root, initialAccumulator, f)
+	return FoldNodeInorder(tree.root, initialAccumulator, f)
 }
 
 // Fold a function f over the tree Postorder.
 //
 // This method is a wrapper for FoldPostorder(tree.root, initialAccumulator, f)
 func FoldTreePostorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
-	return FoldPostorder(tree.root, initialAccumulator, f)
+	return FoldNodePostorder(tree.root, initialAccumulator, f)
 }
 
 // ----------------------------------------------------------------------------
