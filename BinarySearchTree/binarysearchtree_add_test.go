@@ -94,3 +94,38 @@ func TestAddItemsCheckOrdering(t *testing.T) {
 	})
 }
 
+func TestSizeAfterAdd(t *testing.T) {
+	// We will construct this tree
+	// 				5
+	// 			/		\
+	// 		  3			  7
+	// 		/	\		/	\
+	// 	   1	 4	   6	  9
+
+	items := []int{5, 3, 7, 1, 4, 6, 9}
+	itemSizeMap := map[int]int{
+		5: 7,
+		3: 3,
+		7: 3,
+		1: 1,
+		4: 1,
+		6: 1,
+		9: 1,
+	}
+
+	tree := binarysearchtree.New[int](comparator.DefaultIntegerComparator)
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	for item, expectedSize := range itemSizeMap {
+		node, err := tree.Find(item)
+		if err != nil {
+			t.Errorf("error (%v) encountered when finding item that was inserted into tree", err)
+		}
+
+		if node.Size() != expectedSize {
+			t.Errorf("found size (%v) does not match expected size (%v) for item %v", node.Size(), expectedSize, item)
+		}
+	}
+}
