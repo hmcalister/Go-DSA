@@ -79,3 +79,8 @@ func (node *RedBlackTreeNode[T]) Left() *RedBlackTreeNode[T] {
 	return node.left
 }
 
+// Get the right child of this node. May be nil.
+func (node *RedBlackTreeNode[T]) Right() *RedBlackTreeNode[T] {
+	return node.right
+}
+
