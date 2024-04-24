@@ -59,3 +59,11 @@ func (node *RedBlackTreeNode[T]) Item() T {
 func (node *RedBlackTreeNode[T]) Size() int {
 	return node.size
 }
+
+// Get the height of this node, the number of steps from this node to the furthest leaf node.
+//
+// A leaf node has height 0.
+func (node *RedBlackTreeNode[T]) Height() int {
+	return node.height
+}
+
