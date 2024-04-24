@@ -570,3 +570,7 @@ func TestRemoveCheckOrdering(t *testing.T) {
 		removalAndCheckOrderingHelper(t, []int{7, 6, 5, 4, 3, 2, 1})
 	})
 
+	t.Run("check ordering alternating item", func(t *testing.T) {
+		removalAndCheckOrderingHelper(t, []int{4, 5, 3, 6, 2, 7, 1})
+	})
+
