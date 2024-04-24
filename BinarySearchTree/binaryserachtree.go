@@ -378,7 +378,7 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 
 	parentNode := currentNode.parent
 	// Let's make sure we know if we are a left or right child
-	if tree.comparatorFunction(item, parentNode.left.item) == 0 {
+	if parentNode.left != nil && tree.comparatorFunction(item, parentNode.left.item) == 0 {
 		// Remove the item by nil-ing the left pointer
 		parentNode.left = nil
 	} else {
