@@ -80,38 +80,38 @@ func (node *BinarySearchTreeNode[T]) Right() *BinarySearchTreeNode[T] {
 // Apply a function f to each node in a tree Preorder.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
-func (node *BinarySearchTreeNode[T]) ApplyPreorder(f func(item T)) {
+func (node *BinarySearchTreeNode[T]) ApplyNodePreorder(f func(item T)) {
 	f(node.item)
 	if node.left != nil {
-		node.left.ApplyPreorder(f)
+		node.left.ApplyNodePreorder(f)
 	}
 	if node.right != nil {
-		node.right.ApplyPreorder(f)
+		node.right.ApplyNodePreorder(f)
 	}
 }
 
 // Apply a function f to each node in a tree Inorder.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
-func (node *BinarySearchTreeNode[T]) ApplyInorder(f func(item T)) {
+func (node *BinarySearchTreeNode[T]) ApplyNodeInorder(f func(item T)) {
 	if node.left != nil {
-		node.left.ApplyInorder(f)
+		node.left.ApplyNodeInorder(f)
 	}
 	f(node.item)
 	if node.right != nil {
-		node.right.ApplyInorder(f)
+		node.right.ApplyNodeInorder(f)
 	}
 }
 
 // Apply a function f to each node in a tree Postorder.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
-func (node *BinarySearchTreeNode[T]) ApplyPostorder(f func(item T)) {
+func (node *BinarySearchTreeNode[T]) ApplyNodePostorder(f func(item T)) {
 	if node.left != nil {
-		node.left.ApplyPostorder(f)
+		node.left.ApplyNodePostorder(f)
 	}
 	if node.right != nil {
-		node.right.ApplyPostorder(f)
+		node.right.ApplyNodePostorder(f)
 	}
 	f(node.item)
 }
@@ -123,15 +123,15 @@ func (node *BinarySearchTreeNode[T]) ApplyPostorder(f func(item T)) {
 // f must return the next value of the accumulator.
 //
 // Returns the final accumulator value
-func FoldPreorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+func FoldNodePreorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	currentAccumulator := initialAccumulator
 
 	currentAccumulator = f(node.item, currentAccumulator)
 	if node.left != nil {
-		currentAccumulator = FoldPreorder(node.left, currentAccumulator, f)
+		currentAccumulator = FoldNodePreorder(node.left, currentAccumulator, f)
 	}
 	if node.right != nil {
-		currentAccumulator = FoldPreorder(node.right, currentAccumulator, f)
+		currentAccumulator = FoldNodePreorder(node.right, currentAccumulator, f)
 	}
 
 	return currentAccumulator
@@ -141,15 +141,15 @@ func FoldPreorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G,
 // f must return the next value of the accumulator.
 //
 // Returns the final accumulator value
-func FoldInorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+func FoldNodeInorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	currentAccumulator := initialAccumulator
 
 	if node.left != nil {
-		currentAccumulator = FoldInorder(node.left, currentAccumulator, f)
+		currentAccumulator = FoldNodeInorder(node.left, currentAccumulator, f)
 	}
 	currentAccumulator = f(node.item, currentAccumulator)
 	if node.right != nil {
-		currentAccumulator = FoldInorder(node.right, currentAccumulator, f)
+		currentAccumulator = FoldNodeInorder(node.right, currentAccumulator, f)
 	}
 
 	return currentAccumulator
@@ -159,14 +159,14 @@ func FoldInorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, 
 // f must return the next value of the accumulator.
 //
 // Returns the final accumulator value
-func FoldPostorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+func FoldNodePostorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	currentAccumulator := initialAccumulator
 
 	if node.left != nil {
-		currentAccumulator = FoldInorder(node.left, currentAccumulator, f)
+		currentAccumulator = FoldNodeInorder(node.left, currentAccumulator, f)
 	}
 	if node.right != nil {
-		currentAccumulator = FoldInorder(node.right, currentAccumulator, f)
+		currentAccumulator = FoldNodeInorder(node.right, currentAccumulator, f)
 	}
 	currentAccumulator = f(node.item, currentAccumulator)
 
