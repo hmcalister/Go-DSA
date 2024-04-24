@@ -129,3 +129,39 @@ func TestSizeAfterAdd(t *testing.T) {
 		}
 	}
 }
+
+func TestHeightAfterAdd(t *testing.T) {
+	// We will construct this tree
+	// 				5
+	// 			/		\
+	// 		  3			  7
+	// 		/	\		/	\
+	// 	   1	 4	   6	  9
+
+	items := []int{5, 3, 7, 1, 4, 6, 9}
+	itemHeightMap := map[int]int{
+		5: 2,
+		3: 1,
+		7: 1,
+		1: 0,
+		4: 0,
+		6: 0,
+		9: 0,
+	}
+
+	tree := binarysearchtree.New[int](comparator.DefaultIntegerComparator)
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	for item, expectedHeight := range itemHeightMap {
+		node, err := tree.Find(item)
+		if err != nil {
+			t.Errorf("error (%v) encountered when finding item that was inserted into tree", err)
+		}
+
+		if node.Height() != expectedHeight {
+			t.Errorf("found height (%v) does not match expected height (%v) for item %v", node.Height(), expectedHeight, item)
+		}
+	}
+}
