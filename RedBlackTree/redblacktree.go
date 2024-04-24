@@ -96,3 +96,10 @@ func FoldTreePreorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f f
 	return FoldNodePreorder(tree.root, initialAccumulator, f)
 }
 
+// Fold a function f over the tree Inorder.
+//
+// This method is a wrapper for FoldInorder(tree.root, initialAccumulator, f)
+func FoldTreeInorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	return FoldNodeInorder(tree.root, initialAccumulator, f)
+}
+
