@@ -43,3 +43,21 @@ func TestRemoveRoot(t *testing.T) {
 	}
 }
 
+func TestRemoveTwoChildNode(t *testing.T) {
+	items := []int{1, 3, 2, 4}
+	tree := binarysearchtree.New[int](comparator.DefaultIntegerComparator)
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	err := tree.Remove(3)
+	if err != nil {
+		t.Errorf("encountered error (%v) when removing two child node", err)
+	}
+
+	node, err := tree.Find(3)
+	if node != nil || err == nil {
+		t.Errorf("found node that should have been deleted after deleting two child node")
+	}
+}
+
