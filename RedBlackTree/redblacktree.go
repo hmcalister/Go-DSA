@@ -21,3 +21,7 @@ func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *RedBlackTr
 	}
 }
 
+// Get the root the red-black search tree
+func (tree *RedBlackTree[T]) Root() *RedBlackTreeNode[T] {
+	return tree.root
+}
