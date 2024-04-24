@@ -86,3 +86,13 @@ func (tree *RedBlackTree[T]) ApplyTreePostorder(f func(item T)) {
 	tree.root.ApplyNodePostorder(f)
 }
 
+// ----------------------------------------------------------------------------
+// Fold Methods
+
+// Fold a function f over the tree preorder.
+//
+// This method is a wrapper for FoldPreorder(tree.root, initialAccumulator, f)
+func FoldTreePreorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	return FoldNodePreorder(tree.root, initialAccumulator, f)
+}
+
