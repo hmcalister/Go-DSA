@@ -218,187 +218,158 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 		return &ItemNotFoundError[T]{item}
 	}
 
-	currentNode := tree.root
-
-	// Ensure we are not deleting the root
+	// If we are trying to delete the root node, we must handle it slightly differently since parent is nil
 	if tree.comparatorFunction(item, tree.root.item) == 0 {
-		// Special case when deleting the root! We cannot set the parent pointers
-
-		// If we have no children, simply remove the root
-		if currentNode.left == nil && currentNode.right == nil {
-			tree.root = nil
-			return nil
-		}
-
-		// If we ONLY have a left child, we can replace root with the left child and be done
-		if currentNode.left != nil && currentNode.right == nil {
-			tree.root = currentNode.left
-			tree.root.left = nil
-			tree.root.right = nil
-			return nil
-		}
-
-		// If we ONLY have a right child, we can replace root with the right child and be done
-		if currentNode.left == nil && currentNode.right != nil {
-			tree.root = currentNode.right
-			tree.root.left = nil
-			tree.root.right = nil
-			return nil
-		}
-
-		// If we have two children we can simply replace with the successor (Case 3 below) and continue
-		successorNode := currentNode.right
-		for successorNode.left != nil {
-			successorNode = successorNode.left
-		}
-		currentNode.item, successorNode.item = successorNode.item, currentNode.item
-
-		// Move target node to look at the newly replaced successor node to avoid (potentially incorrect) traversal
-		currentNode = successorNode
-		// And now our target element for removal is present at the successor, which is not the root, and thus can be handled by the remaining logic
+		tree.removeRoot()
+		return nil
 	}
 
-	// Track the current comparison so we know if we are a left or right child after the loop
-	var currentCompare int
+	// Now we know the root is not the node to delete, we can traverse the tree.
+	// We will traverse the tree to find the node with the item.
+	// If we do not find a node with the item, we return an error instead
 
-	// We are now free to traverse the tree looking for item until
-	// either we find it or find the leaf the item *would* be in.
-	//
-	// We know tree.root is not nil, so we can look at its children freely
-	for {
-		// If we have found a nil node, it means we have reached a leaf without encountering item
-		// Therefore, the item is not in the tree, and hence cannot be removed
-		if currentNode == nil {
-			return &ItemNotFoundError[T]{item}
-		}
+	currentNode := tree.root
+	for currentNode != nil {
+		currentComparison := tree.comparatorFunction(item, currentNode.item)
 
-		// We now know currentNode is not nil. The options are:
-		// 1) currentNode has the item we want
-		// 		So we break from the loop and process the deletion
-		// 2) currentNode has an item larger than the target
-		// 		So we loop again, looking at the left child
-		// 3) currentNode has an item smaller than the target
-		// 		So we loop again, looking at the left child
-
-		currentCompare = tree.comparatorFunction(item, currentNode.item)
-		if currentCompare == 0 {
+		// If we find the node with an item, we are done traversing!
+		if currentComparison == 0 {
 			break
 		}
-		if currentCompare < 0 {
+
+		if currentComparison < 0 {
 			currentNode = currentNode.left
 		} else {
 			currentNode = currentNode.right
 		}
 	}
 
-	// Now, we know that currentNode has the item we are interested in
-	// We now get to remove the node based on three conditions:
-	// 1) If currentNode is a leaf, we can simply remove it
-	// 2) If currentNode has one child, we can splice it out
-	// 3) If currentNode has two children, we replace it with
-	// 		the successor then delete the successor (which is now a leaf and hence case 1)
-
-	// Function to be called on the parent of the removed node to fix up size and height
-	fixupFunc := func(node *BinarySearchTreeNode[T]) {
-		for node != nil {
-			node.size += 1
-
-			// The left and right height default to -1, in case the left or right child are nil
-			leftHeight := -1
-			if node.left != nil {
-				leftHeight = node.left.height
-			}
-			rightHeight := -1
-			if node.right != nil {
-				rightHeight = node.right.height
-			}
-			node.height = max(leftHeight, rightHeight) + 1
-			node = node.parent
-		}
+	if currentNode == nil {
+		return &ItemNotFoundError[T]{item}
 	}
 
-	// Case 2 when we have only a left child
+	// We now have the node to delete held in currentNode.
+	// We have three cases depending on the state of currentNode:
+	// 1) If currentNode is a leaf, i.e. has no children, just remove the node
+	// 2) If the currentNode has only one child, replace this node by the single child
+	// 3) If the currentNode has two children, replace this node by the successor and then delete that node
+
+	// Case 1: No Children
+	if currentNode.left == nil && currentNode.right == nil {
+		// We know parent is non-nil as currentNode is not the root
+		parentNode := currentNode.parent
+
+		// Fix pointers
+		if parentNode.left == currentNode {
+			parentNode.left = nil
+		} else {
+			parentNode.right = nil
+		}
+
+		// nil current node to avoid bugs
+		currentNode.parent = nil
+
+		tree.removeFixupHelper(parentNode)
+		return nil
+	}
+
+	// Case 2: One child
+
 	if currentNode.left != nil && currentNode.right == nil {
-		defer fixupFunc(currentNode.parent)
-		// Since we know this cannot be the root node, we can access parent
+		// We know parent is non-nil as currentNode is not the root
 		parentNode := currentNode.parent
 		childNode := currentNode.left
 
-		// Fix up pointer of parent to splice out currentNode
-		if currentCompare < 0 {
-			// We are a left child
+		// Fix pointers
+		childNode.parent = parentNode
+		if parentNode.left == currentNode {
 			parentNode.left = childNode
 		} else {
-			// We are a right child
 			parentNode.right = childNode
 		}
 
-		// Fix up pointer of child to finish splice
-		childNode.parent = parentNode
-
-		// Set the pointers of this node to nil to ensure no bugs creep in
+		// nil current node to avoid bugs
 		currentNode.parent = nil
-		currentNode.right = nil
 		currentNode.left = nil
 
+		tree.removeFixupHelper(parentNode)
 		return nil
 	}
 
-	// Case 2 when we have only a right child
-	if currentNode.left != nil && currentNode.right == nil {
-		defer fixupFunc(currentNode.parent)
-		// Since we know this cannot be the root node, we can access parent
+	if currentNode.left == nil && currentNode.right != nil {
+		// We know parent is non-nil as currentNode is not the root
 		parentNode := currentNode.parent
 		childNode := currentNode.right
 
-		// Fix up pointer of parent to splice out currentNode
-		if currentCompare < 0 {
-			// We are a left child
+		// Fix pointers
+		childNode.parent = parentNode
+		if parentNode.left == currentNode {
 			parentNode.left = childNode
 		} else {
-			// We are a right child
 			parentNode.right = childNode
 		}
 
-		// Fix up pointer of child to finish splice
-		childNode.parent = parentNode
-
-		// Set the pointers of this node to nil to ensure no bugs creep in
+		// nil current node to avoid bugs
 		currentNode.parent = nil
 		currentNode.right = nil
-		currentNode.left = nil
 
+		tree.removeFixupHelper(parentNode)
 		return nil
 	}
 
-	// Case 3: Reduce to Case 1
-	// Once this statement is done currentNode will be the child node to delete
+	// Case 3: Two children
 
-	if currentNode.left != nil && currentNode.right != nil {
-		successorNode := currentNode.right
+	successorNode := currentNode.Successor()
+	currentNode.item, successorNode.item = successorNode.item, currentNode.item
+	// For consistency, rename successorNode to currentNode
+	currentNode = successorNode
 
-		for successorNode.left != nil {
-			successorNode = successorNode.left
+	// Now we have replaced the node with its successor, we can more easily delete currentNode.
+	// We must either have a leaf node, or a node with only a right child.
+	// If the successor had a left child, it would have been chosen as the successor.
+	if currentNode.right != nil {
+		// Replace currentNode with its right child and be done with it, like case 2
+
+		// Note we can access parent because currentNode cannot be root
+		parent := currentNode.parent
+		child := currentNode.right
+
+		// Fix pointers
+		if parent.left == currentNode {
+			parent.left = child
+		} else {
+			parent.right = child
 		}
+		child.parent = parent
 
-		currentNode.item, successorNode.item = successorNode.item, currentNode.item
-		currentNode = successorNode
+		// nil out current node to avoid bugs
+		currentNode.parent = nil
+		currentNode.left = nil
+		currentNode.right = nil
+
+		tree.removeFixupHelper(parent)
+		return nil
 	}
 
-	// And now we must be in Case 1
+	// The successor is a leaf with no children, still easy
 
-	parentNode := currentNode.parent
-	// Let's make sure we know if we are a left or right child
-	if parentNode.left != nil && tree.comparatorFunction(item, parentNode.left.item) == 0 {
-		// Remove the item by nil-ing the left pointer
-		parentNode.left = nil
+	// Note we can access parent because currentNode cannot be root
+	parent := currentNode.parent
+
+	// Fix pointers
+	if parent.left == currentNode {
+		parent.left = nil
 	} else {
-		parentNode.right = nil
+		parent.right = nil
 	}
-	// Finish by removing the pointers of this node to avoid bugs
+
+	// nil out current node to avoid bugs
 	currentNode.parent = nil
 	currentNode.left = nil
 	currentNode.right = nil
 
+	tree.removeFixupHelper(parent)
+
 	return nil
 }
+
