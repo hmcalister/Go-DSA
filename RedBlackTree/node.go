@@ -43,3 +43,13 @@ func newNode[T any](item T) *RedBlackTreeNode[T] {
 	}
 }
 
+// Get the item of this tree node
+//
+// BEWARE: Mutating this item (e.g. if this item is a struct, array, etc...) may break the tree structure!
+// Only mutate the result of node.Item() if:
+// i) The type of T is a primitive, such as int, float... in which case the result is copied anyway
+// ii) You can ensure your mutation will not change the ordering based on the tree's ComparatorFunction
+func (node *RedBlackTreeNode[T]) Item() T {
+	return node.item
+}
+
