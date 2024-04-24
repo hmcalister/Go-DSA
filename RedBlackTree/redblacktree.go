@@ -27,6 +27,86 @@ func (tree *RedBlackTree[T]) Root() *RedBlackTreeNode[T] {
 }
 
 // ----------------------------------------------------------------------------
+// Misc / Helper methods
+
+// Rotate right around the given node.
+//
+// Given the node G in the diagram:
+//
+//				G
+//			  /	  \
+//			P		U
+//		  /	 \	   / \
+//		 X	  3	  4   5
+//		/ \
+//	   1   2
+//
+// Shift it into the form:
+//
+//			P
+//		  /	  \
+//		X		G
+//	  /	 \	   / \
+//	 1	  2	  3   U
+//				 / \
+//				4   5
+//
+// Should NEVER be called on a node that has no left child.
+// If rotate fails returns an error.
+func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
+	// Ensure rotation is possible
+	if node.left == nil {
+		return &RotationNotPossible[int]{}
+	}
+
+	// Use same notation as diagram
+
+	G := node
+	P := node.left
+
+	// Fix parent connection (not shown on the diagram) -----------------------
+
+	// Fix pointer from G.parent down, will now point to P
+	// Allow parent being nil in case node is root
+	if G.parent != nil {
+		tree.root = P
+	} else {
+		if G.parent.left == G {
+			G.parent.left = P
+		} else {
+			G.parent.right = P
+		}
+	}
+
+	// Fix pointer from P up
+	P.parent = G.parent
+
+	// Correct position of 3 --------------------------------------------------
+
+	// Move child node's right to current node's left. (See where 3 goes in the diagram)
+	// Note we cannot overwrite / lose currentNode.left, as it is help by childNode variable.
+	// Also childNode.right may be null -- that's fine
+
+	// Move 3 to be G's left, fixing G down to 3
+	G.left = P.right
+
+	// Fix 3 up to G if not nil
+	if G.left != nil {
+		G.left.parent = G
+	}
+
+	// Fix relationship between G and P ---------------------------------------
+
+	// Fix G up
+	G.parent = P
+
+	// Fix P down
+	P.right = G
+
+	return nil
+}
+
+// ----------------------------------------------------------------------------
 // Find Methods
 
 // Determines if a given item is present in the tree.
