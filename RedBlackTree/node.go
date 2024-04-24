@@ -3,8 +3,8 @@ package redblacktree
 type colorEnum int
 
 const (
-	BLACK colorEnum = iota
-	RED   colorEnum = iota
+	color_BLACK colorEnum = iota
+	color_RED   colorEnum = iota
 )
 
 type RedBlackTreeNode[T any] struct {
