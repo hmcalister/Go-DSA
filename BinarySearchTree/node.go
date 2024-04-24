@@ -108,6 +108,37 @@ func (node *BinarySearchTreeNode[T]) Successor() *BinarySearchTreeNode[T] {
 	return nil
 }
 
+// Return the predecessor of this node, or nil if there is no successor
+func (node *BinarySearchTreeNode[T]) Predecessor() *BinarySearchTreeNode[T] {
+	// If node has a left child, successor is one left then as far right as possible
+	if node.left != nil {
+		predecessorNode := node.left
+		for predecessorNode.right != nil {
+			predecessorNode = predecessorNode.right
+		}
+		return predecessorNode
+	}
+
+	// If node has a parent, find the first parent that is a right child and return that
+	// If no such parent exists, this node has no predecessor
+
+	currentNode := node.parent
+	for currentNode != nil {
+		parentNode := currentNode.parent
+
+		// If the current parent is not nil and the current node is a right child, we are done
+		if parentNode != nil && parentNode.right == currentNode {
+			return currentNode
+		}
+
+		// Otherwise, continue to step up the tree
+		currentNode = parentNode
+	}
+
+	// We did not find a parent node that was a right child
+	return nil
+}
+
 // ----------------------------------------------------------------------------
 // Apply Methods
 
