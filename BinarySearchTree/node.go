@@ -94,10 +94,10 @@ func (node *BinarySearchTreeNode[T]) ApplyPreorder(f func(item T)) {
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 func (node *BinarySearchTreeNode[T]) ApplyInorder(f func(item T)) {
-	f(node.item)
 	if node.left != nil {
 		node.left.ApplyInorder(f)
 	}
+	f(node.item)
 	if node.right != nil {
 		node.right.ApplyInorder(f)
 	}
