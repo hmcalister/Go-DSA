@@ -58,3 +58,15 @@ func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 	// If we exit the loop, that means we have reached a leaf without finding the item
 	return nil, &ItemNotFoundError[T]{item}
 }
+
+// ----------------------------------------------------------------------------
+// Apply Methods
+
+// Apply a function f to each node in a tree Preorder.
+//
+// Apply should not change the item in a Node, as this could affect the tree structure.
+// This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
+func (tree *RedBlackTree[T]) ApplyTreePreorder(f func(item T)) {
+	tree.root.ApplyNodePreorder(f)
+}
+
