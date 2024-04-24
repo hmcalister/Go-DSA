@@ -247,13 +247,13 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 		// And now our target element for removal is present at the successor, which is not the root, and thus can be handled by the remaining logic
 	}
 
-	// We are now free to traverse the tree looking for item until
-	// either we find it or find the leaf the item *would* be in
-
-	// We know tree.root is not nil, so we can look at its children freely
-
+	// Track the current comparison so we know if we are a left or right child after the loop
 	var currentCompare int
-	currentNode := tree.root
+
+	// We are now free to traverse the tree looking for item until
+	// either we find it or find the leaf the item *would* be in.
+	//
+	// We know tree.root is not nil, so we can look at its children freely
 	for {
 		// If we have found a nil node, it means we have reached a leaf without encountering item
 		// Therefore, the item is not in the tree, and hence cannot be removed
