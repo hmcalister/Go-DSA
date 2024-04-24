@@ -191,3 +191,24 @@ func (node *RedBlackTreeNode[T]) ApplyNodePostorder(f func(item T)) {
 	f(node.item)
 }
 
+// ----------------------------------------------------------------------------
+// Fold Methods
+
+// Fold a function f (taking the current node item and the accumulator value) across the tree Preorder.
+// f must return the next value of the accumulator.
+//
+// Returns the final accumulator value
+func FoldNodePreorder[T, G any](node *RedBlackTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	currentAccumulator := initialAccumulator
+
+	currentAccumulator = f(node.item, currentAccumulator)
+	if node.left != nil {
+		currentAccumulator = FoldNodePreorder(node.left, currentAccumulator, f)
+	}
+	if node.right != nil {
+		currentAccumulator = FoldNodePreorder(node.right, currentAccumulator, f)
+	}
+
+	return currentAccumulator
+}
+
