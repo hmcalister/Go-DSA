@@ -165,3 +165,16 @@ func (node *RedBlackTreeNode[T]) ApplyNodePreorder(f func(item T)) {
 	}
 }
 
+// Apply a function f to each node in a tree Inorder.
+//
+// Apply should not change the item in a Node, as this could affect the binary tree structure.
+func (node *RedBlackTreeNode[T]) ApplyNodeInorder(f func(item T)) {
+	if node.left != nil {
+		node.left.ApplyNodeInorder(f)
+	}
+	f(node.item)
+	if node.right != nil {
+		node.right.ApplyNodeInorder(f)
+	}
+}
+
