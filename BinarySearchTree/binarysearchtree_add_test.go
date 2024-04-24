@@ -69,3 +69,7 @@ func TestAddItemsCheckOrdering(t *testing.T) {
 		}
 	}
 
+	t.Run("check ordering increasing item", func(t *testing.T) {
+		addAndCheckOrderingHelper(t, []int{1, 2, 3, 4, 5, 6, 7})
+	})
+
