@@ -78,3 +78,11 @@ func (tree *RedBlackTree[T]) ApplyTreeInorder(f func(item T)) {
 	tree.root.ApplyNodeInorder(f)
 }
 
+// Apply a function f to each node in a tree Postorder.
+//
+// Apply should not change the item in a Node, as this could affect the tree structure.
+// This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
+func (tree *RedBlackTree[T]) ApplyTreePostorder(f func(item T)) {
+	tree.root.ApplyNodePostorder(f)
+}
+
