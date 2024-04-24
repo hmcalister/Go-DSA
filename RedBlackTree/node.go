@@ -154,7 +154,7 @@ func (node *RedBlackTreeNode[T]) Predecessor() *RedBlackTreeNode[T] {
 
 // Apply a function f to each node in a tree Preorder.
 //
-// Apply should not change the item in a Node, as this could affect the binary tree structure.
+// Apply should not change the item in a Node, as this could affect the tree structure.
 func (node *RedBlackTreeNode[T]) ApplyNodePreorder(f func(item T)) {
 	f(node.item)
 	if node.left != nil {
@@ -167,7 +167,7 @@ func (node *RedBlackTreeNode[T]) ApplyNodePreorder(f func(item T)) {
 
 // Apply a function f to each node in a tree Inorder.
 //
-// Apply should not change the item in a Node, as this could affect the binary tree structure.
+// Apply should not change the item in a Node, as this could affect the tree structure.
 func (node *RedBlackTreeNode[T]) ApplyNodeInorder(f func(item T)) {
 	if node.left != nil {
 		node.left.ApplyNodeInorder(f)
@@ -180,7 +180,7 @@ func (node *RedBlackTreeNode[T]) ApplyNodeInorder(f func(item T)) {
 
 // Apply a function f to each node in a tree Postorder.
 //
-// Apply should not change the item in a Node, as this could affect the binary tree structure.
+// Apply should not change the item in a Node, as this could affect the tree structure.
 func (node *RedBlackTreeNode[T]) ApplyNodePostorder(f func(item T)) {
 	if node.left != nil {
 		node.left.ApplyNodePostorder(f)
