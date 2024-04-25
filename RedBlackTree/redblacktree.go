@@ -105,6 +105,13 @@ func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
 	// Fix P down
 	P.right = G
 
+	// Fix the size and heights -----------------------------------------------
+
+	G.fixSize()
+	G.fixHeight()
+	P.fixSize()
+	P.fixHeight()
+
 	return nil
 }
 
@@ -112,23 +119,23 @@ func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
 //
 // Given the node G in the diagram:
 //
-//			G
-//		  /	  \
-//		U		P
-//	  /	 \	   / \
-//	 1	  2	  3   X
-//				 / \
-//				4   5
+//	      G
+//	    /  \
+//	  U      P
+//	 / \    / \
+//	1   2  3   X
+//	          / \
+//	         4   5
 //
 // Shift it into the form:
 //
-//				P
-//			  /	  \
-//			G		X
-//		  /	 \	   / \
-//		 U	  3	  4   5
-//		/ \
-//	   1   2
+//	       P
+//	     /  \
+//	    G     X
+//	   / \    / \
+//	  U   3  4   5
+//	 / \
+//	1   2
 //
 // Should NEVER be called on a node that has no left child.
 // If rotate fails returns an error.
@@ -147,7 +154,7 @@ func (tree *RedBlackTree[T]) rotateLeft(node *RedBlackTreeNode[T]) error {
 
 	// Fix pointer from G.parent down, will now point to P
 	// Allow parent being nil in case node is root
-	if G.parent != nil {
+	if G.parent == nil {
 		tree.root = P
 	} else {
 		if G.parent.left == G {
@@ -181,6 +188,13 @@ func (tree *RedBlackTree[T]) rotateLeft(node *RedBlackTreeNode[T]) error {
 
 	// Fix P down
 	P.left = G
+
+	// Fix the size and heights -----------------------------------------------
+
+	G.fixSize()
+	G.fixHeight()
+	P.fixSize()
+	P.fixHeight()
 
 	return nil
 }
