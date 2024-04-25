@@ -380,21 +380,6 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 // ----------------------------------------------------------------------------
 // Remove Methods
 
-// A helper method to transplant two nodes, such that old is replaced by new
-// (oldNode is removed from the tree)
-func (tree *RedBlackTree[T]) replaceNode(oldNode, newNode *RedBlackTreeNode[T]) {
-	if oldNode.parent == nil {
-		tree.root = newNode
-	} else if oldNode == newNode.parent.left {
-		oldNode.parent.left = newNode
-	} else {
-		oldNode.parent.right = newNode
-	}
-	if newNode != nil {
-		newNode.parent = oldNode.parent
-	}
-}
-
 // Remove an item from the tree.
 //
 // Returns an error if the item is not in the tree
