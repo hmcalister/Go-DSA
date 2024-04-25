@@ -263,6 +263,57 @@ func FoldTreePostorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f 
 // ----------------------------------------------------------------------------
 // Add Methods
 
+func (tree *RedBlackTree[T]) addCase1(node *RedBlackTreeNode[T]) {
+	if node.parent == nil {
+		node.color = color_BLACK
+	} else {
+		tree.addCase2(node)
+	}
+}
+
+func (tree *RedBlackTree[T]) addCase2(node *RedBlackTreeNode[T]) {
+	if getNodeColor(node.parent) == color_BLACK {
+		return
+	}
+
+	tree.addCase3(node)
+}
+
+func (tree *RedBlackTree[T]) addCase3(node *RedBlackTreeNode[T]) {
+	uncle := node.parent.getSibling()
+	if getNodeColor(uncle) == color_RED {
+		node.parent.color = color_BLACK
+		uncle.color = color_BLACK
+		node.parent.parent.color = color_RED
+		tree.addCase1(node.parent.parent)
+	} else {
+		tree.addCase4(node)
+	}
+}
+
+func (tree *RedBlackTree[T]) addCase4(node *RedBlackTreeNode[T]) {
+	grandparent := node.parent.parent
+	if node == node.parent.right && node.parent == grandparent.left {
+		tree.rotateLeft(node.parent)
+		node = node.left
+	} else if node == node.parent.left && node.parent == grandparent.right {
+		tree.rotateRight(node.parent)
+		node = node.right
+	}
+	tree.addCase5(node)
+}
+
+func (tree *RedBlackTree[T]) addCase5(node *RedBlackTreeNode[T]) {
+	grandparent := node.parent.parent
+	grandparent.color = color_RED
+	node.parent.color = color_BLACK
+	if node == node.parent.left && node.parent == grandparent.left {
+		tree.rotateRight(grandparent)
+	} else if node == node.parent.right && node.parent == grandparent.right {
+		tree.rotateLeft(grandparent)
+	}
+}
+
 // Insert a new item into the tree.
 //
 // Returns an error if the item already exists in the tree.
