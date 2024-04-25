@@ -445,5 +445,117 @@ func (tree *RedBlackTree[T]) replaceNode(oldNode, newNode *RedBlackTreeNode[T]) 
 //
 // Returns an error if the item is not in the tree
 func (tree *RedBlackTree[T]) Remove(item T) error {
+	// Find the node to delete. If we cannot find the node, it does not exist in the tree
+
+	Z, err := tree.Find(item)
+	if err != nil {
+		return err
+	}
+
+	Y := Z
+	YorigColor := Y.color
+	var X *RedBlackTreeNode[T]
+	// If this node has only a left child, transplant it
+	if Z.left != nil && Z.right == nil {
+		X = Z.right
+		tree.replaceNode(Z, X)
+	} else if Z.left == nil && Z.right != nil {
+		// Same for is we only have a right child
+
+		X = Z.left
+		tree.replaceNode(Z, X)
+	} else {
+		// We find the minimum of the right subtree (similar to successor)
+
+		Y = Z.right
+		for Y.left != nil {
+			Y = Y.left
+		}
+		YorigColor = Y.color
+		X = Y.right
+
+		if Y.parent == Z {
+			X.parent = Y
+		} else {
+			tree.replaceNode(Y, Y.right)
+		}
+
+		tree.replaceNode(Z, Y)
+		Y.left = Z.left
+		Y.left.parent = Y
+		Y.color = Z.color
+	}
+	currentNode := X
+	for currentNode != nil {
+		currentNode.fixSize()
+		currentNode.fixHeight()
+		currentNode = currentNode.parent
+	}
+
+	if YorigColor == color_BLACK {
+		tree.deleteFix(X)
+	}
+
 	return nil
+}
+
+// Helper method to fix the tree after deleting nodes
+func (tree *RedBlackTree[T]) deleteFix(currentNode *RedBlackTreeNode[T]) {
+	var siblingNode *RedBlackTreeNode[T]
+	for currentNode != tree.root && currentNode.color == color_BLACK {
+		if currentNode == currentNode.parent.left {
+			siblingNode = currentNode.parent.right
+			if siblingNode.color == color_RED {
+				siblingNode.color = color_BLACK
+				currentNode.parent.color = color_RED
+				tree.rotateLeft(currentNode.parent)
+				siblingNode = currentNode.parent.right
+			}
+
+			if siblingNode.left.color == color_BLACK && siblingNode.right.color == color_BLACK {
+				siblingNode.color = color_RED
+				currentNode = currentNode.parent
+			} else {
+				if siblingNode.right.color == color_BLACK {
+					siblingNode.left.color = color_BLACK
+					siblingNode.color = color_RED
+					tree.rotateRight(siblingNode)
+					siblingNode = currentNode.parent.right
+				}
+
+				siblingNode.color = currentNode.parent.color
+				currentNode.parent.color = color_BLACK
+				siblingNode.right.color = color_BLACK
+				tree.rotateLeft(currentNode.parent)
+				break
+			}
+		} else {
+			siblingNode = currentNode.parent.left
+			if siblingNode.color == color_RED {
+				siblingNode.color = color_BLACK
+				currentNode.parent.color = color_RED
+				tree.rotateRight(currentNode.parent)
+				siblingNode = currentNode.parent.left
+			}
+
+			if siblingNode.left.color == color_BLACK && siblingNode.right.color == color_BLACK {
+				siblingNode.color = color_RED
+				currentNode = currentNode.parent
+			} else {
+				if siblingNode.left.color == color_BLACK {
+					siblingNode.right.color = color_BLACK
+					siblingNode.color = color_RED
+					tree.rotateLeft(siblingNode)
+					siblingNode = currentNode.parent.left
+				}
+
+				siblingNode.color = currentNode.parent.color
+				currentNode.parent.color = color_BLACK
+				siblingNode.left.color = color_BLACK
+				tree.rotateRight(currentNode.parent)
+				break
+			}
+		}
+	}
+	tree.root.color = color_BLACK
 }
