@@ -28,5 +28,5 @@ type RotationNotPossible[T any] struct {
 }
 
 func (e *RotationNotPossible[T]) Error() string {
-	return fmt.Sprintf("rotation is not possible around node")
+	return "rotation is not possible around node"
 }
