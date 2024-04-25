@@ -1,7 +1,6 @@
 package redblacktree_test
 
 import (
-	"fmt"
 	"math/rand"
 	"testing"
 
@@ -17,7 +16,6 @@ func TestAddItems(t *testing.T) {
 			if err != nil {
 				t.Errorf("error (%v) occurred during insertion of unique item", err)
 			}
-			fmt.Printf("ROOT %v, HEIGHT: %v\n", tree.Root().Item(), tree.Root().Height())
 		}
 	}
 	t.Run("add increasing item", func(t *testing.T) {
