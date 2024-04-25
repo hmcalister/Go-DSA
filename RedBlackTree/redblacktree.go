@@ -308,11 +308,138 @@ func FoldTreePostorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f 
 //
 // Returns an error if the item already exists in the tree.
 func (tree *RedBlackTree[T]) Add(item T) error {
+	// If the tree is empty we can simply add a new node as the root
+	if tree.root == nil {
+		tree.root = newNode(item)
+		return nil
+	}
+
+	// Otherwise, the root exists so we must find where to insert this item
+	// (or, if the item is in the tree, return an error)
+
+	var traverseCompare int
+	var parentNode *RedBlackTreeNode[T]
+	currentNode := tree.root
+
+	for currentNode != nil {
+		parentNode = currentNode
+		traverseCompare = tree.comparatorFunction(item, currentNode.item)
+
+		// If the item is the same as the current node, return an error and do not insert
+		if traverseCompare == 0 {
+			return &ItemAlreadyPresentError[T]{item}
+		}
+
+		// Otherwise, we can walk to this node's left or right child based on currentCompare
+		// If currentCompare < 0, currentNode's item is *larger* than item so we walk left
+		// If currentCompare > 0, currentNode's item is *smaller* than item so we walk right
+		if traverseCompare < 0 {
+			currentNode = currentNode.left
+		} else {
+			currentNode = currentNode.right
+		}
+	}
+
+	// We have now found a nil node, meaning parentNode was the last non-nil node
+	// (and since we ensured that the tree was not empty, parentNode is definitely non-nil)
+	// The value of currentCompare will tell us if we are adding to currentNode's left or right
+
+	newNode := newNode(item)
+	newNode.color = color_RED
+	newNode.parent = parentNode
+	if traverseCompare < 0 {
+		parentNode.left = newNode
+	} else {
+		parentNode.right = newNode
+	}
+
+	// Account for the new nodes size and height
+	currentNode = newNode.parent
+	for currentNode != nil {
+		currentNode.fixSize()
+		currentNode.fixHeight()
+		currentNode = currentNode.parent
+	}
+
+	// Finally, fix up the tree
+	tree.addFix(newNode)
+
 	return nil
+}
+
+// Fix the red black tree given the newly inserted leaf node newNode
+//
+// This method may restructure the tree, and will ensure size and height are fixed too.
+//
+// From https://www.programiz.com/dsa/red-black-tree
+func (tree *RedBlackTree[T]) addFix(newNode *RedBlackTreeNode[T]) {
+	currentNode := newNode
+
+	for currentNode != tree.root && currentNode.parent.color == color_RED {
+		// note because the root is ALWAYS black we can access currentNode.parent.parent
+		// since currentNode.parent.color is red
+		if currentNode.parent == currentNode.parent.parent.left {
+			// parent is a left child
+			uncleNode := currentNode.parent.parent.right
+			if uncleNode != nil && uncleNode.color == color_RED {
+				// Case I
+				uncleNode.color = color_BLACK
+				currentNode.parent.color = color_BLACK
+				currentNode.parent.parent.color = color_RED
+				currentNode = currentNode.parent.parent
+			} else {
+				if currentNode == currentNode.parent.right {
+					// Case II
+					currentNode = currentNode.parent
+					tree.rotateLeft(currentNode)
+				}
+				// Case III
+				currentNode.parent.color = color_BLACK
+				currentNode.parent.parent.color = color_RED
+				tree.rotateRight(currentNode.parent.parent)
+			}
+		} else {
+			// parent is a right child
+			uncleNode := currentNode.parent.parent.left
+			if uncleNode != nil && uncleNode.color == color_RED {
+				// Case I
+				uncleNode.color = color_BLACK
+				currentNode.parent.color = color_BLACK
+				currentNode.parent.parent.color = color_RED
+				currentNode = currentNode.parent.parent
+			} else {
+				if currentNode == currentNode.parent.left {
+					// Case II
+					currentNode = currentNode.parent
+					tree.rotateRight(currentNode)
+				}
+				// Case III
+				currentNode.parent.color = color_BLACK
+				currentNode.parent.parent.color = color_RED
+				tree.rotateLeft(currentNode.parent.parent)
+			}
+		}
+	}
+	tree.root.color = color_BLACK
 }
 
 // ----------------------------------------------------------------------------
 // Remove Methods
+
+// A helper method to transplant two nodes, such that old is replaced by new
+// (oldNode is removed from the tree)
+func (tree *RedBlackTree[T]) replaceNode(oldNode, newNode *RedBlackTreeNode[T]) {
+	if oldNode.parent == nil {
+		tree.root = newNode
+	} else if oldNode == newNode.parent.left {
+		oldNode.parent.left = newNode
+	} else {
+		oldNode.parent.right = newNode
+	}
+	if newNode != nil {
+		newNode.parent = oldNode.parent
+	}
+}
 
 // Remove an item from the tree.
 //
