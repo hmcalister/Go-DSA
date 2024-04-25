@@ -70,7 +70,7 @@ func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
 
 	// Fix pointer from G.parent down, will now point to P
 	// Allow parent being nil in case node is root
-	if G.parent != nil {
+	if G.parent == nil {
 		tree.root = P
 	} else {
 		if G.parent.left == G {
