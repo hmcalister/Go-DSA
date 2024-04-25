@@ -127,3 +127,30 @@ func TestManyRandomInsertsSize(t *testing.T) {
 	}
 }
 
+func TestManyRandomInsertsHeight(t *testing.T) {
+	NUM_TRIALS := 10
+	numItems := 0
+
+	for trialIndex := range NUM_TRIALS {
+		// Increase number of items by two each trial
+		numItems = numItems*2 + 1
+		items := make([]int, numItems)
+		for i := range numItems {
+			items[i] = i
+		}
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+
+		tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		treeHeight := tree.Root().Height()
+		maxHeight := 2 * (trialIndex + 1)
+		if treeHeight > maxHeight {
+			t.Errorf("tree root height (%v) is larger than the expected max height (%v) for trial %v", treeHeight, maxHeight, trialIndex)
+		}
+	}
+}
