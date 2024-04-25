@@ -6,8 +6,9 @@ import (
 	"slices"
 	"testing"
 
-	binarysearchtree "github.com/hmcalister/Go-DSA/BinarySearchTree"
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
+	abstracttree "github.com/hmcalister/Go-DSA/Trees"
+	binarysearchtree "github.com/hmcalister/Go-DSA/Trees/BinarySearchTree"
 )
 
 func TestAddItems(t *testing.T) {
@@ -60,7 +61,7 @@ func TestAddItemsCheckOrdering(t *testing.T) {
 			expectedInorderTraversal += fmt.Sprintf("%d,", item)
 		}
 		inorderTraversal := ""
-		tree.ApplyTreeInorder(func(item int) {
+		abstracttree.ApplyTreeInorder(tree, func(item int) {
 			inorderTraversal += fmt.Sprintf("%d,", item)
 		})
 
