@@ -561,3 +561,39 @@ func TestManyRandomRemovalsSize(t *testing.T) {
 	}
 }
 
+func TestManyRandomRemovalsHeight(t *testing.T) {
+	NUM_TRIALS := 10
+	numItems := 0
+
+	for trialIndex := range NUM_TRIALS {
+		// Increase number of items by two each trial
+		numItems = numItems*2 + 1
+		items := make([]int, numItems)
+		for i := range numItems {
+			items[i] = i
+		}
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+
+		tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+
+		// Remove half the items
+		for i := range numItems / 2 {
+			tree.Remove(items[i])
+		}
+
+		treeHeight := tree.Root().Height()
+		maxHeight := 2 * (trialIndex)
+		if treeHeight > maxHeight {
+			t.Errorf("tree root height (%v) is larger than the expected max height (%v) for trial %v", treeHeight, maxHeight, trialIndex)
+		}
+	}
+}
