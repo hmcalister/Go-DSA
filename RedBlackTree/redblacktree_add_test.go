@@ -99,3 +99,31 @@ func TestRootAfterAddItems(t *testing.T) {
 		})
 	})
 }
+
+func TestManyRandomInsertsSize(t *testing.T) {
+	NUM_TRIALS := 10
+	numItems := 1
+
+	for trialIndex := range NUM_TRIALS {
+		// Increase number of items by two each trial
+		numItems = numItems * 2
+		items := make([]int, numItems)
+		for i := range numItems {
+			items[i] = i
+		}
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+
+		tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		treeSize := tree.Root().Size()
+		if treeSize != numItems {
+			t.Errorf("tree root size (%v) does not match the expected size (%v) for trial %v", treeSize, numItems, trialIndex)
+		}
+	}
+}
+
