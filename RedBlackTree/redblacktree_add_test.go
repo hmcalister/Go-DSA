@@ -1,7 +1,9 @@
 package redblacktree_test
 
 import (
+	"fmt"
 	"math/rand"
+	"slices"
 	"testing"
 
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
@@ -97,6 +99,55 @@ func TestRootAfterAddItems(t *testing.T) {
 			7: 4,
 			8: 4,
 		})
+	})
+}
+
+func TestAddItemsCheckOrdering(t *testing.T) {
+	addAndCheckOrderingHelper := func(t *testing.T, items []int) {
+		tree := redblacktree.New(comparator.DefaultIntegerComparator)
+
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		// An in-order traversal should give the items in a sorted order
+		slices.Sort(items)
+		expectedInorderTraversal := ""
+		for _, item := range items {
+			expectedInorderTraversal += fmt.Sprintf("%d,", item)
+		}
+		inorderTraversal := ""
+		tree.ApplyTreeInorder(func(item int) {
+			inorderTraversal += fmt.Sprintf("%d,", item)
+		})
+
+		if expectedInorderTraversal != inorderTraversal {
+			t.Errorf("inorder traversal (%v) does not match expected inorder traversal (%v)", inorderTraversal, expectedInorderTraversal)
+		}
+	}
+
+	t.Run("check ordering increasing item", func(t *testing.T) {
+		addAndCheckOrderingHelper(t, []int{1, 2, 3, 4, 5, 6, 7})
+	})
+
+	t.Run("check ordering decreasing item", func(t *testing.T) {
+		addAndCheckOrderingHelper(t, []int{7, 6, 5, 4, 3, 2, 1})
+	})
+
+	t.Run("check ordering alternating item", func(t *testing.T) {
+		addAndCheckOrderingHelper(t, []int{4, 5, 3, 6, 2, 7, 1})
+	})
+
+	t.Run("check ordering many items random order", func(t *testing.T) {
+		numItems := 100
+		items := make([]int, numItems)
+		for i := range numItems {
+			items[i] = i
+		}
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+		addAndCheckOrderingHelper(t, items)
 	})
 }
 
