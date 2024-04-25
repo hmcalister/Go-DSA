@@ -80,3 +80,21 @@ func TestRemoveNodeWithOnlyLeftChild(t *testing.T) {
 	}
 }
 
+func TestRemoveNodeWithOnlyRightChild(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	err := tree.Remove(3)
+	if err != nil {
+		t.Errorf("encountered error (%v) when removing one child node", err)
+	}
+
+	node, err := tree.Find(3)
+	if node != nil || err == nil {
+		t.Errorf("found node that should have been deleted after deleting one child node")
+	}
+}
+
