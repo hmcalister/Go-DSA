@@ -26,3 +26,21 @@ func TestRemoveRootAsOnlynode(t *testing.T) {
 	}
 }
 
+func TestRemoveRoot(t *testing.T) {
+	items := []int{3, 4, 2, 5, 1}
+	tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	err := tree.Remove(3)
+	if err != nil {
+		t.Errorf("encountered error (%v) when removing root node", err)
+	}
+
+	node, err := tree.Find(3)
+	if node != nil || err == nil {
+		t.Errorf("found node that should have been deleted after deleting root")
+	}
+}
+
