@@ -61,7 +61,7 @@ func TestAddItemsCheckOrdering(t *testing.T) {
 			expectedInorderTraversal += fmt.Sprintf("%d,", item)
 		}
 		inorderTraversal := ""
-		abstracttree.ApplyTreeInorder(tree, func(item int) {
+		abstracttree.ApplyNodeInorder(tree.Root(), func(item int) {
 			inorderTraversal += fmt.Sprintf("%d,", item)
 		})
 
