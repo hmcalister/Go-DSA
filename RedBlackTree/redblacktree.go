@@ -363,6 +363,9 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 		parentNode.right = newNode
 	}
 
+	// Fix up the tree
+	tree.addCase1(newNode)
+
 	// Account for the new nodes size and height
 	currentNode = newNode.parent
 	for currentNode != nil {
@@ -370,9 +373,6 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 		currentNode.fixHeight()
 		currentNode = currentNode.parent
 	}
-
-	// Finally, fix up the tree
-	tree.addFix(newNode)
 
 	return nil
 }
