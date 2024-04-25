@@ -71,54 +71,26 @@ func (tree *RedBlackTree[T]) replaceNode(oldNode, newNode *RedBlackTreeNode[T]) 
 // Should NEVER be called on a node that has no left child.
 // If rotate fails returns an error.
 func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
-	// Ensure rotation is possible
-	if node.left == nil {
-		return &RotationNotPossible[int]{}
-	}
-
 	// Use same notation as diagram
 
 	G := node
 	P := node.left
 
-	// Fix parent connection (not shown on the diagram) -----------------------
-
-	// Fix pointer from G.parent down, will now point to P
-	// Allow parent being nil in case node is root
-	if G.parent == nil {
-		tree.root = P
-	} else {
-		if G.parent.left == G {
-			G.parent.left = P
-		} else {
-			G.parent.right = P
-		}
+	if P == nil {
+		return &RotationNotPossible[T]{}
 	}
 
-	// Fix pointer from P up
-	P.parent = G.parent
+	tree.replaceNode(G, P)
 
-	// Correct position of 3 --------------------------------------------------
-
-	// Move child node's right to current node's left. (See where 3 goes in the diagram)
-	// Note we cannot overwrite / lose currentNode.left, as it is help by childNode variable.
-	// Also childNode.right may be null -- that's fine
-
-	// Move 3 to be G's left, fixing G down to 3
+	// Fix pointers of 3
 	G.left = P.right
-
-	// Fix 3 up to G if not nil
 	if G.left != nil {
 		G.left.parent = G
 	}
 
-	// Fix relationship between G and P ---------------------------------------
-
-	// Fix G up
-	G.parent = P
-
-	// Fix P down
+	// Fix pointers between G and P
 	P.right = G
+	G.parent = P
 
 	// Fix the size and heights -----------------------------------------------
 
@@ -155,54 +127,26 @@ func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
 // Should NEVER be called on a node that has no left child.
 // If rotate fails returns an error.
 func (tree *RedBlackTree[T]) rotateLeft(node *RedBlackTreeNode[T]) error {
-	// Ensure rotation is possible
-	if node.right == nil {
-		return &RotationNotPossible[int]{}
-	}
-
 	// Use same notation as diagram
 
 	G := node
 	P := node.right
 
-	// Fix parent connection (not shown on the diagram) -----------------------
-
-	// Fix pointer from G.parent down, will now point to P
-	// Allow parent being nil in case node is root
-	if G.parent == nil {
-		tree.root = P
-	} else {
-		if G.parent.left == G {
-			G.parent.left = P
-		} else {
-			G.parent.right = P
-		}
+	if P == nil {
+		return &RotationNotPossible[T]{}
 	}
 
-	// Fix pointer from P up
-	P.parent = G.parent
+	tree.replaceNode(G, P)
 
-	// Correct position of 3 --------------------------------------------------
-
-	// Move child node's right to current node's left. (See where 3 goes in the diagram)
-	// Note we cannot overwrite / lose currentNode.left, as it is help by childNode variable.
-	// Also childNode.right may be null -- that's fine
-
-	// Move 3 to be G's left, fixing G down to 3
+	// Fix pointers of 3
 	G.right = P.left
-
-	// Fix 3 up to G if not nil
 	if G.right != nil {
 		G.right.parent = G
 	}
 
-	// Fix relationship between G and P ---------------------------------------
-
-	// Fix G up
-	G.parent = P
-
-	// Fix P down
+	// Fix pointers between G and P
 	P.left = G
+	G.parent = P
 
 	// Fix the size and heights -----------------------------------------------
 
