@@ -430,24 +430,13 @@ func (tree *RedBlackTree[T]) Remove(item T) error {
 	return nil
 }
 
+func (tree *RedBlackTree[T]) removeCase1(node *RedBlackTreeNode[T]) {
+	if node.parent == nil {
+		return
+	}
+	tree.removeCase2(node)
+}
 
-			if siblingNode.left.color == color_BLACK && siblingNode.right.color == color_BLACK {
-				siblingNode.color = color_RED
-				currentNode = currentNode.parent
-			} else {
-				if siblingNode.right.color == color_BLACK {
-					siblingNode.left.color = color_BLACK
-					siblingNode.color = color_RED
-					tree.rotateRight(siblingNode)
-					siblingNode = currentNode.parent.right
-				}
-
-				siblingNode.color = currentNode.parent.color
-				currentNode.parent.color = color_BLACK
-				siblingNode.right.color = color_BLACK
-				tree.rotateLeft(currentNode.parent)
-				break
-			}
 		} else {
 			siblingNode = currentNode.parent.left
 			if siblingNode.color == color_RED {
