@@ -9,6 +9,9 @@ type TreeNode[T any] interface {
 	// ii) You can ensure your mutation will not change the ordering based on the tree's ComparatorFunction
 	Item() T
 
+	// Get the parent of this node (may be nil)
+	Parent() *TreeNode[T]
+
 	// Get this node's left child (may be nil)
 	Left() *TreeNode[T]
 
