@@ -377,62 +377,6 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 	return nil
 }
 
-// Fix the red black tree given the newly inserted leaf node newNode
-//
-// This method may restructure the tree, and will ensure size and height are fixed too.
-//
-// From https://www.programiz.com/dsa/red-black-tree
-func (tree *RedBlackTree[T]) addFix(newNode *RedBlackTreeNode[T]) {
-	currentNode := newNode
-
-	for currentNode != tree.root && currentNode.parent.color == color_RED {
-		// note because the root is ALWAYS black we can access currentNode.parent.parent
-		// since currentNode.parent.color is red
-		if currentNode.parent == currentNode.parent.parent.left {
-			// parent is a left child
-			uncleNode := currentNode.parent.parent.right
-			if uncleNode != nil && uncleNode.color == color_RED {
-				// Case I
-				uncleNode.color = color_BLACK
-				currentNode.parent.color = color_BLACK
-				currentNode.parent.parent.color = color_RED
-				currentNode = currentNode.parent.parent
-			} else {
-				if currentNode == currentNode.parent.right {
-					// Case II
-					currentNode = currentNode.parent
-					tree.rotateLeft(currentNode)
-				}
-				// Case III
-				currentNode.parent.color = color_BLACK
-				currentNode.parent.parent.color = color_RED
-				tree.rotateRight(currentNode.parent.parent)
-			}
-		} else {
-			// parent is a right child
-			uncleNode := currentNode.parent.parent.left
-			if uncleNode != nil && uncleNode.color == color_RED {
-				// Case I
-				uncleNode.color = color_BLACK
-				currentNode.parent.color = color_BLACK
-				currentNode.parent.parent.color = color_RED
-				currentNode = currentNode.parent.parent
-			} else {
-				if currentNode == currentNode.parent.left {
-					// Case II
-					currentNode = currentNode.parent
-					tree.rotateRight(currentNode)
-				}
-				// Case III
-				currentNode.parent.color = color_BLACK
-				currentNode.parent.parent.color = color_RED
-				tree.rotateLeft(currentNode.parent.parent)
-			}
-		}
-	}
-	tree.root.color = color_BLACK
-}
-
 // ----------------------------------------------------------------------------
 // Remove Methods
 
