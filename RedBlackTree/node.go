@@ -94,7 +94,7 @@ func (node *RedBlackTreeNode[T]) fixSize() {
 	if node.left != nil {
 		leftSize = node.left.size
 	}
-	rightSize := -1
+	rightSize := 0
 	if node.right != nil {
 		rightSize = node.right.size
 	}
