@@ -1,7 +1,9 @@
 package redblacktree_test
 
 import (
+	"fmt"
 	"math/rand"
+	"slices"
 	"testing"
 
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
@@ -132,6 +134,67 @@ func TestRemoveLeafNodeAsRightChild(t *testing.T) {
 	if node != nil || err == nil {
 		t.Errorf("found node that should have been deleted after deleting leaf node")
 	}
+}
+
+// Test the ordering (and hence pointer correctness) after removing nodes
+func TestRemoveCheckOrdering(t *testing.T) {
+	removalAndCheckOrderingHelper := func(t *testing.T, items []int) {
+		tree := redblacktree.New(comparator.DefaultIntegerComparator)
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		// An in-order traversal should give the items in a sorted order
+		slices.Sort(items)
+
+		// Remove each item from the tree, moving forward as we go
+		for i := range len(items) - 1 {
+			targetRemovalItem := items[i]
+			currentItems := items[i+1:]
+
+			err := tree.Remove(targetRemovalItem)
+			if err != nil {
+				t.Errorf("could not remove item (%v) that should be present in the binary tree, got error %v", targetRemovalItem, err)
+			}
+
+			expectedInorderTraversal := ""
+			for _, item := range currentItems {
+				expectedInorderTraversal += fmt.Sprintf("%d,", item)
+			}
+			inorderTraversal := ""
+			tree.ApplyTreeInorder(func(item int) {
+				inorderTraversal += fmt.Sprintf("%d,", item)
+			})
+
+			if expectedInorderTraversal != inorderTraversal {
+				t.Errorf("inorder traversal (%v) does not match expected inorder traversal (%v)", inorderTraversal, expectedInorderTraversal)
+			}
+		}
+	}
+
+	t.Run("check ordering increasing item", func(t *testing.T) {
+		removalAndCheckOrderingHelper(t, []int{1, 2, 3, 4, 5, 6, 7})
+	})
+
+	t.Run("check ordering decreasing item", func(t *testing.T) {
+		removalAndCheckOrderingHelper(t, []int{7, 6, 5, 4, 3, 2, 1})
+	})
+
+	t.Run("check ordering alternating item", func(t *testing.T) {
+		removalAndCheckOrderingHelper(t, []int{4, 5, 3, 6, 2, 7, 1})
+	})
+
+	t.Run("check ordering many items random order", func(t *testing.T) {
+		numItems := 100
+		items := make([]int, numItems)
+		for i := range numItems {
+			items[i] = i
+		}
+		rand.Shuffle(numItems, func(i, j int) {
+			items[i], items[j] = items[j], items[i]
+		})
+		removalAndCheckOrderingHelper(t, items)
+	})
 }
 
 // ----------------------------------------------------------------------------
