@@ -6,15 +6,15 @@ type Tree[T any] interface {
 
 	// Find the node holding this item in the tree
 	// or an error if the item does not exist in the tree
-	Find(T) (*TreeNode[T], error)
+	Find(item T) (*TreeNode[T], error)
 
 	// Add an item to the tree,
 	// returning an error if the item is already in the tree
-	Add(T) error
+	Add(item T) error
 
 	// Remove an item from the tree,
 	// returning an error if the item is not in the tree
-	Remove(T) error
+	Remove(item T) error
 }
 
 // ----------------------------------------------------------------------------
