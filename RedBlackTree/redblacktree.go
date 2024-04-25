@@ -384,55 +384,47 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 //
 // Returns an error if the item is not in the tree
 func (tree *RedBlackTree[T]) Remove(item T) error {
-	// Find the node to delete. If we cannot find the node, it does not exist in the tree
+	currentNode, err := tree.Find(item)
 
-	Z, err := tree.Find(item)
+	// If item not in tree, return that as error
 	if err != nil {
 		return err
 	}
 
-	Y := Z
-	YorigColor := Y.color
-	var X *RedBlackTreeNode[T]
-	// If this node has only a left child, transplant it
-	if Z.left != nil && Z.right == nil {
-		X = Z.right
-		tree.replaceNode(Z, X)
-	} else if Z.left == nil && Z.right != nil {
-		// Same for is we only have a right child
+	// If we have two children, replace with successor
+	if currentNode.left != nil && currentNode.right != nil {
+		successor := currentNode.Successor()
+		currentNode.item, successor.item = successor.item, currentNode.item
+		currentNode = successor
+	}
 
-		X = Z.left
-		tree.replaceNode(Z, X)
+	// Get the child (if it exists)
+	// If node has NO children, childNode remains nil (and that's okay!)
+	var childNode *RedBlackTreeNode[T]
+	if currentNode.left != nil && currentNode.right == nil {
+		childNode = currentNode.left
+	} else if currentNode.left == nil && currentNode.right != nil {
+		childNode = currentNode.right
 	} else {
-		// We find the minimum of the right subtree (similar to successor)
-
-		Y = Z.right
-		for Y.left != nil {
-			Y = Y.left
-		}
-		YorigColor = Y.color
-		X = Y.right
-
-		if Y.parent == Z {
-			X.parent = Y
-		} else {
-			tree.replaceNode(Y, Y.right)
-		}
-
-		tree.replaceNode(Z, Y)
-		Y.left = Z.left
-		Y.left.parent = Y
-		Y.color = Z.color
-	}
-	currentNode := X
-	for currentNode != nil {
-		currentNode.fixSize()
-		currentNode.fixHeight()
-		currentNode = currentNode.parent
+		childNode = nil
 	}
 
-	if YorigColor == color_BLACK {
-		tree.deleteFix(X)
+	parentNode := currentNode.parent
+
+	if currentNode.color == color_BLACK {
+		currentNode.color = getNodeColor(childNode)
+		tree.removeCase1(currentNode)
+	}
+
+	tree.replaceNode(currentNode, childNode)
+	if currentNode.parent == nil && childNode != nil {
+		childNode.color = color_BLACK
+	}
+
+	for parentNode != nil {
+		parentNode.fixSize()
+		parentNode.fixHeight()
+		parentNode = parentNode.parent
 	}
 
 	return nil
