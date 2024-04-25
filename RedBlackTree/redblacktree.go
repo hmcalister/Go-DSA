@@ -1,6 +1,8 @@
 package redblacktree
 
-import comparator "github.com/hmcalister/Go-DSA/Comparator"
+import (
+	comparator "github.com/hmcalister/Go-DSA/Comparator"
+)
 
 type RedBlackTree[T any] struct {
 	// The root of the tree
@@ -33,23 +35,23 @@ func (tree *RedBlackTree[T]) Root() *RedBlackTreeNode[T] {
 //
 // Given the node G in the diagram:
 //
-//				G
-//			  /	  \
-//			P		U
-//		  /	 \	   / \
-//		 X	  3	  4   5
-//		/ \
-//	   1   2
+//	        G
+//	      /   \
+//	     P     U
+//	   /  \   /  \
+//	  X   3  4   5
+//	 / \
+//	1   2
 //
 // Shift it into the form:
 //
-//			P
-//		  /	  \
-//		X		G
-//	  /	 \	   / \
-//	 1	  2	  3   U
-//				 / \
-//				4   5
+//	       P
+//	    /    \
+//	   X      G
+//	 /  \    /  \
+//	1    2  3    U
+//	            / \
+//	           4   5
 //
 // Should NEVER be called on a node that has no left child.
 // If rotate fails returns an error.
