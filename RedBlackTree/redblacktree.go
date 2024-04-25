@@ -437,33 +437,75 @@ func (tree *RedBlackTree[T]) removeCase1(node *RedBlackTreeNode[T]) {
 	tree.removeCase2(node)
 }
 
+func (tree *RedBlackTree[T]) removeCase2(node *RedBlackTreeNode[T]) {
+	siblingNode := node.getSibling()
+	if getNodeColor(siblingNode) == color_RED {
+		node.parent.color = color_RED
+		siblingNode.color = color_BLACK
+		if node == node.parent.left {
+			tree.rotateLeft(node.parent)
 		} else {
-			siblingNode = currentNode.parent.left
-			if siblingNode.color == color_RED {
-				siblingNode.color = color_BLACK
-				currentNode.parent.color = color_RED
-				tree.rotateRight(currentNode.parent)
-				siblingNode = currentNode.parent.left
-			}
-
-			if siblingNode.left.color == color_BLACK && siblingNode.right.color == color_BLACK {
-				siblingNode.color = color_RED
-				currentNode = currentNode.parent
-			} else {
-				if siblingNode.left.color == color_BLACK {
-					siblingNode.right.color = color_BLACK
-					siblingNode.color = color_RED
-					tree.rotateLeft(siblingNode)
-					siblingNode = currentNode.parent.left
-				}
-
-				siblingNode.color = currentNode.parent.color
-				currentNode.parent.color = color_BLACK
-				siblingNode.left.color = color_BLACK
-				tree.rotateRight(currentNode.parent)
-				break
-			}
+			tree.rotateRight(node.parent)
 		}
 	}
-	tree.root.color = color_BLACK
+	tree.removeCase3(node)
+}
+
+func (tree *RedBlackTree[T]) removeCase3(node *RedBlackTreeNode[T]) {
+	siblingNode := node.getSibling()
+	if getNodeColor(node.parent) == color_BLACK &&
+		getNodeColor(siblingNode) == color_BLACK &&
+		getNodeColor(siblingNode.left) == color_BLACK &&
+		getNodeColor(siblingNode.right) == color_BLACK {
+		siblingNode.color = color_RED
+		tree.removeCase1(node.parent)
+	} else {
+		tree.removeCase4(node)
+	}
+}
+
+func (tree *RedBlackTree[T]) removeCase4(node *RedBlackTreeNode[T]) {
+	siblingNode := node.getSibling()
+	if getNodeColor(node.parent) == color_RED &&
+		getNodeColor(siblingNode) == color_BLACK &&
+		getNodeColor(siblingNode.left) == color_BLACK &&
+		getNodeColor(siblingNode.right) == color_BLACK {
+		siblingNode.color = color_RED
+		node.parent.color = color_BLACK
+	} else {
+		tree.removeCase5(node)
+	}
+}
+
+func (tree *RedBlackTree[T]) removeCase5(node *RedBlackTreeNode[T]) {
+	siblingNode := node.getSibling()
+	if node == node.parent.left &&
+		getNodeColor(siblingNode) == color_BLACK &&
+		getNodeColor(siblingNode.left) == color_RED &&
+		getNodeColor(siblingNode.right) == color_BLACK {
+		siblingNode.color = color_RED
+		siblingNode.left.color = color_BLACK
+		tree.rotateRight(siblingNode)
+	} else if node == node.parent.right &&
+		getNodeColor(siblingNode) == color_BLACK &&
+		getNodeColor(siblingNode.left) == color_BLACK &&
+		getNodeColor(siblingNode.right) == color_RED {
+		siblingNode.color = color_RED
+		siblingNode.right.color = color_BLACK
+		tree.rotateLeft(siblingNode)
+	}
+	tree.removeCase6(node)
+}
+
+func (tree *RedBlackTree[T]) removeCase6(node *RedBlackTreeNode[T]) {
+	siblingNode := node.getSibling()
+	siblingNode.color = getNodeColor(node.parent)
+	node.parent.color = color_BLACK
+	if node == node.parent.left && getNodeColor(siblingNode.right) == color_RED {
+		siblingNode.right.color = color_BLACK
+		tree.rotateLeft(node.parent)
+	} else if getNodeColor(siblingNode.left) == color_RED {
+		siblingNode.left.color = color_BLACK
+		tree.rotateRight(node.parent)
+	}
 }
