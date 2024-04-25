@@ -86,6 +86,35 @@ func (node *RedBlackTreeNode[T]) Right() *RedBlackTreeNode[T] {
 }
 
 // ----------------------------------------------------------------------------
+// Node utility functions
+
+// Fix the size of this Node assuming the sizes of the two children are correct (or children are nil)
+func (node *RedBlackTreeNode[T]) fixSize() {
+	leftSize := 0
+	if node.left != nil {
+		leftSize = node.left.size
+	}
+	rightSize := -1
+	if node.right != nil {
+		rightSize = node.right.size
+	}
+	node.size = leftSize + rightSize + 1
+}
+
+// Fix the height of this Node assuming the heights of the two children are correct (or children are nil)
+func (node *RedBlackTreeNode[T]) fixHeight() {
+	leftHeight := -1
+	if node.left != nil {
+		leftHeight = node.left.height
+	}
+	rightHeight := -1
+	if node.right != nil {
+		rightHeight = node.right.height
+	}
+	node.height = max(leftHeight, rightHeight) + 1
+}
+
+// ----------------------------------------------------------------------------
 // Successor and Predecessor methods
 
 // Return the successor of this node, or nil if there is no successor
