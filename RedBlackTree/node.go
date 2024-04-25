@@ -127,6 +127,14 @@ func (node *RedBlackTreeNode[T]) getSibling() *RedBlackTreeNode[T] {
 	}
 }
 
+// Helper method to get the color of a node, returning black if the node is nil
+func getNodeColor[T any](node *RedBlackTreeNode[T]) colorEnum {
+	if node == nil {
+		return color_BLACK
+	}
+	return node.color
+}
+
 // ----------------------------------------------------------------------------
 // Successor and Predecessor methods
 
