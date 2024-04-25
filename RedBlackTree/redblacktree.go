@@ -31,6 +31,21 @@ func (tree *RedBlackTree[T]) Root() *RedBlackTreeNode[T] {
 // ----------------------------------------------------------------------------
 // Misc / Helper methods
 
+// A helper method to transplant two nodes, such that old is replaced by new
+// (oldNode is removed from the tree)
+func (tree *RedBlackTree[T]) replaceNode(oldNode, newNode *RedBlackTreeNode[T]) {
+	if oldNode.parent == nil {
+		tree.root = newNode
+	} else if oldNode == oldNode.parent.left {
+		oldNode.parent.left = newNode
+	} else {
+		oldNode.parent.right = newNode
+	}
+	if newNode != nil {
+		newNode.parent = oldNode.parent
+	}
+}
+
 // Rotate right around the given node.
 //
 // Given the node G in the diagram:
