@@ -134,3 +134,58 @@ func TestRemoveLeafNodeAsRightChild(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Size Tests
+
+func TestSizeAfterRemoval(t *testing.T) {
+	// Define a helper function that creates a new tree, removes an item, and tests each remaining item against the expected size map
+	testSizeAfterRemovalHelper := func(t *testing.T, items []int, removalItem int, expectedSizeMap map[int]int) {
+		tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+		for _, item := range items {
+			tree.Add(item)
+		}
+
+		err := tree.Remove(removalItem)
+		if err != nil {
+			t.Errorf("error (%v) encountered when removing item", err)
+		}
+
+		for item, expectedSize := range expectedSizeMap {
+			node, err := tree.Find(item)
+			if err != nil {
+				t.Errorf("error (%v) encountered when finding item that was inserted into tree", err)
+			}
+
+			if node.Size() != expectedSize {
+				t.Errorf("found size (%v) does not match expected size (%v) for item %v", node.Size(), expectedSize, item)
+			}
+		}
+	}
+
+	// We will construct this tree
+	// 				5
+	// 			/		\
+	// 		  3			  7
+	// 		/	\		/	\
+	// 	   1	 4	   6	  9
+	//
+	// And then remove the root, resulting in
+	// 				6
+	// 			/		\
+	// 		  3			  7
+	// 		/	\			\
+	// 	   1	 4	   		  9
+	t.Run("remove root node", func(t *testing.T) {
+		items := []int{5, 3, 7, 1, 4, 6, 9}
+		removalItem := 5
+		expectedSizeMap := map[int]int{
+			6: 6,
+			3: 3,
+			7: 2,
+			1: 1,
+			4: 1,
+			9: 1,
+		}
+
+		testSizeAfterRemovalHelper(t, items, removalItem, expectedSizeMap)
+	})
