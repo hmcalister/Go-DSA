@@ -412,3 +412,30 @@ func TestHeightAfterRemoval(t *testing.T) {
 		testHeightAfterRemovalHelper(t, items, removalItem, expectedHeightMap)
 	})
 
+	// We will construct this tree
+	// 				5
+	// 			/		\
+	// 		  3			  7
+	// 		/	\			\
+	// 	   1	 4	         9
+	//
+	// And then remove 7, resulting in
+	// 				3
+	// 			/		\
+	// 		  1			 5
+	// 				   /   \
+	// 	       		  4     9
+	t.Run("remove node with only right child", func(t *testing.T) {
+		items := []int{5, 3, 7, 1, 4, 9}
+		removalItem := 7
+		expectedHeightMap := map[int]int{
+			3: 2,
+			5: 1,
+			1: 0,
+			4: 0,
+			9: 0,
+		}
+
+		testHeightAfterRemovalHelper(t, items, removalItem, expectedHeightMap)
+	})
+
