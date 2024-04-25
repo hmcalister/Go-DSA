@@ -430,18 +430,6 @@ func (tree *RedBlackTree[T]) Remove(item T) error {
 	return nil
 }
 
-// Helper method to fix the tree after deleting nodes
-func (tree *RedBlackTree[T]) deleteFix(currentNode *RedBlackTreeNode[T]) {
-	var siblingNode *RedBlackTreeNode[T]
-	for currentNode != tree.root && currentNode.color == color_BLACK {
-		if currentNode == currentNode.parent.left {
-			siblingNode = currentNode.parent.right
-			if siblingNode.color == color_RED {
-				siblingNode.color = color_BLACK
-				currentNode.parent.color = color_RED
-				tree.rotateLeft(currentNode.parent)
-				siblingNode = currentNode.parent.right
-			}
 
 			if siblingNode.left.color == color_BLACK && siblingNode.right.color == color_BLACK {
 				siblingNode.color = color_RED
