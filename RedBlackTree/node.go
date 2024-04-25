@@ -114,6 +114,19 @@ func (node *RedBlackTreeNode[T]) fixHeight() {
 	node.height = max(leftHeight, rightHeight) + 1
 }
 
+func (node *RedBlackTreeNode[T]) getSibling() *RedBlackTreeNode[T] {
+	if node.parent == nil {
+		return nil
+	}
+
+	// If we are a left child, return the parent's right child and vice versa
+	if node.parent.left == node {
+		return node.parent.right
+	} else {
+		return node.parent.left
+	}
+}
+
 // ----------------------------------------------------------------------------
 // Successor and Predecessor methods
 
