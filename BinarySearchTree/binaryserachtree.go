@@ -68,7 +68,7 @@ func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) 
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
-func (tree *BinarySearchTree[T]) ApplyTreePreorder(f func(item T)) {
+func ApplyTreePreorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
@@ -79,7 +79,7 @@ func (tree *BinarySearchTree[T]) ApplyTreePreorder(f func(item T)) {
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
-func (tree *BinarySearchTree[T]) ApplyTreeInorder(f func(item T)) {
+func ApplyTreeInorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
@@ -90,7 +90,7 @@ func (tree *BinarySearchTree[T]) ApplyTreeInorder(f func(item T)) {
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 // This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
-func (tree *BinarySearchTree[T]) ApplyTreePostorder(f func(item T)) {
+func ApplyTreePostorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
