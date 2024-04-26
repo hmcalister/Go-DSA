@@ -91,3 +91,32 @@ func (heap *MaxBinaryHeap[T]) Size() int {
 	return len(heap.heapData)
 }
 
+// ----------------------------------------------------------------------------
+// Remove methods
+
+// Remove (and return) the top (maximal) item from this Heap.
+//
+// If the heap is empty, a EmptyHeapError is returned
+func (heap *MaxBinaryHeap[T]) RemoveMax() (T, error) {
+	if len(heap.heapData) == 0 {
+		return *new(T), ErrorEmptyHeap
+	}
+
+	// Get the root element, so we can return it later
+	maxElement := heap.heapData[0]
+
+	// Then, replace the final element with the root element
+	// and slice off one element to remove the root
+	heapSize := len(heap.heapData) - 1
+	heap.heapData[0], heap.heapData[heapSize] = heap.heapData[heapSize], heap.heapData[0]
+	heap.heapData = heap.heapData[:heapSize]
+
+	// Finally, heapify the result
+	// We only need to heapify the root
+	if len(heap.heapData) > 0 {
+		heap.maxHeapify(0)
+	}
+
+	return maxElement, nil
+}
+
