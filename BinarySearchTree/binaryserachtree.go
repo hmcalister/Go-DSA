@@ -37,7 +37,7 @@ func (tree *BinarySearchTree[T]) Root() *BinarySearchTreeNode[T] {
 func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) {
 	// If the root is nil, the item cannot be in the tree
 	if tree.root == nil {
-		return nil, &ItemNotFoundError[T]{item}
+		return nil, ErrorItemNotFound
 	}
 
 	// Now we know the root is non-nil we can start traversing the tree
@@ -58,7 +58,7 @@ func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) 
 	}
 
 	// If we exit the loop, that means we have reached a leaf without finding the item
-	return nil, &ItemNotFoundError[T]{item}
+	return nil, ErrorItemNotFound
 }
 
 // ----------------------------------------------------------------------------
@@ -158,7 +158,7 @@ func (tree *BinarySearchTree[T]) Add(item T) error {
 
 		// If the item we are inserting is the same as this node, we reject it and return an error
 		if currentCompare == 0 {
-			return &ItemAlreadyPresentError[T]{item}
+			return ErrorItemAlreadyPresent
 		}
 
 		// Otherwise, we can walk to this node's left or right child based on currentCompare
@@ -233,7 +233,7 @@ func (tree *BinarySearchTree[T]) removeFixupHelper(node *BinarySearchTreeNode[T]
 func (tree *BinarySearchTree[T]) Remove(item T) error {
 	// If the tree is empty, we cannot find the item
 	if tree.root == nil {
-		return &ItemNotFoundError[T]{item}
+		return ErrorItemNotFound
 	}
 
 	// If we are trying to delete the root node, we must handle it slightly differently since parent is nil
@@ -263,7 +263,7 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 	}
 
 	if currentNode == nil {
-		return &ItemNotFoundError[T]{item}
+		return ErrorItemNotFound
 	}
 
 	// We now have the node to delete held in currentNode.
