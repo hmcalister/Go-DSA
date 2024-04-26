@@ -120,3 +120,43 @@ func (heap *MaxBinaryHeap[T]) RemoveMax() (T, error) {
 	return maxElement, nil
 }
 
+// Remove (and return) an item from the heap.
+// If the heap is empty, a ErrorItemNotPresent is returned
+// If the item is not present in the tree, a ErrorItemNotPresent is returned
+func (heap *MaxBinaryHeap[T]) RemoveItem(item T) (T, error) {
+	if len(heap.heapData) == 0 {
+		return *new(T), ErrorEmptyHeap
+	}
+
+	// First, see if the element exists
+
+	targetItemIndex := -1
+	for i, currItem := range heap.heapData {
+		if heap.comparatorFunction(currItem, item) == 0 {
+			targetItemIndex = i
+			break
+		}
+	}
+	// If we did not set the index, we did not find the item
+	if targetItemIndex == -1 {
+		return *new(T), ErrorItemNotPresent
+	}
+
+	// Here's the sneaky trick:
+	// Make the target item larger than the root,
+	// then heapify to get the node to the top, and finally
+	// delete the root using RemoveMax()
+	//
+	// To do this, we will repeat the heapify algorithm here but enforce largest is always this element
+	targetItem := heap.heapData[targetItemIndex]
+	currentIndex := targetItemIndex
+	for currentIndex > 0 {
+		parentIndex := (currentIndex - 1) / 2
+		heap.heapData[parentIndex], heap.heapData[currentIndex] = heap.heapData[currentIndex], heap.heapData[parentIndex]
+		currentIndex = parentIndex
+	}
+
+	heap.RemoveMax()
+
+	return targetItem, nil
+}
