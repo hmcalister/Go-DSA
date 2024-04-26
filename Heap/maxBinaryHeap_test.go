@@ -24,3 +24,19 @@ func TestMaxHeapStringInit(t *testing.T) {
 	heap.NewMaxBinaryHeap[string](comparator.DefaultStringComparator)
 }
 
+func TestMaxHeapStructInit(t *testing.T) {
+	type S struct {
+		_ int
+		f float64
+	}
+	heap.NewMaxBinaryHeap[S](func(a, b S) int {
+		if a.f > b.f {
+			return 1
+		} else if a.f < b.f {
+			return -1
+		} else {
+			return 0
+		}
+	})
+}
+
