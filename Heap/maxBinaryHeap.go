@@ -72,3 +72,17 @@ func (heap *MaxBinaryHeap[T]) Add(item T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get methods
+
+// Get the max-element of this heap
+//
+// If the heap is empty, a EmptyHeapError is returned
+func (heap *MaxBinaryHeap[T]) GetMax() (T, error) {
+	if len(heap.heapData) == 0 {
+		return *new(T), ErrorEmptyHeap
+	}
+
+	return heap.heapData[0], nil
+}
+
