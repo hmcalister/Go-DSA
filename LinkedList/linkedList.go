@@ -45,7 +45,7 @@ func (list *LinkedList[T]) Find(predicate func(item T) bool) (T, error) {
 		currentNode = currentNode.next
 	}
 
-	return *new(T), &ItemNotFoundError{}
+	return *new(T), ErrorItemNotFound
 }
 
 // Find and return the last item in the list satisfying a predicate function.
@@ -61,7 +61,7 @@ func (list *LinkedList[T]) ReverseFind(predicate func(item T) bool) (T, error) {
 		currentNode = currentNode.prev
 	}
 
-	return *new(T), &ItemNotFoundError{}
+	return *new(T), ErrorItemNotFound
 }
 
 // Find ALL of the items in the list satisfying a predicate.
@@ -85,10 +85,7 @@ func (list *LinkedList[T]) FindAll(predicate func(item T) bool) []T {
 // Returns an error if the index is out of bounds
 func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 	if list.length <= index {
-		return *new(T), &IndexOutOfBoundsError{
-			targetIndex: index,
-			listLength:  list.length,
-		}
+		return *new(T), ErrorIndexOutOfBounds
 	}
 
 	// If the target index is after the halfway point
@@ -249,10 +246,7 @@ func (list *LinkedList[T]) Add(item T) {
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	// Note here we allow list.length==index, as we *can* insert at the end of the list
 	if list.length < index {
-		return &IndexOutOfBoundsError{
-			targetIndex: index,
-			listLength:  list.length,
-		}
+		return ErrorIndexOutOfBounds
 	}
 
 	newNode := &LinkedListNode[T]{
@@ -321,7 +315,7 @@ func (list *LinkedList[T]) Remove() (T, error) {
 	if list.length == 0 {
 		// Apparently idiomatic "zero-value" of a generic T is *new(T)... feels odd.
 		// https://stackoverflow.com/questions/70585852/return-default-value-for-generic-type
-		return *new(T), &EmptyListError{}
+		return *new(T), ErrorEmptyList
 	}
 
 	// If we have only one element, we must remove both head *and* tail
@@ -363,16 +357,13 @@ func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 	if list.length == 0 {
 		// Apparently idiomatic "zero-value" of a generic T is *new(T)... feels odd.
 		// https://stackoverflow.com/questions/70585852/return-default-value-for-generic-type
-		return *new(T), &EmptyListError{}
+		return *new(T), ErrorEmptyList
 	}
 
 	// Note here we do not allow RemoveAtIndex(list.Length()) as this is "out of bounds"
 	// and unlike inserting it does not make sense to define it here.
 	if list.length <= index {
-		return *new(T), &IndexOutOfBoundsError{
-			targetIndex: index,
-			listLength:  list.length,
-		}
+		return *new(T), ErrorIndexOutOfBounds
 	}
 
 	// If we are removing at the tail of the list,
