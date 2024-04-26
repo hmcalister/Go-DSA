@@ -552,7 +552,7 @@ func TestRemoveCheckOrdering(t *testing.T) {
 				expectedInorderTraversal += fmt.Sprintf("%d,", item)
 			}
 			inorderTraversal := ""
-			tree.ApplyTreeInorder(func(item int) {
+			binarysearchtree.ApplyTreeInorder(tree, func(item int) {
 				inorderTraversal += fmt.Sprintf("%d,", item)
 			})
 
