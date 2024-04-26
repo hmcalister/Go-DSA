@@ -27,3 +27,24 @@ func NewMinBinaryHeap[T any](comparatorFunction comparator.ComparatorFunction[T]
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Heap Helper Methods
+
+// Min-Heapify the heap
+func (heap *MinBinaryHeap[T]) minHeapify(targetIndex int) {
+	leftIndex := 2*targetIndex + 1
+	rightIndex := 2*targetIndex + 2
+
+	smallestIndex := targetIndex
+	if leftIndex < len(heap.heapData) && heap.comparatorFunction(heap.heapData[leftIndex], heap.heapData[smallestIndex]) < 0 {
+		smallestIndex = leftIndex
+	}
+	if rightIndex < len(heap.heapData) && heap.comparatorFunction(heap.heapData[rightIndex], heap.heapData[smallestIndex]) < 0 {
+		smallestIndex = rightIndex
+	}
+	if smallestIndex != targetIndex {
+		heap.heapData[targetIndex], heap.heapData[smallestIndex] = heap.heapData[smallestIndex], heap.heapData[targetIndex]
+		heap.minHeapify(smallestIndex)
+	}
+}
+
