@@ -114,3 +114,22 @@ func TestMaxHeapAddRandomOrder(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Remove Tests
+
+func TestMaxHeapRemoveMax(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	for range items {
+		_, err := heap.RemoveMax()
+		if err != nil {
+			t.Errorf("failed to remove max item from a heap of size %v", heap.Size())
+		}
+	}
+}
+
