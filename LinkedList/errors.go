@@ -1,28 +1,11 @@
 package linkedlist
 
-import "fmt"
+import (
+	"errors"
+)
 
-// ----------------------------------------------------------------------------
-type IndexOutOfBoundsError struct {
-	targetIndex int
-	listLength  int
-}
-
-func (e *IndexOutOfBoundsError) Error() string {
-	return fmt.Sprintf("index %d out of bound for list of length %d", e.targetIndex, e.listLength)
-}
-
-// ----------------------------------------------------------------------------
-type EmptyListError struct {
-}
-
-func (e *EmptyListError) Error() string {
-	return "cannot perform operation on an empty list"
-}
-
-// ----------------------------------------------------------------------------
-type ItemNotFoundError struct{}
-
-func (e *ItemNotFoundError) Error() string {
-	return "item not found in list"
-}
+var (
+	ErrorIndexOutOfBounds = errors.New("index out of bounds for list")
+	ErrorEmptyList        = errors.New("cannot perform operation on an empty list")
+	ErrorItemNotFound     = errors.New("item not found in list")
+)
