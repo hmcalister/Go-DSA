@@ -219,3 +219,33 @@ func TestMinHeapAddGetMin(t *testing.T) {
 	}
 }
 
+func TestMinHeapRemoveGetMin(t *testing.T) {
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	numItems := 100
+	items := make([]int, numItems)
+	for i := range numItems {
+		items[i] = i
+	}
+	rand.Shuffle(numItems, func(i, j int) {
+		items[i], items[j] = items[j], items[i]
+	})
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	numRemove := 50
+	for range numRemove {
+		heap.RemoveMin()
+	}
+
+	heapMinItem, err := heap.GetMin()
+	expectedMinItem := numRemove
+	if err != nil {
+		t.Errorf("found error when getting min item from a non-empty heap: %v", err)
+	}
+	if heapMinItem != expectedMinItem {
+		t.Errorf("heap min item (%v) does not match expected min item (%v)", heapMinItem, expectedMinItem)
+	}
+}
