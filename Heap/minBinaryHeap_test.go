@@ -40,3 +40,15 @@ func TestMinHeapStructInit(t *testing.T) {
 	})
 }
 
+// ----------------------------------------------------------------------------
+// Misc Tests
+
+func TestMinHeapRemoveFromEmpty(t *testing.T) {
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	_, err := heap.RemoveMin()
+	if err == nil {
+		t.Errorf("got nil error when removing from empty heap")
+	}
+}
+
