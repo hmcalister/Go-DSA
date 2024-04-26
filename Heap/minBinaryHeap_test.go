@@ -85,3 +85,15 @@ func TestMinHeapAfterRemoveSize(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Add Tests
+
+func TestMinHeapAdd(t *testing.T) {
+	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+}
+
