@@ -52,3 +52,13 @@ func TestMinHeapRemoveFromEmpty(t *testing.T) {
 	}
 }
 
+func TestMinHeapEmptySize(t *testing.T) {
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	expectedSize := 0
+	heapSize := heap.Size()
+	if heapSize != expectedSize {
+		t.Errorf("heap size (%v) does not match expected size (%v)", heapSize, expectedSize)
+	}
+}
+
