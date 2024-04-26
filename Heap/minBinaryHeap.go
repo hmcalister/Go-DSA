@@ -48,3 +48,27 @@ func (heap *MinBinaryHeap[T]) minHeapify(targetIndex int) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Add methods
+
+// Add a new element to the heap.
+//
+// Heaps are allowed to have duplicate values.
+func (heap *MinBinaryHeap[T]) Add(item T) {
+	// Simply add the new item to the end of the heap
+	heap.heapData = append(heap.heapData, item)
+
+	// Then heapify
+	//
+	// If we have no items or only one item, we are already a heap
+	if len(heap.heapData) <= 1 {
+		return
+	}
+
+	// Start from the lowest leaf node, given by index (n/2 - 1), and walk up the tree to the root,
+	// calling the heapify function as we go
+	for i := len(heap.heapData)/2 - 1; i >= 0; i -= 1 {
+		heap.minHeapify(i)
+	}
+}
+
