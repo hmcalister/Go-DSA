@@ -153,7 +153,7 @@ func TestMaxHeapRemoveMaxItem(t *testing.T) {
 	}
 }
 
-func TestMaxHeapRemoveElement(t *testing.T) {
+func TestMaxHeapRemoveItem(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
