@@ -171,3 +171,22 @@ func TestMaxHeapRemoveItem(t *testing.T) {
 	}
 }
 
+func TestMaxHeapManyRemoveElement(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	for _, targetItem := range items {
+		removedItem, err := heap.RemoveItem(targetItem)
+		if err != nil {
+			t.Errorf("failed to remove item from a heap of size %v", heap.Size())
+		}
+		if removedItem != targetItem {
+			t.Errorf("removed item item (%v) does not match expected max item (%v)", removedItem, targetItem)
+		}
+	}
+}
+
