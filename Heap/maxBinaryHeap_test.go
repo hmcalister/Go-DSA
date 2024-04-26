@@ -190,3 +190,32 @@ func TestMaxHeapManyRemoveItem(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get max Tests
+
+func TestMaxHeapAddGetMax(t *testing.T) {
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	numItems := 100
+	items := make([]int, numItems)
+	for i := range numItems {
+		items[i] = i
+	}
+	rand.Shuffle(numItems, func(i, j int) {
+		items[i], items[j] = items[j], items[i]
+	})
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	heapMaxItem, err := heap.GetMax()
+	expectedMaxItem := numItems - 1
+	if err != nil {
+		t.Errorf("found error when getting max item from a non-empty heap: %v", err)
+	}
+	if heapMaxItem != expectedMaxItem {
+		t.Errorf("heap max item (%v) does not match expected max item (%v)", heapMaxItem, expectedMaxItem)
+	}
+}
+
