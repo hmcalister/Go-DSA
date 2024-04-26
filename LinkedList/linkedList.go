@@ -115,7 +115,7 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 // It is expected that ForwardApply does *not* update the list items.
 // To modify the list items, use ForwardMap.
 // To accumulate values over the list, use ForwardFold.
-func (list *LinkedList[T]) ForwardApply(f func(item T)) {
+func ForwardApply[T any](list *LinkedList[T], f func(item T)) {
 	currentNode := list.head
 	for currentNode != nil {
 		f(currentNode.item)
@@ -160,7 +160,7 @@ func ForwardFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func
 // It is expected that ReverseApply does *not* update the list items.
 // To modify the list items, use ReverseMap.
 // To accumulate values over the list, use ReverseFold.
-func (list *LinkedList[T]) ReverseApply(f func(item T)) {
+func ReverseApply[T any](list *LinkedList[T], f func(item T)) {
 	currentNode := list.tail
 	for currentNode != nil {
 		f(currentNode.item)
