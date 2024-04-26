@@ -148,7 +148,7 @@ func TestPointerCorrectnessAfterRemove(t *testing.T) {
 			expectedConcatString += item
 		}
 		concatStr := ""
-		list.ForwardApply(func(item string) {
+		linkedlist.ForwardApply(list, func(item string) {
 			concatStr += item
 		})
 		if expectedConcatString != concatStr {
@@ -163,7 +163,7 @@ func TestPointerCorrectnessAfterRemove(t *testing.T) {
 			expectedConcatString += item
 		}
 		concatStr = ""
-		list.ReverseApply(func(item string) {
+		linkedlist.ReverseApply(list, func(item string) {
 			concatStr += item
 		})
 		if expectedConcatString != concatStr {
@@ -191,7 +191,7 @@ func TestPointerCorrectnessAfterRemoveAtIndex(t *testing.T) {
 			expectedConcatString += item
 		}
 		concatStr := ""
-		list.ForwardApply(func(item string) {
+		linkedlist.ForwardApply(list, func(item string) {
 			concatStr += item
 		})
 		if expectedConcatString != concatStr {
@@ -205,7 +205,7 @@ func TestPointerCorrectnessAfterRemoveAtIndex(t *testing.T) {
 			expectedConcatString += item
 		}
 		concatStr = ""
-		list.ReverseApply(func(item string) {
+		linkedlist.ReverseApply(list, func(item string) {
 			concatStr += item
 		})
 		if expectedConcatString != concatStr {

@@ -117,7 +117,7 @@ func TestAddItemsCheckOrdering(t *testing.T) {
 			expectedInorderTraversal += fmt.Sprintf("%d,", item)
 		}
 		inorderTraversal := ""
-		tree.ApplyTreeInorder(func(item int) {
+		redblacktree.ApplyTreeInorder(tree, func(item int) {
 			inorderTraversal += fmt.Sprintf("%d,", item)
 		})
 

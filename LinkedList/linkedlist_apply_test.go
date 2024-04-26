@@ -16,7 +16,7 @@ func TestForwardApply(t *testing.T) {
 	}
 
 	concatString := ""
-	list.ForwardApply(func(item string) { concatString += item })
+	linkedlist.ForwardApply(list, func(item string) { concatString += item })
 	expectedConcatString := ""
 	for _, item := range items {
 		expectedConcatString += item
@@ -35,7 +35,7 @@ func TestReverseApply(t *testing.T) {
 	}
 
 	concatString := ""
-	list.ReverseApply(func(item string) { concatString += item })
+	linkedlist.ReverseApply(list, func(item string) { concatString += item })
 
 	slices.Reverse(items)
 	expectedConcatString := ""
@@ -56,7 +56,7 @@ func TestForwardMap(t *testing.T) {
 	}
 
 	globalCounter := 0
-	list.ForwardMap(func(item string) string {
+	linkedlist.ForwardMap(list, func(item string) string {
 		newItem := fmt.Sprintf("%v, %v", item, globalCounter)
 		globalCounter += 1
 		return newItem
@@ -79,7 +79,7 @@ func TestReverseMap(t *testing.T) {
 	}
 
 	globalCounter := 0
-	list.ReverseMap(func(item string) string {
+	linkedlist.ReverseMap(list, func(item string) string {
 		newItem := fmt.Sprintf("%v, %v", item, globalCounter)
 		globalCounter += 1
 		return newItem

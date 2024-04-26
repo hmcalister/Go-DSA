@@ -198,33 +198,33 @@ func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
 // This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
-func (tree *RedBlackTree[T]) ApplyTreePreorder(f func(item T)) {
+func ApplyTreePreorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
-	tree.root.ApplyNodePreorder(f)
+	ApplyNodePreorder(tree.root, f)
 }
 
 // Apply a function f to each node in a tree Inorder.
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
 // This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
-func (tree *RedBlackTree[T]) ApplyTreeInorder(f func(item T)) {
+func ApplyTreeInorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
-	tree.root.ApplyNodeInorder(f)
+	ApplyNodeInorder(tree.root, f)
 }
 
 // Apply a function f to each node in a tree Postorder.
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
 // This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
-func (tree *RedBlackTree[T]) ApplyTreePostorder(f func(item T)) {
+func ApplyTreePostorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
-	tree.root.ApplyNodePostorder(f)
+	ApplyNodePostorder(tree.root, f)
 }
 
 // ----------------------------------------------------------------------------
