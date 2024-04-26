@@ -85,3 +85,15 @@ func TestMaxHeapAfterRemoveSize(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Add Tests
+
+func TestMaxHeapAdd(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+}
+
