@@ -77,7 +77,7 @@ func (tree *RedBlackTree[T]) rotateRight(node *RedBlackTreeNode[T]) error {
 	P := node.left
 
 	if P == nil {
-		return &RotationNotPossible[T]{}
+		return ErrorRotationNotPossible
 	}
 
 	tree.replaceNode(G, P)
@@ -133,7 +133,7 @@ func (tree *RedBlackTree[T]) rotateLeft(node *RedBlackTreeNode[T]) error {
 	P := node.right
 
 	if P == nil {
-		return &RotationNotPossible[T]{}
+		return ErrorRotationNotPossible
 	}
 
 	tree.replaceNode(G, P)
@@ -167,7 +167,7 @@ func (tree *RedBlackTree[T]) rotateLeft(node *RedBlackTreeNode[T]) error {
 func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 	// If the root is nil, the item cannot be in the tree
 	if tree.root == nil {
-		return nil, &ItemNotFoundError[T]{item}
+		return nil, ErrorItemNotFound
 	}
 
 	// Now we know the root is non-nil we can start traversing the tree
@@ -188,7 +188,7 @@ func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 	}
 
 	// If we exit the loop, that means we have reached a leaf without finding the item
-	return nil, &ItemNotFoundError[T]{item}
+	return nil, ErrorItemNotFound
 }
 
 // ----------------------------------------------------------------------------
@@ -337,7 +337,7 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 
 		// If the item is the same as the current node, return an error and do not insert
 		if traverseCompare == 0 {
-			return &ItemAlreadyPresentError[T]{item}
+			return ErrorItemAlreadyPresent
 		}
 
 		// Otherwise, we can walk to this node's left or right child based on currentCompare
