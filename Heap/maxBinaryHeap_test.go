@@ -164,7 +164,7 @@ func TestMaxHeapRemoveItem(t *testing.T) {
 	targetItem := 5
 	removedItem, err := heap.RemoveItem(targetItem)
 	if err != nil {
-		t.Errorf("failed to remove element from a heap of size %v", heap.Size())
+		t.Errorf("failed to remove item from a heap of size %v", heap.Size())
 	}
 	if removedItem != targetItem {
 		t.Errorf("removed item item (%v) does not match expected max item (%v)", removedItem, targetItem)
