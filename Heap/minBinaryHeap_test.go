@@ -97,3 +97,20 @@ func TestMinHeapAdd(t *testing.T) {
 	}
 }
 
+func TestMinHeapAddRandomOrder(t *testing.T) {
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	numItems := 100
+	items := make([]int, numItems)
+	for i := range numItems {
+		items[i] = i
+	}
+	rand.Shuffle(numItems, func(i, j int) {
+		items[i], items[j] = items[j], items[i]
+	})
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+}
+
