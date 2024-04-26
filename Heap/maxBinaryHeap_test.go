@@ -20,3 +20,7 @@ func TestMaxHeapFloatInit(t *testing.T) {
 	heap.NewMaxBinaryHeap[float64](comparator.DefaultFloat64Comparator)
 }
 
+func TestMaxHeapStringInit(t *testing.T) {
+	heap.NewMaxBinaryHeap[string](comparator.DefaultStringComparator)
+}
+
