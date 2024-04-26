@@ -86,3 +86,8 @@ func (heap *MaxBinaryHeap[T]) GetMax() (T, error) {
 	return heap.heapData[0], nil
 }
 
+// Get the size of this heap
+func (heap *MaxBinaryHeap[T]) Size() int {
+	return len(heap.heapData)
+}
+
