@@ -72,7 +72,7 @@ func ApplyTreePreorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
-	tree.root.ApplyNodePreorder(f)
+	ApplyNodePreorder(tree.root, f)
 }
 
 // Apply a function f to each node in a tree Inorder.
@@ -83,7 +83,7 @@ func ApplyTreeInorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
-	tree.root.ApplyNodeInorder(f)
+	ApplyNodeInorder(tree.root, f)
 }
 
 // Apply a function f to each node in a tree Postorder.
@@ -94,7 +94,7 @@ func ApplyTreePostorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
 	}
-	tree.root.ApplyNodePostorder(f)
+	ApplyNodePostorder(tree.root, f)
 }
 
 // ----------------------------------------------------------------------------
