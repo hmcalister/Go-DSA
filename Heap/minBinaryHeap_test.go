@@ -133,3 +133,23 @@ func TestMinHeapRemoveMin(t *testing.T) {
 	}
 }
 
+func TestMinHeapRemoveMinItem(t *testing.T) {
+	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	slices.Reverse(items)
+	for _, expectedItem := range items {
+		removedItem, err := heap.RemoveMin()
+		if err != nil {
+			t.Errorf("failed to remove min item from a heap of size %v", heap.Size())
+		}
+		if removedItem != expectedItem {
+			t.Errorf("removed min item (%v) does not match expected min item (%v)", removedItem, expectedItem)
+		}
+	}
+}
+
