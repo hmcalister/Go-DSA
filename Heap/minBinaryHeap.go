@@ -72,3 +72,22 @@ func (heap *MinBinaryHeap[T]) Add(item T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get methods
+
+// Get the Min-element of this heap
+//
+// If the heap is empty, a EmptyHeapError is returned
+func (heap *MinBinaryHeap[T]) GetMin() (T, error) {
+	if len(heap.heapData) == 0 {
+		return *new(T), ErrorEmptyHeap
+	}
+
+	return heap.heapData[0], nil
+}
+
+// Get the size of this heap
+func (heap *MinBinaryHeap[T]) Size() int {
+	return len(heap.heapData)
+}
+
