@@ -62,3 +62,14 @@ func TestMinHeapEmptySize(t *testing.T) {
 	}
 }
 
+func TestMinHeapSingleItemSize(t *testing.T) {
+	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap.Add(1)
+
+	expectedSize := 1
+	heapSize := heap.Size()
+	if heapSize != expectedSize {
+		t.Errorf("heap size (%v) does not match expected size (%v)", heapSize, expectedSize)
+	}
+}
+
