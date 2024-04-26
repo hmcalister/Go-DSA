@@ -27,3 +27,24 @@ func NewMaxBinaryHeap[T any](comparatorFunction comparator.ComparatorFunction[T]
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Heap Helper Methods
+
+// Max-Heapify the heap
+func (heap *MaxBinaryHeap[T]) maxHeapify(targetIndex int) {
+	leftIndex := 2*targetIndex + 1
+	rightIndex := 2*targetIndex + 2
+
+	largestIndex := targetIndex
+	if leftIndex < len(heap.heapData) && heap.comparatorFunction(heap.heapData[leftIndex], heap.heapData[largestIndex]) > 0 {
+		largestIndex = leftIndex
+	}
+	if rightIndex < len(heap.heapData) && heap.comparatorFunction(heap.heapData[rightIndex], heap.heapData[largestIndex]) > 0 {
+		largestIndex = rightIndex
+	}
+	if largestIndex != targetIndex {
+		heap.heapData[targetIndex], heap.heapData[largestIndex] = heap.heapData[largestIndex], heap.heapData[targetIndex]
+		heap.maxHeapify(largestIndex)
+	}
+}
+
