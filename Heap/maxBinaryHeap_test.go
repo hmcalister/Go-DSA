@@ -40,3 +40,15 @@ func TestMaxHeapStructInit(t *testing.T) {
 	})
 }
 
+// ----------------------------------------------------------------------------
+// Misc Tests
+
+func TestMaxHeapRemoveFromEmpty(t *testing.T) {
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	_, err := heap.RemoveMax()
+	if err == nil {
+		t.Errorf("got nil error when removing from empty heap")
+	}
+}
+
