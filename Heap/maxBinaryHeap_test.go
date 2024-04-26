@@ -62,3 +62,14 @@ func TestMaxHeapEmptySize(t *testing.T) {
 	}
 }
 
+func TestMaxHeapSingleItemSize(t *testing.T) {
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap.Add(1)
+
+	expectedSize := 1
+	heapSize := heap.Size()
+	if heapSize != expectedSize {
+		t.Errorf("heap size (%v) does not match expected size (%v)", heapSize, expectedSize)
+	}
+}
+
