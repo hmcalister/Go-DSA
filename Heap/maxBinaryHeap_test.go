@@ -133,3 +133,23 @@ func TestMaxHeapRemoveMax(t *testing.T) {
 	}
 }
 
+func TestMaxHeapRemoveMaxItem(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	slices.Reverse(items)
+	for _, expectedItem := range items {
+		removedItem, err := heap.RemoveMax()
+		if err != nil {
+			t.Errorf("failed to remove max item from a heap of size %v", heap.Size())
+		}
+		if removedItem != expectedItem {
+			t.Errorf("removed max item (%v) does not match expected max item (%v)", removedItem, expectedItem)
+		}
+	}
+}
+
