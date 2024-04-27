@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
-	redblacktree "github.com/hmcalister/Go-DSA/RedBlackTree"
+	redblacktree "github.com/hmcalister/Go-DSA/tree/RedBlackTree"
 )
 
 func TestAddItems(t *testing.T) {
