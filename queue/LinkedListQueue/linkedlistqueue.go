@@ -46,3 +46,21 @@ func (queue *LinkedListQueue[T]) Size() int {
 	return queue.queueData.Length()
 }
 
+// ----------------------------------------------------------------------------
+// Remove methods
+
+// Dequeue an item, removing from the front of the queue.
+//
+// Returns an error if the queue is empty
+func (queue *LinkedListQueue[T]) Remove() (T, error) {
+	if queue.queueData.Length() == 0 {
+		return *new(T), ErrorQueueEmpty
+	}
+
+	item, err := queue.queueData.RemoveAtIndex(0)
+	if err != nil {
+		return *new(T), err
+	}
+
+	return item, nil
+}
