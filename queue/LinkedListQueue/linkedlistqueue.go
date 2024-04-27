@@ -14,3 +14,11 @@ func New[T any]() *LinkedListQueue[T] {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Enqueue an item, adding it to the end of the queue.
+func (queue *LinkedListQueue[T]) Add(item T) {
+	queue.queueData.Add(item)
+}
+
