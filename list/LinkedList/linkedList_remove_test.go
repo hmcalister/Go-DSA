@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
+	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 )
 
 // a helper method to test removing items of a generic data type from a list.

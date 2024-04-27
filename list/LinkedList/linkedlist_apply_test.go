@@ -5,7 +5,7 @@ import (
 	"slices"
 	"testing"
 
-	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
+	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 )
 
 func TestForwardApply(t *testing.T) {

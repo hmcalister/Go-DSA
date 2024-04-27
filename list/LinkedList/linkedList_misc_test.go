@@ -3,7 +3,7 @@ package linkedlist_test
 import (
 	"testing"
 
-	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
+	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 )
 
 func TestLinkedListInit(t *testing.T) {

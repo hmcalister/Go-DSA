@@ -3,8 +3,8 @@ package binarysearchtree_test
 import (
 	"testing"
 
-	binarysearchtree "github.com/hmcalister/Go-DSA/BinarySearchTree"
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
+	binarysearchtree "github.com/hmcalister/Go-DSA/tree/BinarySearchTree"
 )
 
 func TestInitializeTreeGenericTypes(t *testing.T) {

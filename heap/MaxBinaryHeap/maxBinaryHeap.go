@@ -1,4 +1,4 @@
-package heap
+package maxbinaryheap
 
 import (
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
@@ -12,7 +12,7 @@ type MaxBinaryHeap[T any] struct {
 // Create a new max-BinaryHeap, with comparator given by the comparatorFunction.
 //
 // See `github.com/hmcalister/Go-DSA/Comparator` for more information on the comparator.
-func NewMaxBinaryHeap[T any](comparatorFunction comparator.ComparatorFunction[T]) *MaxBinaryHeap[T] {
+func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *MaxBinaryHeap[T] {
 	return &MaxBinaryHeap[T]{
 		// Store the heap as an array.
 		// The root is stored in heapData[0], then recursively the

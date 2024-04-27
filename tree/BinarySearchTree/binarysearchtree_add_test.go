@@ -6,8 +6,8 @@ import (
 	"slices"
 	"testing"
 
-	binarysearchtree "github.com/hmcalister/Go-DSA/BinarySearchTree"
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
+	binarysearchtree "github.com/hmcalister/Go-DSA/tree/BinarySearchTree"
 )
 
 func TestAddItems(t *testing.T) {
