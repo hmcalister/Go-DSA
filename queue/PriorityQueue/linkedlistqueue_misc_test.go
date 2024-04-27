@@ -37,3 +37,11 @@ func TestPriorityQueueInit(t *testing.T) {
 	})
 }
 
+func TestCheckPeekOfEmptyPriorityQueue(t *testing.T) {
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	_, err := queue.Peek()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when peeking at empty queue", err)
+	}
+}
