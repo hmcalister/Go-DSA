@@ -46,3 +46,8 @@ func (queue *PriorityQueue[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Get the size of the queue, the number of items in the queue.
+func (queue *PriorityQueue[T]) Size() int {
+	return queue.queueData.Size()
+}
+
