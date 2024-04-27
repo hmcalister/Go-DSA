@@ -75,10 +75,10 @@ func (heap *MinBinaryHeap[T]) Add(item T) {
 // ----------------------------------------------------------------------------
 // Get methods
 
-// Get the Min-element of this heap.
+// Get the Min-element of this heap. The item is not removed from the heap.
 //
 // If the heap is empty, a EmptyHeapError is returned.
-func (heap *MinBinaryHeap[T]) GetMin() (T, error) {
+func (heap *MinBinaryHeap[T]) PeekMin() (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
 	}
