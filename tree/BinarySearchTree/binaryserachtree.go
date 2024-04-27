@@ -4,6 +4,9 @@ import (
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
 )
 
+// Implement a binary search tree.
+//
+// A BST has items stored in nodes, such that all left/right children are respectively smaller/larger than the parent node.
 type BinarySearchTree[T any] struct {
 	// The root of the tree
 	root *BinarySearchTreeNode[T]
@@ -67,6 +70,7 @@ func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) 
 // Apply a function f to each node in a tree Preorder.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
+//
 // This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
 func ApplyTreePreorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
@@ -78,6 +82,7 @@ func ApplyTreePreorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 // Apply a function f to each node in a tree Inorder.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
+//
 // This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
 func ApplyTreeInorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
@@ -89,6 +94,7 @@ func ApplyTreeInorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 // Apply a function f to each node in a tree Postorder.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
+//
 // This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
 func ApplyTreePostorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 	if tree.root == nil {
@@ -208,7 +214,7 @@ func (tree *BinarySearchTree[T]) Add(item T) error {
 // ----------------------------------------------------------------------------
 // Remove Methods
 
-// A helper method to fixup nodes from a deleted node up to the root
+// A helper method to fixup nodes from a deleted node up to the root.
 func (tree *BinarySearchTree[T]) removeFixupHelper(node *BinarySearchTreeNode[T]) {
 	for node != nil {
 		node.size -= 1
@@ -229,7 +235,7 @@ func (tree *BinarySearchTree[T]) removeFixupHelper(node *BinarySearchTreeNode[T]
 
 // Remove an item from the tree.
 //
-// Returns an error if the item is not in the tree
+// Returns an error if the item is not in the tree.
 func (tree *BinarySearchTree[T]) Remove(item T) error {
 	// If the tree is empty, we cannot find the item
 	if tree.root == nil {
@@ -391,7 +397,7 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 	return nil
 }
 
-// Remove the root node
+// Remove the root node.
 func (tree *BinarySearchTree[T]) removeRoot() {
 	// if the root is the ONLY node simply remove it
 	if tree.root.left == nil && tree.root.right == nil {
