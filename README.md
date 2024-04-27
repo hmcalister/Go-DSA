@@ -1,6 +1,6 @@
 # Go-DSA
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/hmcalister/Go-DSA.svg)](https://pkg.go.dev/github.com/hmcalister/Go-DSA)
+[![Go Reference](https://pkg.go.dev/badge/github.com/hmcalister/Go-DSA.svg)](https://pkg.go.dev/github.com/hmcalister/Go-DSA) ![Go Test CI Badge](https://github.com/hmcalister/Go-DSA/actions/workflows/goTestCI.yml/badge.svg)
 
 An implementation of some data structures and algorithms in Golang.
 
