@@ -22,3 +22,12 @@ func TestLinkedListQueueRemove(t *testing.T) {
 	}
 }
 
+func TestLinkedListQueueRemoveFromEmptyQueue(t *testing.T) {
+	queue := linkedlistqueue.New[int]()
+
+	_, err := queue.Remove()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when removing from empty queue", err)
+	}
+}
+
