@@ -59,3 +59,33 @@ func TestPriorityQueueCheckPeekAfterRemove(t *testing.T) {
 	}
 }
 
+func TestPriorityQueueCheckPeekAfterRemoveNonpriorityOrder(t *testing.T) {
+	items := []int{5, 4, 3, 2, 1}
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	sortedItems := make([]int, len(items))
+	copy(sortedItems, items)
+	slices.Sort(sortedItems)
+
+	for _, item := range items {
+		queue.Add(item)
+	}
+
+	for _, item := range sortedItems {
+		peekItem, err := queue.Peek()
+		if err != nil {
+			t.Errorf("encountered error (%v) after peeking at non-empty queue", err)
+		}
+
+		expectedItem := item
+		if peekItem != expectedItem {
+			t.Errorf("found peek item (%v) does not match the expected item (%v)", peekItem, expectedItem)
+		}
+
+		_, err = queue.Remove()
+		if err != nil {
+			t.Errorf("encountered error (%v) when removing from non-empty queue", err)
+		}
+	}
+}
+
