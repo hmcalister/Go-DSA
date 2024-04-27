@@ -49,6 +49,25 @@ func (heap *MinBinaryHeap[T]) minHeapify(targetIndex int) {
 }
 
 // ----------------------------------------------------------------------------
+// Get methods
+
+// Get the Min-element of this heap. The item is not removed from the heap.
+//
+// If the heap is empty, a EmptyHeapError is returned.
+func (heap *MinBinaryHeap[T]) PeekMin() (T, error) {
+	if len(heap.heapData) == 0 {
+		return *new(T), ErrorEmptyHeap
+	}
+
+	return heap.heapData[0], nil
+}
+
+// Get the size of this heap
+func (heap *MinBinaryHeap[T]) Size() int {
+	return len(heap.heapData)
+}
+
+// ----------------------------------------------------------------------------
 // Add methods
 
 // Add a new element to the heap.
@@ -70,25 +89,6 @@ func (heap *MinBinaryHeap[T]) Add(item T) {
 	for i := len(heap.heapData)/2 - 1; i >= 0; i -= 1 {
 		heap.minHeapify(i)
 	}
-}
-
-// ----------------------------------------------------------------------------
-// Get methods
-
-// Get the Min-element of this heap. The item is not removed from the heap.
-//
-// If the heap is empty, a EmptyHeapError is returned.
-func (heap *MinBinaryHeap[T]) PeekMin() (T, error) {
-	if len(heap.heapData) == 0 {
-		return *new(T), ErrorEmptyHeap
-	}
-
-	return heap.heapData[0], nil
-}
-
-// Get the size of this heap
-func (heap *MinBinaryHeap[T]) Size() int {
-	return len(heap.heapData)
 }
 
 // ----------------------------------------------------------------------------
