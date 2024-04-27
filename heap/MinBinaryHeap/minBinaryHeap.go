@@ -12,7 +12,7 @@ type MinBinaryHeap[T any] struct {
 // Create a new Min-BinaryHeap, with comparator given by the comparatorFunction.
 //
 // See `github.com/hmcalister/Go-DSA/Comparator` for more information on the comparator.
-func NewMinBinaryHeap[T any](comparatorFunction comparator.ComparatorFunction[T]) *MinBinaryHeap[T] {
+func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *MinBinaryHeap[T] {
 	return &MinBinaryHeap[T]{
 		// Store the heap as an array.
 		// The root is stored in heapData[0], then recursively the
