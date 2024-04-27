@@ -61,3 +61,21 @@ func (queue *PriorityQueue[T]) Add(item T) {
 	queue.queueData.Add(item)
 }
 
+// ----------------------------------------------------------------------------
+// Remove Methods
+
+// Dequeue an item, removing from the front of the queue.
+//
+// Returns an error if the queue is empty.
+func (queue *PriorityQueue[T]) Remove() (T, error) {
+	if queue.queueData.Size() == 0 {
+		return *new(T), ErrorQueueEmpty
+	}
+
+	item, err := queue.queueData.RemoveMin()
+	if err != nil {
+		return *new(T), err
+	}
+
+	return item, nil
+}
