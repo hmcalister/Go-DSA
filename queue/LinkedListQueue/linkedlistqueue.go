@@ -41,3 +41,8 @@ func (queue *LinkedListQueue[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Get the size of the queue, the number of items in the queue.
+func (queue *LinkedListQueue[T]) Size() int {
+	return queue.queueData.Length()
+}
+
