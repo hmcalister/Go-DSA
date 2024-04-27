@@ -27,3 +27,22 @@ func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *PriorityQu
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get Methods
+
+// Peek at the front item in the queue.
+//
+// Returns an error if the queue is empty.
+func (queue *PriorityQueue[T]) Peek() (T, error) {
+	if queue.queueData.Size() == 0 {
+		return *new(T), ErrorQueueEmpty
+	}
+
+	item, err := queue.queueData.PeekMin()
+	if err != nil {
+		return *new(T), err
+	}
+
+	return item, nil
+}
+
