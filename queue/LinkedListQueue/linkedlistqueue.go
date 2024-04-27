@@ -3,6 +3,8 @@ package linkedlistqueue
 import linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 
 // Implement a queue using a linked list.
+//
+// Queues are a first in, first out data structure. Items added to the queue are removed in the order they were added.
 type LinkedListQueue[T any] struct {
 	queueData *linkedlist.LinkedList[T]
 }
