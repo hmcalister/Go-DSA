@@ -49,6 +49,25 @@ func (heap *MaxBinaryHeap[T]) maxHeapify(targetIndex int) {
 }
 
 // ----------------------------------------------------------------------------
+// Get methods
+
+// Peek at the max-element of this heap. The item is not removed from the heap.
+//
+// If the heap is empty, a EmptyHeapError is returned.
+func (heap *MaxBinaryHeap[T]) PeekMax() (T, error) {
+	if len(heap.heapData) == 0 {
+		return *new(T), ErrorEmptyHeap
+	}
+
+	return heap.heapData[0], nil
+}
+
+// Get the size of this heap.
+func (heap *MaxBinaryHeap[T]) Size() int {
+	return len(heap.heapData)
+}
+
+// ----------------------------------------------------------------------------
 // Add methods
 
 // Add a new element to the heap.
@@ -70,25 +89,6 @@ func (heap *MaxBinaryHeap[T]) Add(item T) {
 	for i := len(heap.heapData)/2 - 1; i >= 0; i -= 1 {
 		heap.maxHeapify(i)
 	}
-}
-
-// ----------------------------------------------------------------------------
-// Get methods
-
-// Peek at the max-element of this heap. The item is not removed from the heap.
-//
-// If the heap is empty, a EmptyHeapError is returned.
-func (heap *MaxBinaryHeap[T]) PeekMax() (T, error) {
-	if len(heap.heapData) == 0 {
-		return *new(T), ErrorEmptyHeap
-	}
-
-	return heap.heapData[0], nil
-}
-
-// Get the size of this heap.
-func (heap *MaxBinaryHeap[T]) Size() int {
-	return len(heap.heapData)
 }
 
 // ----------------------------------------------------------------------------

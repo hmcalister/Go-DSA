@@ -17,14 +17,6 @@ func New[T any]() *LinkedListQueue[T] {
 }
 
 // ----------------------------------------------------------------------------
-// Add Methods
-
-// Enqueue an item, adding it to the end of the queue.
-func (queue *LinkedListQueue[T]) Add(item T) {
-	queue.queueData.Add(item)
-}
-
-// ----------------------------------------------------------------------------
 // Get Methods
 
 // Peek at the front item in the queue.
@@ -46,6 +38,14 @@ func (queue *LinkedListQueue[T]) Peek() (T, error) {
 // Get the size of the queue, the number of items in the queue.
 func (queue *LinkedListQueue[T]) Size() int {
 	return queue.queueData.Length()
+}
+
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Enqueue an item, adding it to the end of the queue.
+func (queue *LinkedListQueue[T]) Add(item T) {
+	queue.queueData.Add(item)
 }
 
 // ----------------------------------------------------------------------------
