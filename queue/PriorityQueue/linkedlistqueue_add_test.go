@@ -35,3 +35,22 @@ func TestPriorityQueueCheckPeekAfterAddInPriorityOrder(t *testing.T) {
 	}
 }
 
+func TestPriorityQueueCheckPeekAfterAddInNonpriorityOrder(t *testing.T) {
+	items := []int{5, 4, 3, 2, 1}
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		queue.Add(item)
+
+		peekItem, err := queue.Peek()
+		if err != nil {
+			t.Errorf("encountered error (%v) after peeking at non-empty queue", err)
+		}
+
+		expectedItem := item
+		if peekItem != expectedItem {
+			t.Errorf("found peek item (%v) does not match the expected item (%v)", peekItem, expectedItem)
+		}
+	}
+}
+
