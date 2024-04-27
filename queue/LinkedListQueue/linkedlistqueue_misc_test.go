@@ -26,3 +26,11 @@ func TestLinkedListQueueInit(t *testing.T) {
 	})
 }
 
+func TestCheckPeekOfEmptyLinkedListQueue(t *testing.T) {
+	queue := linkedlistqueue.New[int]()
+
+	_, err := queue.Peek()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when peeking at empty queue", err)
+	}
+}
