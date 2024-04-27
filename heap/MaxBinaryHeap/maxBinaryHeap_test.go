@@ -1,4 +1,4 @@
-package heap_test
+package maxbinaryheap_test
 
 import (
 	"math/rand"
@@ -6,22 +6,22 @@ import (
 	"testing"
 
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
-	heap "github.com/hmcalister/Go-DSA/Heap"
+	maxbinaryheap "github.com/hmcalister/Go-DSA/heap/MaxBinaryHeap"
 )
 
 // ----------------------------------------------------------------------------
 // Initialization Tests
 
 func TestMaxHeapIntInit(t *testing.T) {
-	heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 }
 
 func TestMaxHeapFloatInit(t *testing.T) {
-	heap.NewMaxBinaryHeap[float64](comparator.DefaultFloat64Comparator)
+	maxbinaryheap.NewMaxBinaryHeap[float64](comparator.DefaultFloat64Comparator)
 }
 
 func TestMaxHeapStringInit(t *testing.T) {
-	heap.NewMaxBinaryHeap[string](comparator.DefaultStringComparator)
+	maxbinaryheap.NewMaxBinaryHeap[string](comparator.DefaultStringComparator)
 }
 
 func TestMaxHeapStructInit(t *testing.T) {
@@ -29,7 +29,7 @@ func TestMaxHeapStructInit(t *testing.T) {
 		_ int
 		f float64
 	}
-	heap.NewMaxBinaryHeap[S](func(a, b S) int {
+	maxbinaryheap.NewMaxBinaryHeap[S](func(a, b S) int {
 		if a.f > b.f {
 			return 1
 		} else if a.f < b.f {
@@ -44,7 +44,7 @@ func TestMaxHeapStructInit(t *testing.T) {
 // Misc Tests
 
 func TestMaxHeapRemoveFromEmpty(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	_, err := heap.RemoveMax()
 	if err == nil {
@@ -53,7 +53,7 @@ func TestMaxHeapRemoveFromEmpty(t *testing.T) {
 }
 
 func TestMaxHeapEmptySize(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	expectedSize := 0
 	heapSize := heap.Size()
@@ -63,7 +63,7 @@ func TestMaxHeapEmptySize(t *testing.T) {
 }
 
 func TestMaxHeapSingleItemSize(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 	heap.Add(1)
 
 	expectedSize := 1
@@ -74,7 +74,7 @@ func TestMaxHeapSingleItemSize(t *testing.T) {
 }
 
 func TestMaxHeapAfterRemoveSize(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 	heap.Add(1)
 	heap.RemoveMax()
 
@@ -90,7 +90,7 @@ func TestMaxHeapAfterRemoveSize(t *testing.T) {
 
 func TestMaxHeapAdd(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -98,7 +98,7 @@ func TestMaxHeapAdd(t *testing.T) {
 }
 
 func TestMaxHeapAddRandomOrder(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
 	items := make([]int, numItems)
@@ -119,7 +119,7 @@ func TestMaxHeapAddRandomOrder(t *testing.T) {
 
 func TestMaxHeapRemoveMax(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -135,7 +135,7 @@ func TestMaxHeapRemoveMax(t *testing.T) {
 
 func TestMaxHeapRemoveMaxItem(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -155,7 +155,7 @@ func TestMaxHeapRemoveMaxItem(t *testing.T) {
 
 func TestMaxHeapRemoveItem(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -173,7 +173,7 @@ func TestMaxHeapRemoveItem(t *testing.T) {
 
 func TestMaxHeapManyRemoveItem(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -194,7 +194,7 @@ func TestMaxHeapManyRemoveItem(t *testing.T) {
 // Get max Tests
 
 func TestMaxHeapAddGetMax(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
 	items := make([]int, numItems)
@@ -220,7 +220,7 @@ func TestMaxHeapAddGetMax(t *testing.T) {
 }
 
 func TestMaxHeapRemoveGetMax(t *testing.T) {
-	heap := heap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := maxbinaryheap.NewMaxBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
 	items := make([]int, numItems)

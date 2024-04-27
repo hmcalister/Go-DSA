@@ -1,4 +1,4 @@
-package heap
+package maxbinaryheap
 
 import (
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
