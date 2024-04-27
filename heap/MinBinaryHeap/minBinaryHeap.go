@@ -75,9 +75,9 @@ func (heap *MinBinaryHeap[T]) Add(item T) {
 // ----------------------------------------------------------------------------
 // Get methods
 
-// Get the Min-element of this heap
+// Get the Min-element of this heap.
 //
-// If the heap is empty, a EmptyHeapError is returned
+// If the heap is empty, a EmptyHeapError is returned.
 func (heap *MinBinaryHeap[T]) GetMin() (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
@@ -96,7 +96,7 @@ func (heap *MinBinaryHeap[T]) Size() int {
 
 // Remove (and return) the top (Minimal) item from this Heap.
 //
-// If the heap is empty, a EmptyHeapError is returned
+// If the heap is empty, a EmptyHeapError is returned.
 func (heap *MinBinaryHeap[T]) RemoveMin() (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
@@ -121,8 +121,8 @@ func (heap *MinBinaryHeap[T]) RemoveMin() (T, error) {
 }
 
 // Remove (and return) an item from the heap.
-// If the heap is empty, a ErrorItemNotPresent is returned
-// If the item is not present in the tree, a ErrorItemNotPresent is returned
+// If the heap is empty, a ErrorItemNotPresent is returned.
+// If the item is not present in the tree, a ErrorItemNotPresent is returned.
 func (heap *MinBinaryHeap[T]) RemoveItem(item T) (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
