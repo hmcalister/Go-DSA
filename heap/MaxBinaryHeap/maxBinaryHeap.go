@@ -30,7 +30,7 @@ func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *MaxBinaryH
 // ----------------------------------------------------------------------------
 // Heap Helper Methods
 
-// Max-Heapify the heap
+// Max-Heapify the heap.
 func (heap *MaxBinaryHeap[T]) maxHeapify(targetIndex int) {
 	leftIndex := 2*targetIndex + 1
 	rightIndex := 2*targetIndex + 2
@@ -75,9 +75,9 @@ func (heap *MaxBinaryHeap[T]) Add(item T) {
 // ----------------------------------------------------------------------------
 // Get methods
 
-// Get the max-element of this heap
+// Get the max-element of this heap.
 //
-// If the heap is empty, a EmptyHeapError is returned
+// If the heap is empty, a EmptyHeapError is returned.
 func (heap *MaxBinaryHeap[T]) GetMax() (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
@@ -86,7 +86,7 @@ func (heap *MaxBinaryHeap[T]) GetMax() (T, error) {
 	return heap.heapData[0], nil
 }
 
-// Get the size of this heap
+// Get the size of this heap.
 func (heap *MaxBinaryHeap[T]) Size() int {
 	return len(heap.heapData)
 }
@@ -96,7 +96,7 @@ func (heap *MaxBinaryHeap[T]) Size() int {
 
 // Remove (and return) the top (maximal) item from this Heap.
 //
-// If the heap is empty, a EmptyHeapError is returned
+// If the heap is empty, a EmptyHeapError is returned.
 func (heap *MaxBinaryHeap[T]) RemoveMax() (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
@@ -121,8 +121,8 @@ func (heap *MaxBinaryHeap[T]) RemoveMax() (T, error) {
 }
 
 // Remove (and return) an item from the heap.
-// If the heap is empty, a ErrorItemNotPresent is returned
-// If the item is not present in the tree, a ErrorItemNotPresent is returned
+// If the heap is empty, a ErrorItemNotPresent is returned.
+// If the item is not present in the tree, a ErrorItemNotPresent is returned.
 func (heap *MaxBinaryHeap[T]) RemoveItem(item T) (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap

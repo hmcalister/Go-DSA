@@ -4,6 +4,12 @@ import (
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
 )
 
+// Implement a red black tree.
+//
+// Like a binary search tree, items stored in nodes, such that all left/right children are respectively smaller/larger than the parent node.
+// Unlike a binary search tree, which may become unbalanced and reduce to a linked list, a red black tree will rebalance itself
+// after each addition or removal such that the maximum height is bounded by the log of the number of items.
+// (BST's are worst case bounded linearly by the number of items).
 type RedBlackTree[T any] struct {
 	// The root of the tree
 	root *RedBlackTreeNode[T]
@@ -31,8 +37,8 @@ func (tree *RedBlackTree[T]) Root() *RedBlackTreeNode[T] {
 // ----------------------------------------------------------------------------
 // Misc / Helper methods
 
-// A helper method to transplant two nodes, such that old is replaced by new
-// (oldNode is removed from the tree)
+// A helper method to transplant two nodes, such that old is replaced by new.
+// (oldNode is removed from the tree).
 func (tree *RedBlackTree[T]) replaceNode(oldNode, newNode *RedBlackTreeNode[T]) {
 	if oldNode.parent == nil {
 		tree.root = newNode
@@ -197,6 +203,7 @@ func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 // Apply a function f to each node in a tree Preorder.
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
+//
 // This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
 func ApplyTreePreorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
@@ -208,6 +215,7 @@ func ApplyTreePreorder[T any](tree *RedBlackTree[T], f func(item T)) {
 // Apply a function f to each node in a tree Inorder.
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
+//
 // This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
 func ApplyTreeInorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
@@ -380,56 +388,6 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 // ----------------------------------------------------------------------------
 // Remove Methods
 
-// Remove an item from the tree.
-//
-// Returns an error if the item is not in the tree
-func (tree *RedBlackTree[T]) Remove(item T) error {
-	currentNode, err := tree.Find(item)
-
-	// If item not in tree, return that as error
-	if err != nil {
-		return err
-	}
-
-	// If we have two children, replace with successor
-	if currentNode.left != nil && currentNode.right != nil {
-		successor := currentNode.Successor()
-		currentNode.item, successor.item = successor.item, currentNode.item
-		currentNode = successor
-	}
-
-	// Get the child (if it exists)
-	// If node has NO children, childNode remains nil (and that's okay!)
-	var childNode *RedBlackTreeNode[T]
-	if currentNode.left != nil && currentNode.right == nil {
-		childNode = currentNode.left
-	} else if currentNode.left == nil && currentNode.right != nil {
-		childNode = currentNode.right
-	} else {
-		childNode = nil
-	}
-
-	parentNode := currentNode.parent
-
-	if currentNode.color == color_BLACK {
-		currentNode.color = getNodeColor(childNode)
-		tree.removeCase1(currentNode)
-	}
-
-	tree.replaceNode(currentNode, childNode)
-	if currentNode.parent == nil && childNode != nil {
-		childNode.color = color_BLACK
-	}
-
-	for parentNode != nil {
-		parentNode.fixSize()
-		parentNode.fixHeight()
-		parentNode = parentNode.parent
-	}
-
-	return nil
-}
-
 func (tree *RedBlackTree[T]) removeCase1(node *RedBlackTreeNode[T]) {
 	if node.parent == nil {
 		return
@@ -508,4 +466,54 @@ func (tree *RedBlackTree[T]) removeCase6(node *RedBlackTreeNode[T]) {
 		siblingNode.left.color = color_BLACK
 		tree.rotateRight(node.parent)
 	}
+}
+
+// Remove an item from the tree.
+//
+// Returns an error if the item is not in the tree.
+func (tree *RedBlackTree[T]) Remove(item T) error {
+	currentNode, err := tree.Find(item)
+
+	// If item not in tree, return that as error
+	if err != nil {
+		return err
+	}
+
+	// If we have two children, replace with successor
+	if currentNode.left != nil && currentNode.right != nil {
+		successor := currentNode.Successor()
+		currentNode.item, successor.item = successor.item, currentNode.item
+		currentNode = successor
+	}
+
+	// Get the child (if it exists)
+	// If node has NO children, childNode remains nil (and that's okay!)
+	var childNode *RedBlackTreeNode[T]
+	if currentNode.left != nil && currentNode.right == nil {
+		childNode = currentNode.left
+	} else if currentNode.left == nil && currentNode.right != nil {
+		childNode = currentNode.right
+	} else {
+		childNode = nil
+	}
+
+	parentNode := currentNode.parent
+
+	if currentNode.color == color_BLACK {
+		currentNode.color = getNodeColor(childNode)
+		tree.removeCase1(currentNode)
+	}
+
+	tree.replaceNode(currentNode, childNode)
+	if currentNode.parent == nil && childNode != nil {
+		childNode.color = color_BLACK
+	}
+
+	for parentNode != nil {
+		parentNode.fixSize()
+		parentNode.fixHeight()
+		parentNode = parentNode.parent
+	}
+
+	return nil
 }

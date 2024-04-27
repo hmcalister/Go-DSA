@@ -1,21 +1,21 @@
 package linkedlist
 
 type LinkedList[T any] struct {
-	// Head of the list, the first Node
+	// Head of the list, the first Node.
 	//
-	// nil only when the length is zero
+	// nil only when the length is zero.
 	head *LinkedListNode[T]
 
-	// Tail of the list, the last Node
+	// Tail of the list, the last Node.
 	//
-	// nil only when the length is zero
+	// nil only when the length is zero.
 	tail *LinkedListNode[T]
 
-	// Length of the list, the total number of Nodes
+	// Length of the list, the total number of Nodes.
 	length int
 }
 
-// Create a new linked list
+// Create a new linked list.
 func New[T any]() *LinkedList[T] {
 	return &LinkedList[T]{
 		head:   nil,
@@ -24,7 +24,7 @@ func New[T any]() *LinkedList[T] {
 	}
 }
 
-// Get the length of this linked list
+// Get the length of this linked list.
 func (list *LinkedList[T]) Length() int {
 	return list.length
 }
@@ -33,9 +33,9 @@ func (list *LinkedList[T]) Length() int {
 // Get and Find methods
 
 // Find and return the first item in the list satisfying a predicate function.
-// If no item satisfies the predicate, an error is returned instead
+// If no item satisfies the predicate, an error is returned instead.
 //
-// The list is walked forward during this search
+// The list is walked forward during this search.
 func (list *LinkedList[T]) Find(predicate func(item T) bool) (T, error) {
 	currentNode := list.head
 	for currentNode != nil {
@@ -49,9 +49,9 @@ func (list *LinkedList[T]) Find(predicate func(item T) bool) (T, error) {
 }
 
 // Find and return the last item in the list satisfying a predicate function.
-// If no item satisfies the predicate, an error is returned instead
+// If no item satisfies the predicate, an error is returned instead.
 //
-// The list is walked backward during this search
+// The list is walked backward during this search.
 func (list *LinkedList[T]) ReverseFind(predicate func(item T) bool) (T, error) {
 	currentNode := list.tail
 	for currentNode != nil {
@@ -80,9 +80,9 @@ func (list *LinkedList[T]) FindAll(predicate func(item T) bool) []T {
 	return satisfyingItems
 }
 
-// Get the item at the specified index
+// Get the item at the specified index.
 //
-// Returns an error if the index is out of bounds
+// Returns an error if the index is out of bounds.
 func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 	if list.length <= index {
 		return *new(T), ErrorIndexOutOfBounds
@@ -108,7 +108,7 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 // ----------------------------------------------------------------------------
 // Apply, Map, and Fold methods
 //
-// Methods to apply a function across ALL nodes in a list
+// Methods to apply a function across ALL nodes in a list.
 
 // Iterate over the list in the forward direction and apply a function to each item.
 //
@@ -203,7 +203,7 @@ func ReverseFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func
 // ----------------------------------------------------------------------------
 // Add methods
 
-// Add a new item to the end of the list
+// Add a new item to the end of the list.
 func (list *LinkedList[T]) Add(item T) {
 	newNode := &LinkedListNode[T]{
 		item: item,
@@ -233,15 +233,20 @@ func (list *LinkedList[T]) Add(item T) {
 
 // Add a new item to the list in the specified position.
 //
-// # Returns a IndexOutOfBoundsError if the specified index is out of bounds
+// Returns a IndexOutOfBoundsError if the specified index is out of bounds.
 //
 // Example:
 //
 // ```
+//
 // list := linkedlist.New[string]()
+//
 // list.Add("hello")				// list = ["hello"]
+//
 // list.Add("world")				// list = ["hello", "world"]
+//
 // list.AddAtIndex("(linked!)", 1)	// list = ["hello", "(linked!)", "world"]
+//
 // ````
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	// Note here we allow list.length==index, as we *can* insert at the end of the list
@@ -308,7 +313,7 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 // ----------------------------------------------------------------------------
 // Remove methods
 
-// Remove and return the item from the end of the list
+// Remove and return the item from the end of the list.
 //
 // Returns the item removed, or an error if the list is empty.
 func (list *LinkedList[T]) Remove() (T, error) {
@@ -344,14 +349,21 @@ func (list *LinkedList[T]) Remove() (T, error) {
 // Returns an error if the list is empty, or is the target index is out of range.
 //
 // Example:
+//
 // ```
+//
 // list := linkedlist.New[string]()
+//
 // list.Add("hello")					// list = ["hello"]
+//
 // list.Add("(linked!)")				// list = ["hello", "(linked!)"]
+//
 // list.Add("world")					// list = ["hello", "(linked!)", "world"]
 //
 // item, err := list.RemoveAtIndex(1)	// list = ["hello", "world"]
+//
 // fmt.Printf("%v", item)				// (linked!)
+//
 // ```
 func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 	if list.length == 0 {
