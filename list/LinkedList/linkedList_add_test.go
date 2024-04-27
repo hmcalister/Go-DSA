@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	linkedlist "github.com/hmcalister/Go-DSA/LinkedList"
+	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 )
 
 // Generic function to test adding items to list of different data types
