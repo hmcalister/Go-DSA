@@ -22,3 +22,22 @@ func (queue *LinkedListQueue[T]) Add(item T) {
 	queue.queueData.Add(item)
 }
 
+// ----------------------------------------------------------------------------
+// Get Methods
+
+// Peek at the front item in the queue.
+//
+// Returns an error if the queue is empty.
+func (queue *LinkedListQueue[T]) Peek() (T, error) {
+	if queue.queueData.Length() == 0 {
+		return *new(T), ErrorQueueEmpty
+	}
+
+	item, err := queue.queueData.ItemAtIndex(0)
+	if err != nil {
+		return *new(T), err
+	}
+
+	return item, nil
+}
+
