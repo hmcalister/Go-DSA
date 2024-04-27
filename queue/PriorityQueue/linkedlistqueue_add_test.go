@@ -69,3 +69,17 @@ func TestPriorityQueueCheckSizeAfterAddInPriorityOrder(t *testing.T) {
 	}
 }
 
+func TestPriorityQueueCheckSizeAfterAddInNonpriorityOrder(t *testing.T) {
+	items := []int{5, 4, 3, 2, 1}
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	for index, item := range items {
+		queue.Add(item)
+
+		queueSize := queue.Size()
+		expectedSize := index + 1
+		if queueSize != expectedSize {
+			t.Errorf("found queue size (%v) does not match the expected size (%v)", queueSize, expectedSize)
+		}
+	}
+}
