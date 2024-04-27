@@ -51,3 +51,13 @@ func (queue *PriorityQueue[T]) Size() int {
 	return queue.queueData.Size()
 }
 
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Enqueue an item, adding it to the end of the queue.
+//
+// This method automatically updates the priority queue to ensure the head item has the lowest priority value.
+func (queue *PriorityQueue[T]) Add(item T) {
+	queue.queueData.Add(item)
+}
+
