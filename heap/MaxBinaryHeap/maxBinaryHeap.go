@@ -75,10 +75,10 @@ func (heap *MaxBinaryHeap[T]) Add(item T) {
 // ----------------------------------------------------------------------------
 // Get methods
 
-// Get the max-element of this heap.
+// Peek at the max-element of this heap. The item is not removed from the heap.
 //
 // If the heap is empty, a EmptyHeapError is returned.
-func (heap *MaxBinaryHeap[T]) GetMax() (T, error) {
+func (heap *MaxBinaryHeap[T]) PeekMax() (T, error) {
 	if len(heap.heapData) == 0 {
 		return *new(T), ErrorEmptyHeap
 	}

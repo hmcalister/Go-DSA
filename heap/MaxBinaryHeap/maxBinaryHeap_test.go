@@ -193,7 +193,7 @@ func TestMaxHeapManyRemoveItem(t *testing.T) {
 // ----------------------------------------------------------------------------
 // Get max Tests
 
-func TestMaxHeapAddGetMax(t *testing.T) {
+func TestMaxHeapAddPeekMax(t *testing.T) {
 	heap := maxbinaryheap.New[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
@@ -209,7 +209,7 @@ func TestMaxHeapAddGetMax(t *testing.T) {
 		heap.Add(item)
 	}
 
-	heapMaxItem, err := heap.GetMax()
+	heapMaxItem, err := heap.PeekMax()
 	expectedMaxItem := numItems - 1
 	if err != nil {
 		t.Errorf("found error when getting max item from a non-empty heap: %v", err)
@@ -219,7 +219,7 @@ func TestMaxHeapAddGetMax(t *testing.T) {
 	}
 }
 
-func TestMaxHeapRemoveGetMax(t *testing.T) {
+func TestMaxHeapRemovePeekMax(t *testing.T) {
 	heap := maxbinaryheap.New[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
@@ -240,7 +240,7 @@ func TestMaxHeapRemoveGetMax(t *testing.T) {
 		heap.RemoveMax()
 	}
 
-	heapMaxItem, err := heap.GetMax()
+	heapMaxItem, err := heap.PeekMax()
 	expectedMaxItem := numItems - numRemove - 1
 	if err != nil {
 		t.Errorf("found error when getting max item from a non-empty heap: %v", err)

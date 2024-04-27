@@ -193,7 +193,7 @@ func TestMinHeapManyRemoveItem(t *testing.T) {
 // ----------------------------------------------------------------------------
 // Get min Tests
 
-func TestMinHeapAddGetMin(t *testing.T) {
+func TestMinHeapAddPeekMin(t *testing.T) {
 	heap := minbinaryheap.New[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
@@ -209,7 +209,7 @@ func TestMinHeapAddGetMin(t *testing.T) {
 		heap.Add(item)
 	}
 
-	heapMinItem, err := heap.GetMin()
+	heapMinItem, err := heap.PeekMin()
 	expectedMinItem := 0
 	if err != nil {
 		t.Errorf("found error when getting min item from a non-empty heap: %v", err)
@@ -219,7 +219,7 @@ func TestMinHeapAddGetMin(t *testing.T) {
 	}
 }
 
-func TestMinHeapRemoveGetMin(t *testing.T) {
+func TestMinHeapRemovePeekMin(t *testing.T) {
 	heap := minbinaryheap.New[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
@@ -240,7 +240,7 @@ func TestMinHeapRemoveGetMin(t *testing.T) {
 		heap.RemoveMin()
 	}
 
-	heapMinItem, err := heap.GetMin()
+	heapMinItem, err := heap.PeekMin()
 	expectedMinItem := numRemove
 	if err != nil {
 		t.Errorf("found error when getting min item from a non-empty heap: %v", err)
