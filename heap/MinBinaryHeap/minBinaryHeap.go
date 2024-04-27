@@ -1,4 +1,4 @@
-package heap
+package minbinaryheap
 
 import (
 	comparator "github.com/hmcalister/Go-DSA/Comparator"

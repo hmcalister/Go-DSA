@@ -1,4 +1,4 @@
-package heap_test
+package minbinaryheap_test
 
 import (
 	"math/rand"
@@ -6,22 +6,22 @@ import (
 	"testing"
 
 	comparator "github.com/hmcalister/Go-DSA/Comparator"
-	heap "github.com/hmcalister/Go-DSA/Heap"
+	minbinaryheap "github.com/hmcalister/Go-DSA/heap/MinBinaryHeap"
 )
 
 // ----------------------------------------------------------------------------
 // Initialization Tests
 
 func TestMinHeapIntInit(t *testing.T) {
-	heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 }
 
 func TestMinHeapFloatInit(t *testing.T) {
-	heap.NewMinBinaryHeap[float64](comparator.DefaultFloat64Comparator)
+	minbinaryheap.NewMinBinaryHeap[float64](comparator.DefaultFloat64Comparator)
 }
 
 func TestMinHeapStringInit(t *testing.T) {
-	heap.NewMinBinaryHeap[string](comparator.DefaultStringComparator)
+	minbinaryheap.NewMinBinaryHeap[string](comparator.DefaultStringComparator)
 }
 
 func TestMinHeapStructInit(t *testing.T) {
@@ -29,7 +29,7 @@ func TestMinHeapStructInit(t *testing.T) {
 		_ int
 		f float64
 	}
-	heap.NewMinBinaryHeap[S](func(a, b S) int {
+	minbinaryheap.NewMinBinaryHeap[S](func(a, b S) int {
 		if a.f > b.f {
 			return 1
 		} else if a.f < b.f {
@@ -44,7 +44,7 @@ func TestMinHeapStructInit(t *testing.T) {
 // Misc Tests
 
 func TestMinHeapRemoveFromEmpty(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	_, err := heap.RemoveMin()
 	if err == nil {
@@ -53,7 +53,7 @@ func TestMinHeapRemoveFromEmpty(t *testing.T) {
 }
 
 func TestMinHeapEmptySize(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	expectedSize := 0
 	heapSize := heap.Size()
@@ -63,7 +63,7 @@ func TestMinHeapEmptySize(t *testing.T) {
 }
 
 func TestMinHeapSingleItemSize(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 	heap.Add(1)
 
 	expectedSize := 1
@@ -74,7 +74,7 @@ func TestMinHeapSingleItemSize(t *testing.T) {
 }
 
 func TestMinHeapAfterRemoveSize(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 	heap.Add(1)
 	heap.RemoveMin()
 
@@ -90,7 +90,7 @@ func TestMinHeapAfterRemoveSize(t *testing.T) {
 
 func TestMinHeapAdd(t *testing.T) {
 	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -98,7 +98,7 @@ func TestMinHeapAdd(t *testing.T) {
 }
 
 func TestMinHeapAddRandomOrder(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
 	items := make([]int, numItems)
@@ -119,7 +119,7 @@ func TestMinHeapAddRandomOrder(t *testing.T) {
 
 func TestMinHeapRemoveMin(t *testing.T) {
 	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -135,7 +135,7 @@ func TestMinHeapRemoveMin(t *testing.T) {
 
 func TestMinHeapRemoveMinItem(t *testing.T) {
 	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -155,7 +155,7 @@ func TestMinHeapRemoveMinItem(t *testing.T) {
 
 func TestMinHeapRemoveItem(t *testing.T) {
 	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -173,7 +173,7 @@ func TestMinHeapRemoveItem(t *testing.T) {
 
 func TestMinHeapManyRemoveItem(t *testing.T) {
 	items := []int{9, 8, 7, 6, 5, 4, 3, 2, 1}
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	for _, item := range items {
 		heap.Add(item)
@@ -194,7 +194,7 @@ func TestMinHeapManyRemoveItem(t *testing.T) {
 // Get min Tests
 
 func TestMinHeapAddGetMin(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
 	items := make([]int, numItems)
@@ -220,7 +220,7 @@ func TestMinHeapAddGetMin(t *testing.T) {
 }
 
 func TestMinHeapRemoveGetMin(t *testing.T) {
-	heap := heap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
+	heap := minbinaryheap.NewMinBinaryHeap[int](comparator.DefaultIntegerComparator)
 
 	numItems := 100
 	items := make([]int, numItems)
