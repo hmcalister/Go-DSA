@@ -24,3 +24,12 @@ func TestPriorityQueueRemove(t *testing.T) {
 	}
 }
 
+func TestPriorityQueueRemoveFromEmptyQueue(t *testing.T) {
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	_, err := queue.Remove()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when removing from empty queue", err)
+	}
+}
+
