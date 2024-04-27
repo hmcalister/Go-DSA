@@ -16,3 +16,14 @@ type PriorityQueue[T any] struct {
 	comparatorFunction comparator.ComparatorFunction[T]
 }
 
+// Create a new priority queue.
+//
+// The comparatorFunction allows for items in the queue to be compared based on priority.
+// Remember that lower priority values are pushed to the front of the queue.
+func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *PriorityQueue[T] {
+	return &PriorityQueue[T]{
+		queueData:          minbinaryheap.New[T](comparatorFunction),
+		comparatorFunction: comparatorFunction,
+	}
+}
+
