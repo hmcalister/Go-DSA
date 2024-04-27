@@ -238,10 +238,15 @@ func (list *LinkedList[T]) Add(item T) {
 // Example:
 //
 // ```
+//
 // list := linkedlist.New[string]()
+//
 // list.Add("hello")				// list = ["hello"]
+//
 // list.Add("world")				// list = ["hello", "world"]
+//
 // list.AddAtIndex("(linked!)", 1)	// list = ["hello", "(linked!)", "world"]
+//
 // ````
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	// Note here we allow list.length==index, as we *can* insert at the end of the list
@@ -344,14 +349,21 @@ func (list *LinkedList[T]) Remove() (T, error) {
 // Returns an error if the list is empty, or is the target index is out of range.
 //
 // Example:
+//
 // ```
+//
 // list := linkedlist.New[string]()
+//
 // list.Add("hello")					// list = ["hello"]
+//
 // list.Add("(linked!)")				// list = ["hello", "(linked!)"]
+//
 // list.Add("world")					// list = ["hello", "(linked!)", "world"]
 //
 // item, err := list.RemoveAtIndex(1)	// list = ["hello", "world"]
+//
 // fmt.Printf("%v", item)				// (linked!)
+//
 // ```
 func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 	if list.length == 0 {
