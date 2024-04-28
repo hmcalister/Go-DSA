@@ -1,7 +1,8 @@
 package redblacktree
 
 import (
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
 // Implement a red black tree.
@@ -169,11 +170,11 @@ func (tree *RedBlackTree[T]) rotateLeft(node *RedBlackTreeNode[T]) error {
 
 // Determines if a given item is present in the tree.
 // If the item is present in the tree, the Node containing that item is returned with nil error.
-// If the item is not present, nil is returned along with an error.
+// If the item is not present, nil is returned along with a dsa_error.ErrorItemNotFound.
 func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 	// If the root is nil, the item cannot be in the tree
 	if tree.root == nil {
-		return nil, ErrorItemNotFound
+		return nil, dsa_error.ErrorItemNotFound
 	}
 
 	// Now we know the root is non-nil we can start traversing the tree
@@ -194,7 +195,7 @@ func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 	}
 
 	// If we exit the loop, that means we have reached a leaf without finding the item
-	return nil, ErrorItemNotFound
+	return nil, dsa_error.ErrorItemNotFound
 }
 
 // ----------------------------------------------------------------------------
@@ -324,7 +325,7 @@ func (tree *RedBlackTree[T]) addCase5(node *RedBlackTreeNode[T]) {
 
 // Insert a new item into the tree.
 //
-// Returns an error if the item already exists in the tree.
+// Returns a dsa_error.ErrorItemAlreadyPresent error if the item already exists in the tree.
 func (tree *RedBlackTree[T]) Add(item T) error {
 	// If the tree is empty we can simply add a new node as the root
 	if tree.root == nil {
@@ -345,7 +346,7 @@ func (tree *RedBlackTree[T]) Add(item T) error {
 
 		// If the item is the same as the current node, return an error and do not insert
 		if traverseCompare == 0 {
-			return ErrorItemAlreadyPresent
+			return dsa_error.ErrorItemAlreadyPresent
 		}
 
 		// Otherwise, we can walk to this node's left or right child based on currentCompare
@@ -470,7 +471,7 @@ func (tree *RedBlackTree[T]) removeCase6(node *RedBlackTreeNode[T]) {
 
 // Remove an item from the tree.
 //
-// Returns an error if the item is not in the tree.
+// Returns a dsa_error.ErrorItemNotFound if the item is not in the tree.
 func (tree *RedBlackTree[T]) Remove(item T) error {
 	currentNode, err := tree.Find(item)
 
