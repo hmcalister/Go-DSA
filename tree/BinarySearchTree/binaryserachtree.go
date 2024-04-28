@@ -1,7 +1,8 @@
 package binarysearchtree
 
 import (
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
 // Implement a binary search tree.
@@ -36,11 +37,11 @@ func (tree *BinarySearchTree[T]) Root() *BinarySearchTreeNode[T] {
 
 // Determines if a given item is present in the tree.
 // If the item is present in the tree, the Node containing that item is returned with nil error.
-// If the item is not present, nil is returned along with an error.
+// If the item is not present, nil is returned along with a dsa_error.ErrorItemNotFound.
 func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) {
 	// If the root is nil, the item cannot be in the tree
 	if tree.root == nil {
-		return nil, ErrorItemNotFound
+		return nil, dsa_error.ErrorItemNotFound
 	}
 
 	// Now we know the root is non-nil we can start traversing the tree
@@ -61,7 +62,7 @@ func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) 
 	}
 
 	// If we exit the loop, that means we have reached a leaf without finding the item
-	return nil, ErrorItemNotFound
+	return nil, dsa_error.ErrorItemNotFound
 }
 
 // ----------------------------------------------------------------------------
@@ -141,7 +142,7 @@ func FoldTreePostorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G
 
 // Insert a new item into the tree.
 //
-// Returns an error if the item already exists in the tree.
+// Returns a dsa_error.ItemAlreadyPresent error if the item already exists in the tree.
 func (tree *BinarySearchTree[T]) Add(item T) error {
 	// If the tree is currently empty, add this item to the root
 	if tree.root == nil {
@@ -164,7 +165,7 @@ func (tree *BinarySearchTree[T]) Add(item T) error {
 
 		// If the item we are inserting is the same as this node, we reject it and return an error
 		if currentCompare == 0 {
-			return ErrorItemAlreadyPresent
+			return dsa_error.ErrorItemAlreadyPresent
 		}
 
 		// Otherwise, we can walk to this node's left or right child based on currentCompare
@@ -235,11 +236,11 @@ func (tree *BinarySearchTree[T]) removeFixupHelper(node *BinarySearchTreeNode[T]
 
 // Remove an item from the tree.
 //
-// Returns an error if the item is not in the tree.
+// Returns a dsa_error.ErrorItemNotFound if item is not present in the tree.
 func (tree *BinarySearchTree[T]) Remove(item T) error {
 	// If the tree is empty, we cannot find the item
 	if tree.root == nil {
-		return ErrorItemNotFound
+		return dsa_error.ErrorItemNotFound
 	}
 
 	// If we are trying to delete the root node, we must handle it slightly differently since parent is nil
@@ -269,7 +270,7 @@ func (tree *BinarySearchTree[T]) Remove(item T) error {
 	}
 
 	if currentNode == nil {
-		return ErrorItemNotFound
+		return dsa_error.ErrorItemNotFound
 	}
 
 	// We now have the node to delete held in currentNode.

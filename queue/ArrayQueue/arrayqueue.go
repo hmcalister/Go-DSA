@@ -1,5 +1,7 @@
 package arrayqueue
 
+import dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+
 // Implement a queue using a array / slice.
 //
 // Queues are a first in, first out data structure. Items added to the queue are removed in the order they were added.
@@ -22,10 +24,10 @@ func New[T any]() *ArrayQueue[T] {
 
 // Peek at the front item in the queue.
 //
-// Returns an error if the queue is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty if the queue is empty.
 func (queue *ArrayQueue[T]) Peek() (T, error) {
 	if len(queue.queueData) == 0 {
-		return *new(T), ErrorQueueEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	item := queue.queueData[0]
@@ -35,14 +37,14 @@ func (queue *ArrayQueue[T]) Peek() (T, error) {
 // Find the first item in a queue matching a predicate.
 // The queue is traversed from front to back.
 //
-// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+// Returns (item, nil) if the item is present, or (*new(T), dsa_error.ErrorItemNotFound) if the item is not present.
 func (queue *ArrayQueue[T]) Find(predicate func(item T) bool) (T, error) {
 	for _, item := range queue.queueData {
 		if predicate(item) {
 			return item, nil
 		}
 	}
-	return *new(T), ErrorItemNotFound
+	return *new(T), dsa_error.ErrorItemNotFound
 }
 
 // Find all items in a queue matching a predicate.
@@ -77,10 +79,10 @@ func (queue *ArrayQueue[T]) Add(item T) {
 
 // Dequeue an item, removing from the front of the queue.
 //
-// Returns an error if the queue is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty error if the queue is empty.
 func (queue *ArrayQueue[T]) Remove() (T, error) {
 	if len(queue.queueData) == 0 {
-		return *new(T), ErrorQueueEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	item := queue.queueData[0]

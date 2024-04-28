@@ -3,8 +3,8 @@ package redblacktree_test
 import (
 	"testing"
 
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	redblacktree "github.com/hmcalister/Go-DSA/tree/RedBlackTree"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 )
 
 func TestInitializeTreeGenericTypes(t *testing.T) {

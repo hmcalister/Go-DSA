@@ -1,7 +1,8 @@
 package maxbinaryheap
 
 import (
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
 type MaxBinaryHeap[T any] struct {
@@ -53,10 +54,10 @@ func (heap *MaxBinaryHeap[T]) maxHeapify(targetIndex int) {
 
 // Peek at the max-element of this heap. The item is not removed from the heap.
 //
-// If the heap is empty, a EmptyHeapError is returned.
+// If the heap is empty, a dsa_error.ErrorDataStructureEmpty is returned.
 func (heap *MaxBinaryHeap[T]) PeekMax() (T, error) {
 	if len(heap.heapData) == 0 {
-		return *new(T), ErrorEmptyHeap
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	return heap.heapData[0], nil
@@ -64,14 +65,14 @@ func (heap *MaxBinaryHeap[T]) PeekMax() (T, error) {
 
 // Find the first item in a heap matching a predicate.
 //
-// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotPresent) if the item is not present.
+// Returns (item, nil) if the item is present, or (*new(T), dsa_error.ErrorItemNotFound) if the item is not present.
 func (heap *MaxBinaryHeap[T]) Find(predicate func(item T) bool) (T, error) {
 	for _, item := range heap.heapData {
 		if predicate(item) {
 			return item, nil
 		}
 	}
-	return *new(T), ErrorItemNotFound
+	return *new(T), dsa_error.ErrorItemNotFound
 }
 
 // Find the first item in a heap matching a predicate.
@@ -121,10 +122,10 @@ func (heap *MaxBinaryHeap[T]) Add(item T) {
 
 // Remove (and return) the top (maximal) item from this Heap.
 //
-// If the heap is empty, a EmptyHeapError is returned.
+// If the heap is empty, a dsa_error.ErrorDataStructureEmpty is returned.
 func (heap *MaxBinaryHeap[T]) RemoveMax() (T, error) {
 	if len(heap.heapData) == 0 {
-		return *new(T), ErrorEmptyHeap
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	// Get the root element, so we can return it later
@@ -146,11 +147,11 @@ func (heap *MaxBinaryHeap[T]) RemoveMax() (T, error) {
 }
 
 // Remove (and return) an item from the heap.
-// If the heap is empty, a ErrorItemNotPresent is returned.
-// If the item is not present in the tree, a ErrorItemNotPresent is returned.
+// If the heap is empty, a dsa_error.ErrorDataStructureEmpty is returned.
+// If the item is not present in the tree, a dsa_error.ErrorItemNotFound is returned.
 func (heap *MaxBinaryHeap[T]) RemoveItem(item T) (T, error) {
 	if len(heap.heapData) == 0 {
-		return *new(T), ErrorEmptyHeap
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	// First, see if the element exists
@@ -164,7 +165,7 @@ func (heap *MaxBinaryHeap[T]) RemoveItem(item T) (T, error) {
 	}
 	// If we did not set the index, we did not find the item
 	if targetItemIndex == -1 {
-		return *new(T), ErrorItemNotFound
+		return *new(T), dsa_error.ErrorItemNotFound
 	}
 
 	// Here's the sneaky trick:

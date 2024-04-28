@@ -1,8 +1,9 @@
 package priorityqueue
 
 import (
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	minbinaryheap "github.com/hmcalister/Go-DSA/heap/MinBinaryHeap"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
 // Implement a priority queue.
@@ -32,10 +33,10 @@ func New[T any](comparatorFunction comparator.ComparatorFunction[T]) *PriorityQu
 
 // Peek at the front item in the queue.
 //
-// Returns an error if the queue is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty error if the queue is empty.
 func (queue *PriorityQueue[T]) Peek() (T, error) {
 	if queue.queueData.Size() == 0 {
-		return *new(T), ErrorQueueEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	item, err := queue.queueData.PeekMin()
@@ -49,11 +50,11 @@ func (queue *PriorityQueue[T]) Peek() (T, error) {
 // Find the first item in a queue matching a predicate.
 // The queue is traversed from front to back.
 //
-// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+// Returns (item, nil) if the item is present, or (*new(T), dsa_error.ErrorItemNotFound) if the item is not present.
 func (queue *PriorityQueue[T]) Find(predicate func(item T) bool) (T, error) {
 	item, err := queue.queueData.Find(predicate)
 	if err != nil {
-		return *new(T), ErrorItemNotFound
+		return *new(T), dsa_error.ErrorItemNotFound
 	}
 	return item, nil
 }
@@ -86,10 +87,10 @@ func (queue *PriorityQueue[T]) Add(item T) {
 
 // Dequeue an item, removing from the front of the queue.
 //
-// Returns an error if the queue is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty if the queue is empty.
 func (queue *PriorityQueue[T]) Remove() (T, error) {
 	if queue.queueData.Size() == 0 {
-		return *new(T), ErrorQueueEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	item, err := queue.queueData.RemoveMin()
