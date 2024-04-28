@@ -3,7 +3,6 @@ package arrayqueue_test
 import (
 	"testing"
 
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	arrayqueue "github.com/hmcalister/Go-DSA/queue/ArrayQueue"
 )
 
@@ -107,7 +106,7 @@ func TestArrayQueueCheckFindAfterRemove(t *testing.T) {
 
 	targetItem := 1
 	queue.Add(targetItem)
-	item, err := queue.Find(targetItem, comparator.DefaultIntegerComparator)
+	item, err := queue.Find(func(item int) bool { return item == targetItem })
 	if err != nil {
 		t.Errorf("found error (%v) after finding from queue that should have item", err)
 	}
@@ -116,7 +115,7 @@ func TestArrayQueueCheckFindAfterRemove(t *testing.T) {
 	}
 
 	queue.Remove()
-	_, err = queue.Find(targetItem, comparator.DefaultIntegerComparator)
+	_, err = queue.Find(func(item int) bool { return item == targetItem })
 	if err == nil {
 		t.Errorf("found nil error after finding from queue without item")
 	}
