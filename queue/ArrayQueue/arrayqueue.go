@@ -45,3 +45,18 @@ func (queue *ArrayQueue[T]) Add(item T) {
 	queue.queueData = append(queue.queueData, item)
 }
 
+// ----------------------------------------------------------------------------
+// Remove methods
+
+// Dequeue an item, removing from the front of the queue.
+//
+// Returns an error if the queue is empty.
+func (queue *ArrayQueue[T]) Remove() (T, error) {
+	if len(queue.queueData) == 0 {
+		return *new(T), ErrorQueueEmpty
+	}
+
+	item := queue.queueData[0]
+	queue.queueData = queue.queueData[1:]
+	return item, nil
+}
