@@ -37,3 +37,11 @@ func (stack *ArrayStack[T]) Size() int {
 	return len(stack.stackData)
 }
 
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Add an item to the top of the stack.
+func (stack *ArrayStack[T]) Add(item T) {
+	stack.stackData = append(stack.stackData, item)
+}
+
