@@ -3,7 +3,6 @@ package arrayqueue_test
 import (
 	"testing"
 
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	arrayqueue "github.com/hmcalister/Go-DSA/queue/ArrayQueue"
 )
 
@@ -39,7 +38,7 @@ func TestCheckPeekOfEmptyArrayQueue(t *testing.T) {
 func TestFindFromEmptyArrayQueue(t *testing.T) {
 	queue := arrayqueue.New[int]()
 
-	_, err := queue.Find(1, comparator.DefaultIntegerComparator)
+	_, err := queue.Find(func(item int) bool { return item == 1 })
 	if err == nil {
 		t.Errorf("found nil error after finding from empty queue")
 	}
