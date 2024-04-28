@@ -35,3 +35,8 @@ func (stack *LinkedListStack[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Get the size of the stack, the number of items in the stack.
+func (stack *LinkedListStack[T]) Size() int {
+	return stack.stackData.Length()
+}
+
