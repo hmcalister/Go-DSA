@@ -45,6 +45,20 @@ func (queue *ArrayQueue[T]) Find(predicate func(item T) bool) (T, error) {
 	return *new(T), ErrorItemNotFound
 }
 
+// Find all items in a queue matching a predicate.
+// The queue is traversed from front to back.
+//
+// Returns all items from the queue that match the predicate.
+func (queue *ArrayQueue[T]) FindAll(predicate func(item T) bool) []T {
+	foundItems := make([]T, 0)
+	for _, item := range queue.queueData {
+		if predicate(item) {
+			foundItems = append(foundItems, item)
+		}
+	}
+	return foundItems
+}
+
 // Get the size of the queue, the number of items in the queue.
 func (queue *ArrayQueue[T]) Size() int {
 	return len(queue.queueData)
