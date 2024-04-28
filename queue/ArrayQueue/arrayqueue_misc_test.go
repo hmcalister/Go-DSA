@@ -26,3 +26,11 @@ func TestArrayQueueInit(t *testing.T) {
 	})
 }
 
+func TestCheckPeekOfEmptyArrayQueue(t *testing.T) {
+	queue := arrayqueue.New[int]()
+
+	_, err := queue.Peek()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when peeking at empty queue", err)
+	}
+}
