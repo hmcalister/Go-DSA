@@ -32,3 +32,8 @@ func (queue *ArrayQueue[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Get the size of the queue, the number of items in the queue.
+func (queue *ArrayQueue[T]) Size() int {
+	return len(queue.queueData)
+}
+
