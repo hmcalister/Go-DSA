@@ -60,3 +60,27 @@ func TestArrayStackCheckPeekAfterRemove(t *testing.T) {
 	}
 }
 
+func TestArrayStackCheckRemovedItem(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	stack := arraystack.New[int]()
+
+	for _, item := range items {
+		stack.Add(item)
+	}
+
+	slices.Reverse(items)
+
+	for _, item := range items {
+		removedItem, err := stack.Remove()
+		if err != nil {
+			t.Errorf("encountered error (%v) when removing from non-empty stack", err)
+		}
+
+		expectedItem := item
+		if removedItem != expectedItem {
+			t.Errorf("found peek item (%v) does not match the expected item (%v)", removedItem, expectedItem)
+		}
+
+	}
+}
+
