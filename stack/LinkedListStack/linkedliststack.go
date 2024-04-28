@@ -48,3 +48,21 @@ func (stack *LinkedListStack[T]) Add(item T) {
 	stack.stackData.Add(item)
 }
 
+// ----------------------------------------------------------------------------
+// Remove methods
+
+// Remove an item from the top of the stack.
+//
+// Returns an error if the stack is empty.
+func (stack *LinkedListStack[T]) Remove() (T, error) {
+	if stack.stackData.Length() == 0 {
+		return *new(T), ErrorStackEmpty
+	}
+
+	item, err := stack.stackData.Remove()
+	if err != nil {
+		return *new(T), err
+	}
+
+	return item, nil
+}
