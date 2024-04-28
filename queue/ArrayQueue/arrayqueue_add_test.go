@@ -34,3 +34,17 @@ func TestArrayQueueCheckPeekAfterAdd(t *testing.T) {
 	}
 }
 
+func TestArrayQueueCheckSizeAfterAdd(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	queue := arrayqueue.New[int]()
+
+	for index, item := range items {
+		queue.Add(item)
+
+		queueSize := queue.Size()
+		expectedSize := index + 1
+		if queueSize != expectedSize {
+			t.Errorf("found queue size (%v) does not match the expected size (%v)", queueSize, expectedSize)
+		}
+	}
+}
