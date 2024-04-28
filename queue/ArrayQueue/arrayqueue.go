@@ -1,5 +1,7 @@
 package arrayqueue
 
+import comparator "github.com/hmcalister/Go-DSA/Comparator"
+
 // Implement a queue using a array / slice.
 //
 // Queues are a first in, first out data structure. Items added to the queue are removed in the order they were added.
@@ -30,6 +32,22 @@ func (queue *ArrayQueue[T]) Peek() (T, error) {
 
 	item := queue.queueData[0]
 	return item, nil
+}
+
+// Find an item in a queue.
+//
+// Requires a comparator that can compare items of type T. The comparator must return 0 when two items are equal.
+// See github.com/hmcalister/Go-DSA/Comparator for more information.
+//
+// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+func (queue *ArrayQueue[T]) Find(targetItem T, comparatorFunction comparator.ComparatorFunction[T]) (T, error) {
+	for _, item := range queue.queueData {
+		if comparatorFunction(targetItem, item) == 0 {
+			return item, nil
+		}
+	}
+
+	return *new(T), ErrorItemNotFound
 }
 
 // Get the size of the queue, the number of items in the queue.
