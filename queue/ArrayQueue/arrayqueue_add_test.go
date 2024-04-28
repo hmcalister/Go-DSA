@@ -63,13 +63,19 @@ func TestArrayQueueCheckFindAfterAdd(t *testing.T) {
 	}
 }
 
-func TestArrayQueueCheckFindOfNotPresentItem(t *testing.T) {
+func TestArrayQueueCheckMultipleFindAfterAdd(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
 	queue := arrayqueue.New[int]()
-	queue.Add(1)
 
-	targetItem := 10
-	_, err := queue.Find(func(item int) bool { return item == targetItem })
-	if err == nil {
-		t.Errorf("found nil error after finding from queue without item")
+	for _, item := range items {
+		queue.Add(item)
+	}
+
+	expectedItems := []int{2, 4}
+	foundItems := queue.FindAll(func(item int) bool { return item%2 == 0 })
+	for index := range expectedItems {
+		if foundItems[index] != expectedItems[index] {
+			t.Errorf("found item (%v) does not match expected item (%v)", foundItems[index], expectedItems[index])
+		}
 	}
 }
