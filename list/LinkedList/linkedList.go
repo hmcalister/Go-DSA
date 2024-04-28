@@ -80,6 +80,22 @@ func (list *LinkedList[T]) FindAll(predicate func(item T) bool) []T {
 	return satisfyingItems
 }
 
+// Find ALL of the items in the list satisfying a predicate.
+// If no item satisfies the predicate, the list will be empty.
+// The list is walked backwards during this search.
+func (list *LinkedList[T]) ReverseFindAll(predicate func(item T) bool) []T {
+	satisfyingItems := make([]T, 0)
+	currentNode := list.tail
+	for currentNode != nil {
+		if predicate(currentNode.item) {
+			satisfyingItems = append(satisfyingItems, currentNode.item)
+		}
+		currentNode = currentNode.prev
+	}
+
+	return satisfyingItems
+}
+
 // Get the item at the specified index.
 //
 // Returns an error if the index is out of bounds.
