@@ -1,6 +1,8 @@
 package linkedliststack
 
-import linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
+import (
+	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
+)
 
 // Implement a stack using a linked list.
 //
@@ -33,6 +35,27 @@ func (stack *LinkedListStack[T]) Peek() (T, error) {
 	}
 
 	return item, nil
+}
+
+// Find the first item in a stack matching a predicate.
+// The stack is traversed from top to bottom.
+//
+// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+func (stack *LinkedListStack[T]) Find(predicate func(item T) bool) (T, error) {
+	item, err := stack.stackData.ReverseFind(predicate)
+	if err != nil {
+		return *new(T), ErrorItemNotFound
+	}
+	return item, nil
+}
+
+// Find all items in a stack matching a predicate.
+// The stack is traversed from top to bottom.
+//
+// Returns all items from the stack that match the predicate.
+func (stack *LinkedListStack[T]) FindAll(predicate func(item T) bool) []T {
+	items := stack.stackData.ReverseFindAll(predicate)
+	return items
 }
 
 // Get the size of the stack, the number of items in the stack.
