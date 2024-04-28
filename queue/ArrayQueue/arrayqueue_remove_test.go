@@ -79,3 +79,24 @@ func TestArrayQueueCheckRemovedItem(t *testing.T) {
 	}
 }
 
+func TestArrayQueueCheckSizeAfterRemove(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	queue := arrayqueue.New[int]()
+
+	for _, item := range items {
+		queue.Add(item)
+	}
+
+	for index := range items {
+		queueSize := queue.Size()
+		expectedSize := len(items) - index
+		if queueSize != expectedSize {
+			t.Errorf("found queue size (%v) does not match the expected size (%v)", queueSize, expectedSize)
+		}
+
+		_, err := queue.Remove()
+		if err != nil {
+			t.Errorf("encountered error (%v) when removing from non-empty queue", err)
+		}
+	}
+}
