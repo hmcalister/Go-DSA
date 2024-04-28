@@ -105,3 +105,40 @@ func TestLinkedListStackCheckSizeAfterRemove(t *testing.T) {
 		}
 	}
 }
+
+func TestLinkedListStackCheckFindAfterRemove(t *testing.T) {
+	stack := linkedliststack.New[int]()
+
+	targetItem := 1
+	stack.Add(targetItem)
+	item, err := stack.Find(func(item int) bool { return item == targetItem })
+	if err != nil {
+		t.Errorf("found error (%v) after finding from stack that should have item", err)
+	}
+	if item != targetItem {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, targetItem)
+	}
+
+	stack.Remove()
+	_, err = stack.Find(func(item int) bool { return item == targetItem })
+	if err == nil {
+		t.Errorf("found nil error after finding from stack without item")
+	}
+}
+
+func TestLinkedListStackCheckFindAllAfterRemove(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	stack := linkedliststack.New[int]()
+
+	for _, item := range items {
+		stack.Add(item)
+	}
+	for range len(items) - 1 {
+		stack.Remove()
+	}
+
+	foundItems := stack.FindAll(func(item int) bool { return item%2 == 0 })
+	if len(foundItems) != 0 {
+		t.Errorf("found a non-zero number of items from a stack with expected zero number of matches")
+	}
+}

@@ -34,3 +34,21 @@ func TestCheckPeekOfEmptyArrayStack(t *testing.T) {
 		t.Errorf("did not encounter error (%v) when peeking at empty stack", err)
 	}
 }
+
+func TestFindFromEmptyArrayStack(t *testing.T) {
+	stack := arraystack.New[int]()
+
+	_, err := stack.Find(func(item int) bool { return item == 1 })
+	if err == nil {
+		t.Errorf("found nil error after finding from empty stack")
+	}
+}
+
+func TestFindAllFromEmptyArrayStack(t *testing.T) {
+	stack := arraystack.New[int]()
+
+	items := stack.FindAll(func(item int) bool { return item == 1 })
+	if len(items) != 0 {
+		t.Errorf("found a non-zero number of items from an empty stack")
+	}
+}
