@@ -2,6 +2,7 @@ package linkedliststack
 
 import (
 	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
 // Implement a stack using a linked list.
@@ -23,30 +24,21 @@ func New[T any]() *LinkedListStack[T] {
 
 // Peek at the top item in the stack.
 //
-// Returns an error if the stack is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty error if the stack is empty.
 func (stack *LinkedListStack[T]) Peek() (T, error) {
 	if stack.stackData.Length() == 0 {
-		return *new(T), ErrorStackEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
-	item, err := stack.stackData.ItemAtIndex(stack.Size() - 1)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return item, nil
+	return stack.stackData.ItemAtIndex(stack.Size() - 1)
 }
 
 // Find the first item in a stack matching a predicate.
 // The stack is traversed from top to bottom.
 //
-// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+// Returns (item, nil) if the item is present, or (*new(T), dsa_error.ErrorItemNotFound) if the item is not present.
 func (stack *LinkedListStack[T]) Find(predicate func(item T) bool) (T, error) {
-	item, err := stack.stackData.ReverseFind(predicate)
-	if err != nil {
-		return *new(T), ErrorItemNotFound
-	}
-	return item, nil
+	return stack.stackData.ReverseFind(predicate)
 }
 
 // Find all items in a stack matching a predicate.
@@ -76,16 +68,11 @@ func (stack *LinkedListStack[T]) Add(item T) {
 
 // Remove an item from the top of the stack.
 //
-// Returns an error if the stack is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty error if the stack is empty.
 func (stack *LinkedListStack[T]) Remove() (T, error) {
 	if stack.stackData.Length() == 0 {
-		return *new(T), ErrorStackEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
-	item, err := stack.stackData.Remove()
-	if err != nil {
-		return *new(T), err
-	}
-
-	return item, nil
+	return stack.stackData.Remove()
 }
