@@ -5,8 +5,8 @@ import (
 	"slices"
 	"testing"
 
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	minbinaryheap "github.com/hmcalister/Go-DSA/heap/MinBinaryHeap"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 )
 
 // ----------------------------------------------------------------------------
