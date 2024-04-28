@@ -45,3 +45,18 @@ func (stack *ArrayStack[T]) Add(item T) {
 	stack.stackData = append(stack.stackData, item)
 }
 
+// ----------------------------------------------------------------------------
+// Remove methods
+
+// Remove an item from the top of the stack.
+//
+// Returns an error if the stack is empty.
+func (stack *ArrayStack[T]) Remove() (T, error) {
+	if len(stack.stackData) == 0 {
+		return *new(T), ErrorStackEmpty
+	}
+
+	item := stack.stackData[len(stack.stackData)-1]
+	stack.stackData = stack.stackData[:len(stack.stackData)-1]
+	return item, nil
+}
