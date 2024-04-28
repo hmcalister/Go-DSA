@@ -1,5 +1,7 @@
 package arraystack
 
+import dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+
 // Implement a stack using a array (slice) as the backing data structure.
 //
 // Stacks are a last in, first out data structure. Items added to the stack are removed in the reverse order they are added.
@@ -22,10 +24,10 @@ func New[T any]() *ArrayStack[T] {
 
 // Peek at the top item in the stack.
 //
-// Returns an error if the stack is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty if stack is empty.
 func (stack *ArrayStack[T]) Peek() (T, error) {
 	if len(stack.stackData) == 0 {
-		return *new(T), ErrorStackEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	item := stack.stackData[len(stack.stackData)-1]
@@ -35,7 +37,7 @@ func (stack *ArrayStack[T]) Peek() (T, error) {
 // Find the first item in a stack matching a predicate.
 // The stack is traversed from top to bottom.
 //
-// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+// Returns (item, nil) if the item is present, or (*new(T), dsa_error.ErrorItemNotFound) if the item is not present.
 func (stack *ArrayStack[T]) Find(predicate func(item T) bool) (T, error) {
 	for index := len(stack.stackData) - 1; index >= 0; index -= 1 {
 		item := stack.stackData[index]
@@ -43,7 +45,7 @@ func (stack *ArrayStack[T]) Find(predicate func(item T) bool) (T, error) {
 			return item, nil
 		}
 	}
-	return *new(T), ErrorItemNotFound
+	return *new(T), dsa_error.ErrorItemNotFound
 }
 
 // Find all items in a stack matching a predicate.
@@ -79,10 +81,10 @@ func (stack *ArrayStack[T]) Add(item T) {
 
 // Remove an item from the top of the stack.
 //
-// Returns an error if the stack is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty if the stack is empty.
 func (stack *ArrayStack[T]) Remove() (T, error) {
 	if len(stack.stackData) == 0 {
-		return *new(T), ErrorStackEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	item := stack.stackData[len(stack.stackData)-1]
