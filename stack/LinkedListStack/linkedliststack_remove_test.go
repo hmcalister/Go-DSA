@@ -84,3 +84,24 @@ func TestLinkedListStackCheckRemovedItem(t *testing.T) {
 	}
 }
 
+func TestLinkedListStackCheckSizeAfterRemove(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	stack := linkedliststack.New[int]()
+
+	for _, item := range items {
+		stack.Add(item)
+	}
+
+	for index := range items {
+		stackSize := stack.Size()
+		expectedSize := len(items) - index
+		if stackSize != expectedSize {
+			t.Errorf("found stack size (%v) does not match the expected size (%v)", stackSize, expectedSize)
+		}
+
+		_, err := stack.Remove()
+		if err != nil {
+			t.Errorf("encountered error (%v) when removing from non-empty stack", err)
+		}
+	}
+}
