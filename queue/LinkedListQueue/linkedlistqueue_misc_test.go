@@ -34,3 +34,12 @@ func TestCheckPeekOfEmptyLinkedListQueue(t *testing.T) {
 		t.Errorf("did not encounter error (%v) when peeking at empty queue", err)
 	}
 }
+
+func TestFindFromEmptyLinkedListQueue(t *testing.T) {
+	queue := linkedlistqueue.New[int]()
+
+	_, err := queue.Find(func(item int) bool { return item == 1 })
+	if err == nil {
+		t.Errorf("found nil error after finding from empty queue")
+	}
+}
