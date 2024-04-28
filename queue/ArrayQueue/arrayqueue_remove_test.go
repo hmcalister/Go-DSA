@@ -3,6 +3,7 @@ package arrayqueue_test
 import (
 	"testing"
 
+	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	arrayqueue "github.com/hmcalister/Go-DSA/queue/ArrayQueue"
 )
 
@@ -98,5 +99,25 @@ func TestArrayQueueCheckSizeAfterRemove(t *testing.T) {
 		if err != nil {
 			t.Errorf("encountered error (%v) when removing from non-empty queue", err)
 		}
+	}
+}
+
+func TestArrayQueueCheckFindAfterRemove(t *testing.T) {
+	queue := arrayqueue.New[int]()
+
+	targetItem := 1
+	queue.Add(targetItem)
+	item, err := queue.Find(targetItem, comparator.DefaultIntegerComparator)
+	if err != nil {
+		t.Errorf("found error (%v) after finding from queue that should have item", err)
+	}
+	if item != targetItem {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, targetItem)
+	}
+
+	queue.Remove()
+	_, err = queue.Find(targetItem, comparator.DefaultIntegerComparator)
+	if err == nil {
+		t.Errorf("found nil error after finding from queue without item")
 	}
 }
