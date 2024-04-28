@@ -58,6 +58,14 @@ func (queue *PriorityQueue[T]) Find(predicate func(item T) bool) (T, error) {
 	return item, nil
 }
 
+// Find all items in a queue matching a predicate.
+// The queue is traversed from front to back.
+//
+// Returns all items from the queue that match the predicate.
+func (queue *PriorityQueue[T]) FindAll(predicate func(item T) bool) []T {
+	return queue.queueData.FindAll(predicate)
+}
+
 // Get the size of the queue, the number of items in the queue.
 func (queue *PriorityQueue[T]) Size() int {
 	return queue.queueData.Size()
