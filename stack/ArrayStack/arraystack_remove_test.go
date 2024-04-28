@@ -23,3 +23,12 @@ func TestArrayStackRemove(t *testing.T) {
 	}
 }
 
+func TestArrayStackRemoveFromEmptyStack(t *testing.T) {
+	stack := arraystack.New[int]()
+
+	_, err := stack.Remove()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when removing from empty stack", err)
+	}
+}
+
