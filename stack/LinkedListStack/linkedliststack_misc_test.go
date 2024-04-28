@@ -26,3 +26,11 @@ func TestLinkedListStackInit(t *testing.T) {
 	})
 }
 
+func TestCheckPeekOfEmptyLinkedListStack(t *testing.T) {
+	stack := linkedliststack.New[int]()
+
+	_, err := stack.Peek()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when peeking at empty stack", err)
+	}
+}
