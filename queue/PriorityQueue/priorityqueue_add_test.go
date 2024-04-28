@@ -3,8 +3,8 @@ package priorityqueue_test
 import (
 	"testing"
 
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	priorityqueue "github.com/hmcalister/Go-DSA/queue/PriorityQueue"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 )
 
 func TestPriorityQueueAdd(t *testing.T) {

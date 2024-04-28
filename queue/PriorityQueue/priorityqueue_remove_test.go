@@ -4,8 +4,8 @@ import (
 	"slices"
 	"testing"
 
-	comparator "github.com/hmcalister/Go-DSA/Comparator"
 	priorityqueue "github.com/hmcalister/Go-DSA/queue/PriorityQueue"
+	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 )
 
 func TestPriorityQueueRemove(t *testing.T) {
