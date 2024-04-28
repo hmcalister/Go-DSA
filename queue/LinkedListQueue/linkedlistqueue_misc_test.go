@@ -43,3 +43,12 @@ func TestFindFromEmptyLinkedListQueue(t *testing.T) {
 		t.Errorf("found nil error after finding from empty queue")
 	}
 }
+
+func TestFindAllFromEmptyLinkedListQueue(t *testing.T) {
+	queue := linkedlistqueue.New[int]()
+
+	items := queue.FindAll(func(item int) bool { return item == 1 })
+	if len(items) != 0 {
+		t.Errorf("found a non-zero number of items from an empty queue")
+	}
+}
