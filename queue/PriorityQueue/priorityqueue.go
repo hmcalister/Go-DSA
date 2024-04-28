@@ -46,6 +46,18 @@ func (queue *PriorityQueue[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Find the first item in a queue matching a predicate.
+// The queue is traversed from front to back.
+//
+// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+func (queue *PriorityQueue[T]) Find(predicate func(item T) bool) (T, error) {
+	item, err := queue.queueData.Find(predicate)
+	if err != nil {
+		return *new(T), ErrorItemNotFound
+	}
+	return item, nil
+}
+
 // Get the size of the queue, the number of items in the queue.
 func (queue *PriorityQueue[T]) Size() int {
 	return queue.queueData.Size()
