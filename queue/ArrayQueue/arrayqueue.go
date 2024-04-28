@@ -37,3 +37,11 @@ func (queue *ArrayQueue[T]) Size() int {
 	return len(queue.queueData)
 }
 
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Enqueue an item, adding it to the end of the queue.
+func (queue *ArrayQueue[T]) Add(item T) {
+	queue.queueData = append(queue.queueData, item)
+}
+
