@@ -16,3 +16,22 @@ func New[T any]() *LinkedListStack[T] {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get Methods
+
+// Peek at the top item in the stack.
+//
+// Returns an error if the stack is empty.
+func (stack *LinkedListStack[T]) Peek() (T, error) {
+	if stack.stackData.Length() == 0 {
+		return *new(T), ErrorStackEmpty
+	}
+
+	item, err := stack.stackData.ItemAtIndex(stack.Size() - 1)
+	if err != nil {
+		return *new(T), err
+	}
+
+	return item, nil
+}
+
