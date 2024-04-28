@@ -22,3 +22,12 @@ func TestArrayQueueRemove(t *testing.T) {
 	}
 }
 
+func TestArrayQueueRemoveFromEmptyQueue(t *testing.T) {
+	queue := arrayqueue.New[int]()
+
+	_, err := queue.Remove()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when removing from empty queue", err)
+	}
+}
+
