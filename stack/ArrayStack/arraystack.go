@@ -17,3 +17,18 @@ func New[T any]() *ArrayStack[T] {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get Methods
+
+// Peek at the top item in the stack.
+//
+// Returns an error if the stack is empty.
+func (stack *ArrayStack[T]) Peek() (T, error) {
+	if len(stack.stackData) == 0 {
+		return *new(T), ErrorStackEmpty
+	}
+
+	item := stack.stackData[len(stack.stackData)-1]
+	return item, nil
+}
+
