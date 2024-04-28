@@ -40,3 +40,11 @@ func (stack *LinkedListStack[T]) Size() int {
 	return stack.stackData.Length()
 }
 
+// ----------------------------------------------------------------------------
+// Add Methods
+
+// Add an item to the top of the stack.
+func (stack *LinkedListStack[T]) Add(item T) {
+	stack.stackData.Add(item)
+}
+
