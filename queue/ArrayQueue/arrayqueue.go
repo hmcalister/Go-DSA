@@ -32,6 +32,33 @@ func (queue *ArrayQueue[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Find the first item in a queue matching a predicate.
+// The queue is traversed from front to back.
+//
+// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+func (queue *ArrayQueue[T]) Find(predicate func(item T) bool) (T, error) {
+	for _, item := range queue.queueData {
+		if predicate(item) {
+			return item, nil
+		}
+	}
+	return *new(T), ErrorItemNotFound
+}
+
+// Find all items in a queue matching a predicate.
+// The queue is traversed from front to back.
+//
+// Returns all items from the queue that match the predicate.
+func (queue *ArrayQueue[T]) FindAll(predicate func(item T) bool) []T {
+	foundItems := make([]T, 0)
+	for _, item := range queue.queueData {
+		if predicate(item) {
+			foundItems = append(foundItems, item)
+		}
+	}
+	return foundItems
+}
+
 // Get the size of the queue, the number of items in the queue.
 func (queue *ArrayQueue[T]) Size() int {
 	return len(queue.queueData)

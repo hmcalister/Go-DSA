@@ -158,3 +158,40 @@ func TestPriorityQueueCheckSizeAfterRemove(t *testing.T) {
 		}
 	}
 }
+
+func TestPriorityQueueCheckFindAfterRemove(t *testing.T) {
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	targetItem := 1
+	queue.Add(targetItem)
+	item, err := queue.Find(func(item int) bool { return item == targetItem })
+	if err != nil {
+		t.Errorf("found error (%v) after finding from queue that should have item", err)
+	}
+	if item != targetItem {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, targetItem)
+	}
+
+	queue.Remove()
+	_, err = queue.Find(func(item int) bool { return item == targetItem })
+	if err == nil {
+		t.Errorf("found nil error after finding from queue without item")
+	}
+}
+
+func TestPriorityQueueCheckFindAllAfterRemove(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		queue.Add(item)
+	}
+	for range len(items) - 1 {
+		queue.Remove()
+	}
+
+	foundItems := queue.FindAll(func(item int) bool { return item%2 == 0 })
+	if len(foundItems) != 0 {
+		t.Errorf("found a non-zero number of items from a queue with expected zero number of matches")
+	}
+}

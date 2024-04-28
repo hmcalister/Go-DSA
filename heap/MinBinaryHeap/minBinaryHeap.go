@@ -62,6 +62,31 @@ func (heap *MinBinaryHeap[T]) PeekMin() (T, error) {
 	return heap.heapData[0], nil
 }
 
+// Find the first item in a heap matching a predicate.
+//
+// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotPresent) if the item is not present.
+func (heap *MinBinaryHeap[T]) Find(predicate func(item T) bool) (T, error) {
+	for _, item := range heap.heapData {
+		if predicate(item) {
+			return item, nil
+		}
+	}
+	return *new(T), ErrorItemNotFound
+}
+
+// Find the first item in a heap matching a predicate.
+//
+// Returns all items from the heap that match the predicate.
+func (heap *MinBinaryHeap[T]) FindAll(predicate func(item T) bool) []T {
+	foundItems := make([]T, 0)
+	for _, item := range heap.heapData {
+		if predicate(item) {
+			foundItems = append(foundItems, item)
+		}
+	}
+	return foundItems
+}
+
 // Get the size of this heap
 func (heap *MinBinaryHeap[T]) Size() int {
 	return len(heap.heapData)
@@ -139,7 +164,7 @@ func (heap *MinBinaryHeap[T]) RemoveItem(item T) (T, error) {
 	}
 	// If we did not set the index, we did not find the item
 	if targetItemIndex == -1 {
-		return *new(T), ErrorItemNotPresent
+		return *new(T), ErrorItemNotFound
 	}
 
 	// Here's the sneaky trick:

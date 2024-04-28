@@ -45,3 +45,21 @@ func TestCheckPeekOfEmptyPriorityQueue(t *testing.T) {
 		t.Errorf("did not encounter error (%v) when peeking at empty queue", err)
 	}
 }
+
+func TestFindFromEmptyPriorityQueue(t *testing.T) {
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	_, err := queue.Find(func(item int) bool { return item == 1 })
+	if err == nil {
+		t.Errorf("found nil error after finding from empty queue")
+	}
+}
+
+func TestFindAllFromEmptyPriorityQueue(t *testing.T) {
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	items := queue.FindAll(func(item int) bool { return item == 1 })
+	if len(items) != 0 {
+		t.Errorf("found a non-zero number of items from an empty queue")
+	}
+}

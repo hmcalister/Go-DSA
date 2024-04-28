@@ -34,3 +34,21 @@ func TestCheckPeekOfEmptyArrayQueue(t *testing.T) {
 		t.Errorf("did not encounter error (%v) when peeking at empty queue", err)
 	}
 }
+
+func TestFindFromEmptyArrayQueue(t *testing.T) {
+	queue := arrayqueue.New[int]()
+
+	_, err := queue.Find(func(item int) bool { return item == 1 })
+	if err == nil {
+		t.Errorf("found nil error after finding from empty queue")
+	}
+}
+
+func TestFindAllFromEmptyArrayQueue(t *testing.T) {
+	queue := arrayqueue.New[int]()
+
+	items := queue.FindAll(func(item int) bool { return item == 1 })
+	if len(items) != 0 {
+		t.Errorf("found a non-zero number of items from an empty queue")
+	}
+}

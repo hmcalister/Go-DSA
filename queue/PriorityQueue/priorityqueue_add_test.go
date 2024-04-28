@@ -83,3 +83,34 @@ func TestPriorityQueueCheckSizeAfterAddInNonpriorityOrder(t *testing.T) {
 		}
 	}
 }
+
+func TestPriorityQueueCheckFindAfterAdd(t *testing.T) {
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	targetItem := 1
+	queue.Add(targetItem)
+	item, err := queue.Find(func(item int) bool { return item == targetItem })
+	if err != nil {
+		t.Errorf("found error (%v) after finding from queue that should have item", err)
+	}
+	if item != targetItem {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, targetItem)
+	}
+}
+
+func TestPriorityCheckMultipleFindAfterAdd(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	queue := priorityqueue.New[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		queue.Add(item)
+	}
+
+	expectedItems := []int{2, 4}
+	foundItems := queue.FindAll(func(item int) bool { return item%2 == 0 })
+	for index := range expectedItems {
+		if foundItems[index] != expectedItems[index] {
+			t.Errorf("found item (%v) does not match expected item (%v)", foundItems[index], expectedItems[index])
+		}
+	}
+}

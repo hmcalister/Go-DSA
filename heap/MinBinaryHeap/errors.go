@@ -3,6 +3,6 @@ package minbinaryheap
 import "errors"
 
 var (
-	ErrorEmptyHeap      = errors.New("heap is empty")
-	ErrorItemNotPresent = errors.New("item not present in heap")
+	ErrorEmptyHeap    = errors.New("heap is empty")
+	ErrorItemNotFound = errors.New("item not found in heap")
 )
