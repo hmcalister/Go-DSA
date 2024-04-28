@@ -48,3 +48,28 @@ func TestLinkedListQueueCheckSizeAfterAdd(t *testing.T) {
 		}
 	}
 }
+
+func TestLinkedListQueueCheckFindAfterAdd(t *testing.T) {
+	queue := linkedlistqueue.New[int]()
+
+	targetItem := 1
+	queue.Add(targetItem)
+	item, err := queue.Find(func(item int) bool { return item == targetItem })
+	if err != nil {
+		t.Errorf("found error (%v) after finding from queue that should have item", err)
+	}
+	if item != targetItem {
+		t.Errorf("found item (%v) does not match expected item (%v)", item, targetItem)
+	}
+}
+
+func TestLinkedListQueueCheckFindOfNotPresentItem(t *testing.T) {
+	queue := linkedlistqueue.New[int]()
+	queue.Add(1)
+
+	targetItem := 10
+	_, err := queue.Find(func(item int) bool { return item == targetItem })
+	if err == nil {
+		t.Errorf("found nil error after finding from queue without item")
+	}
+}
