@@ -120,3 +120,20 @@ func TestArrayQueueCheckFindAfterRemove(t *testing.T) {
 		t.Errorf("found nil error after finding from queue without item")
 	}
 }
+
+func TestArrayQueueCheckFindAllAfterRemove(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	queue := arrayqueue.New[int]()
+
+	for _, item := range items {
+		queue.Add(item)
+	}
+	for range len(items) - 1 {
+		queue.Remove()
+	}
+
+	foundItems := queue.FindAll(func(item int) bool { return item%2 == 0 })
+	if len(foundItems) != 0 {
+		t.Errorf("found a non-zero number of items from a queue with expected zero number of matches")
+	}
+}
