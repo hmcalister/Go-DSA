@@ -17,3 +17,18 @@ func New[T any]() *ArrayQueue[T] {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Get Methods
+
+// Peek at the front item in the queue.
+//
+// Returns an error if the queue is empty.
+func (queue *ArrayQueue[T]) Peek() (T, error) {
+	if len(queue.queueData) == 0 {
+		return *new(T), ErrorQueueEmpty
+	}
+
+	item := queue.queueData[0]
+	return item, nil
+}
+
