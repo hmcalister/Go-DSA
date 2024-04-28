@@ -1,5 +1,8 @@
 package linkedlist
 
+import dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+
+// An implementation of a doubly linked list.
 type LinkedList[T any] struct {
 	// Head of the list, the first Node.
 	//
@@ -33,7 +36,7 @@ func (list *LinkedList[T]) Length() int {
 // Get and Find methods
 
 // Find and return the first item in the list satisfying a predicate function.
-// If no item satisfies the predicate, an error is returned instead.
+// If no item satisfies the predicate, a dsa_error.ErrorItemNotFound is returned instead.
 //
 // The list is walked forward during this search.
 func (list *LinkedList[T]) Find(predicate func(item T) bool) (T, error) {
@@ -45,11 +48,11 @@ func (list *LinkedList[T]) Find(predicate func(item T) bool) (T, error) {
 		currentNode = currentNode.next
 	}
 
-	return *new(T), ErrorItemNotFound
+	return *new(T), dsa_error.ErrorItemNotFound
 }
 
 // Find and return the last item in the list satisfying a predicate function.
-// If no item satisfies the predicate, an error is returned instead.
+// If no item satisfies the predicate, a dsa_error.ErrorItemNotFound is returned instead.
 //
 // The list is walked backward during this search.
 func (list *LinkedList[T]) ReverseFind(predicate func(item T) bool) (T, error) {
@@ -61,7 +64,7 @@ func (list *LinkedList[T]) ReverseFind(predicate func(item T) bool) (T, error) {
 		currentNode = currentNode.prev
 	}
 
-	return *new(T), ErrorItemNotFound
+	return *new(T), dsa_error.ErrorItemNotFound
 }
 
 // Find ALL of the items in the list satisfying a predicate.
@@ -98,10 +101,10 @@ func (list *LinkedList[T]) ReverseFindAll(predicate func(item T) bool) []T {
 
 // Get the item at the specified index.
 //
-// Returns an error if the index is out of bounds.
+// Returns a dsa_error.ErrorIndexOutOfBounds if the index is out of bounds.
 func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 	if list.length <= index {
-		return *new(T), ErrorIndexOutOfBounds
+		return *new(T), dsa_error.ErrorIndexOutOfBounds
 	}
 
 	// If the target index is after the halfway point
@@ -249,7 +252,7 @@ func (list *LinkedList[T]) Add(item T) {
 
 // Add a new item to the list in the specified position.
 //
-// Returns a IndexOutOfBoundsError if the specified index is out of bounds.
+// Returns a dsa_error.ErrorIndexOutOfBounds if the specified index is out of bounds.
 //
 // Example:
 //
@@ -267,7 +270,7 @@ func (list *LinkedList[T]) Add(item T) {
 func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 	// Note here we allow list.length==index, as we *can* insert at the end of the list
 	if list.length < index {
-		return ErrorIndexOutOfBounds
+		return dsa_error.ErrorIndexOutOfBounds
 	}
 
 	newNode := &LinkedListNode[T]{
@@ -331,12 +334,12 @@ func (list *LinkedList[T]) AddAtIndex(item T, index int) error {
 
 // Remove and return the item from the end of the list.
 //
-// Returns the item removed, or an error if the list is empty.
+// Returns the item removed, or a dsa_error.ErrorDataStructureEmpty if the list is empty.
 func (list *LinkedList[T]) Remove() (T, error) {
 	if list.length == 0 {
 		// Apparently idiomatic "zero-value" of a generic T is *new(T)... feels odd.
 		// https://stackoverflow.com/questions/70585852/return-default-value-for-generic-type
-		return *new(T), ErrorEmptyList
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	// If we have only one element, we must remove both head *and* tail
@@ -362,7 +365,8 @@ func (list *LinkedList[T]) Remove() (T, error) {
 
 // Remove and return the item from a particular index.
 //
-// Returns an error if the list is empty, or is the target index is out of range.
+// Returns a dsa_error.ErrorDataStructureEmpty if the list is empty,
+// or a dsa_error.ErrorIndexOutOfBounds if the target index is out of range.
 //
 // Example:
 //
@@ -385,13 +389,13 @@ func (list *LinkedList[T]) RemoveAtIndex(index int) (T, error) {
 	if list.length == 0 {
 		// Apparently idiomatic "zero-value" of a generic T is *new(T)... feels odd.
 		// https://stackoverflow.com/questions/70585852/return-default-value-for-generic-type
-		return *new(T), ErrorEmptyList
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
 	// Note here we do not allow RemoveAtIndex(list.Length()) as this is "out of bounds"
 	// and unlike inserting it does not make sense to define it here.
 	if list.length <= index {
-		return *new(T), ErrorIndexOutOfBounds
+		return *new(T), dsa_error.ErrorIndexOutOfBounds
 	}
 
 	// If we are removing at the tail of the list,
