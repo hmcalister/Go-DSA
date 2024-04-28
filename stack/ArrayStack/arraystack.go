@@ -32,6 +32,35 @@ func (stack *ArrayStack[T]) Peek() (T, error) {
 	return item, nil
 }
 
+// Find the first item in a stack matching a predicate.
+// The stack is traversed from top to bottom.
+//
+// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+func (stack *ArrayStack[T]) Find(predicate func(item T) bool) (T, error) {
+	for index := len(stack.stackData) - 1; index >= 0; index -= 1 {
+		item := stack.stackData[index]
+		if predicate(item) {
+			return item, nil
+		}
+	}
+	return *new(T), ErrorItemNotFound
+}
+
+// Find all items in a stack matching a predicate.
+// The stack is traversed from top to bottom.
+//
+// Returns all items from the stack that match the predicate.
+func (stack *ArrayStack[T]) FindAll(predicate func(item T) bool) []T {
+	items := make([]T, 0)
+	for index := len(stack.stackData) - 1; index >= 0; index -= 1 {
+		item := stack.stackData[index]
+		if predicate(item) {
+			items = append(items, item)
+		}
+	}
+	return items
+}
+
 // Get the size of the stack, the number of items in the stack.
 func (stack *ArrayStack[T]) Size() int {
 	return len(stack.stackData)
