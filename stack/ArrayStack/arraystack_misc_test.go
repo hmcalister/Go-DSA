@@ -26,3 +26,11 @@ func TestArrayStackInit(t *testing.T) {
 	})
 }
 
+func TestCheckPeekOfEmptyArrayStack(t *testing.T) {
+	stack := arraystack.New[int]()
+
+	_, err := stack.Peek()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when peeking at empty stack", err)
+	}
+}
