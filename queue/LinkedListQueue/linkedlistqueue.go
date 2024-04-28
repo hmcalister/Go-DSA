@@ -2,6 +2,7 @@ package linkedlistqueue
 
 import (
 	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
 // Implement a queue using a linked list.
@@ -23,30 +24,21 @@ func New[T any]() *LinkedListQueue[T] {
 
 // Peek at the front item in the queue.
 //
-// Returns an error if the queue is empty.
+// Returns a dsa_error.DataStructureEmpty error if the queue is empty.
 func (queue *LinkedListQueue[T]) Peek() (T, error) {
 	if queue.queueData.Length() == 0 {
-		return *new(T), ErrorQueueEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
-	item, err := queue.queueData.ItemAtIndex(0)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return item, nil
+	return queue.queueData.ItemAtIndex(0)
 }
 
 // Find the first item in a queue matching a predicate.
 // The queue is traversed from front to back.
 //
-// Returns (item, nil) if the item is present, or (*new(T), ErrorItemNotFound) if the item is not present.
+// Returns (item, nil) if the item is present, or (*new(T), dsa_error.ErrorItemNotFound) if the item is not present.
 func (queue *LinkedListQueue[T]) Find(predicate func(item T) bool) (T, error) {
-	item, err := queue.queueData.Find(predicate)
-	if err != nil {
-		return *new(T), ErrorItemNotFound
-	}
-	return item, nil
+	return queue.queueData.Find(predicate)
 }
 
 // Find all items in a queue matching a predicate.
@@ -75,16 +67,11 @@ func (queue *LinkedListQueue[T]) Add(item T) {
 
 // Dequeue an item, removing from the front of the queue.
 //
-// Returns an error if the queue is empty.
+// Returns a dsa_error.ErrorDataStructureEmpty error if the queue is empty.
 func (queue *LinkedListQueue[T]) Remove() (T, error) {
 	if queue.queueData.Length() == 0 {
-		return *new(T), ErrorQueueEmpty
+		return *new(T), dsa_error.ErrorDataStructureEmpty
 	}
 
-	item, err := queue.queueData.RemoveAtIndex(0)
-	if err != nil {
-		return *new(T), err
-	}
-
-	return item, nil
+	return queue.queueData.RemoveAtIndex(0)
 }
