@@ -34,3 +34,17 @@ func TestArrayStackCheckPeekAfterAdd(t *testing.T) {
 	}
 }
 
+func TestArrayStackCheckSizeAfterAdd(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5}
+	stack := arraystack.New[int]()
+
+	for index, item := range items {
+		stack.Add(item)
+
+		stackSize := stack.Size()
+		expectedSize := index + 1
+		if stackSize != expectedSize {
+			t.Errorf("found stack size (%v) does not match the expected size (%v)", stackSize, expectedSize)
+		}
+	}
+}
