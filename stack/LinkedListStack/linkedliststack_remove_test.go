@@ -23,3 +23,12 @@ func TestLinkedListStackRemove(t *testing.T) {
 	}
 }
 
+func TestLinkedListStackRemoveFromEmptyStack(t *testing.T) {
+	stack := linkedliststack.New[int]()
+
+	_, err := stack.Remove()
+	if err == nil {
+		t.Errorf("did not encounter error (%v) when removing from empty stack", err)
+	}
+}
+
