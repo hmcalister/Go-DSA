@@ -128,6 +128,20 @@ func TestHashSetRemove(t *testing.T) {
 	}
 }
 
+func TestHashSetRemoveUnexpectedItem(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	set := hashset.New[int]()
+
+	for _, item := range items {
+		set.Add(item)
+	}
+
+	err := set.Remove(0)
+	if err != hashset.ErrorItemNotContained {
+		t.Errorf("removal of unexpected item did not result in expected error, got error %v", err)
+	}
+}
+
 func TestHashSetContainsDuringRemove(t *testing.T) {
 	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	set := hashset.New[int]()
