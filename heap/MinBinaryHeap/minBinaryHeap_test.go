@@ -249,3 +249,19 @@ func TestMinHeapRemovePeekMin(t *testing.T) {
 		t.Errorf("heap min item (%v) does not match expected min item (%v)", heapMinItem, expectedMinItem)
 	}
 }
+
+func TestMinBinaryHeapItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	heap := minbinaryheap.New[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	retrievedItems := heap.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
+	}
+}
