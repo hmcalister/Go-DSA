@@ -1,6 +1,7 @@
 package redblacktree_test
 
 import (
+	"slices"
 	"testing"
 
 	redblacktree "github.com/hmcalister/Go-DSA/tree/RedBlackTree"
@@ -35,4 +36,20 @@ func TestInitializeTreeGenericTypes(t *testing.T) {
 			return 0
 		})
 	})
+}
+
+func TestRedBlackTreeItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	tree := redblacktree.New[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		tree.Add(item)
+	}
+
+	retrievedItems := tree.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
+	}
 }
