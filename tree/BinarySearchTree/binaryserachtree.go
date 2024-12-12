@@ -65,6 +65,13 @@ func (tree *BinarySearchTree[T]) Find(item T) (*BinarySearchTreeNode[T], error) 
 	return nil, dsa_error.ErrorItemNotFound
 }
 
+// Get all items from the tree. This method allocates an array of length equal to the number of items.
+func (tree *BinarySearchTree[T]) Items() []T {
+	items := make([]T, tree.root.size)
+	ApplyTreeInorder(tree, func(item T) { items = append(items, item) })
+	return items
+}
+
 // ----------------------------------------------------------------------------
 // Apply Methods
 
