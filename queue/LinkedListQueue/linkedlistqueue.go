@@ -49,6 +49,12 @@ func (queue *LinkedListQueue[T]) FindAll(predicate func(item T) bool) []T {
 	return queue.queueData.FindAll(predicate)
 }
 
+// Get all items from the queue. This method allocates an array of length equal to the number of items.
+func (queue *LinkedListQueue[T]) Items() []T {
+	items := queue.queueData.Items()
+	return items
+}
+
 // Get the size of the queue, the number of items in the queue.
 func (queue *LinkedListQueue[T]) Size() int {
 	return queue.queueData.Length()

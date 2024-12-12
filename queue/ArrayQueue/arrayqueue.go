@@ -61,6 +61,13 @@ func (queue *ArrayQueue[T]) FindAll(predicate func(item T) bool) []T {
 	return foundItems
 }
 
+// Get all items from the queue. This method allocates an array of length equal to the number of items.
+func (queue *ArrayQueue[T]) Items() []T {
+	items := make([]T, queue.Size())
+	copy(items, queue.queueData)
+	return items
+}
+
 // Get the size of the queue, the number of items in the queue.
 func (queue *ArrayQueue[T]) Size() int {
 	return len(queue.queueData)

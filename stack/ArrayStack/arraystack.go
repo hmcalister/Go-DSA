@@ -63,6 +63,13 @@ func (stack *ArrayStack[T]) FindAll(predicate func(item T) bool) []T {
 	return items
 }
 
+// Get all items from the stack. This method allocates an array of length equal to the number of items..
+func (stack *ArrayStack[T]) Items() []T {
+	items := make([]T, stack.Size())
+	copy(items, stack.stackData)
+	return items
+}
+
 // Get the size of the stack, the number of items in the stack.
 func (stack *ArrayStack[T]) Size() int {
 	return len(stack.stackData)

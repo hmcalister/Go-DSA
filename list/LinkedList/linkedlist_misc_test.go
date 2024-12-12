@@ -1,6 +1,7 @@
 package linkedlist_test
 
 import (
+	"slices"
 	"testing"
 
 	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
@@ -42,6 +43,22 @@ func TestAddAtIndexDocumentationExample(t *testing.T) {
 	}
 	if item != "(linked!)" {
 		t.Errorf("retrieved item does not match expected item")
+	}
+}
+
+func TestLinkedListItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	set := linkedlist.New[int]()
+
+	for _, item := range items {
+		set.Add(item)
+	}
+
+	retrievedItems := set.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
 	}
 }
 

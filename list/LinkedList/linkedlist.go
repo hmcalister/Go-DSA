@@ -124,6 +124,19 @@ func (list *LinkedList[T]) ItemAtIndex(index int) (T, error) {
 	}
 }
 
+// Get all items from the list. This method allocates an array of length equal to the number of items.
+func (list *LinkedList[T]) Items() []T {
+	items := make([]T, list.Length())
+	itemIndex := 0
+	currentNode := list.head
+	for currentNode != nil {
+		items[itemIndex] = currentNode.item
+		currentNode = currentNode.next
+		itemIndex += 1
+	}
+	return items
+}
+
 // ----------------------------------------------------------------------------
 // Apply, Map, and Fold methods
 //

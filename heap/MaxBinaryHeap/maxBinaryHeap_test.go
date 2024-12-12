@@ -249,3 +249,19 @@ func TestMaxHeapRemovePeekMax(t *testing.T) {
 		t.Errorf("heap max item (%v) does not match expected max item (%v)", heapMaxItem, expectedMaxItem)
 	}
 }
+
+func TestMaxBinaryHeapItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	heap := maxbinaryheap.New[int](comparator.DefaultIntegerComparator)
+
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	retrievedItems := heap.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
+	}
+}

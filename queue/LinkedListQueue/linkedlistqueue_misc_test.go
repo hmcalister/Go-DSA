@@ -1,6 +1,7 @@
 package linkedlistqueue_test
 
 import (
+	"slices"
 	"testing"
 
 	linkedlistqueue "github.com/hmcalister/Go-DSA/queue/LinkedListQueue"
@@ -50,5 +51,21 @@ func TestFindAllFromEmptyLinkedListQueue(t *testing.T) {
 	items := queue.FindAll(func(item int) bool { return item == 1 })
 	if len(items) != 0 {
 		t.Errorf("found a non-zero number of items from an empty queue")
+	}
+}
+
+func TestLinkedListQueueItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	queue := linkedlistqueue.New[int]()
+
+	for _, item := range items {
+		queue.Add(item)
+	}
+
+	retrievedItems := queue.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
 	}
 }
