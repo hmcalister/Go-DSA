@@ -98,3 +98,86 @@ func (stack *ArrayStack[T]) Remove() (T, error) {
 	stack.stackData = stack.stackData[:len(stack.stackData)-1]
 	return item, nil
 }
+
+// ----------------------------------------------------------------------------
+// Apply, Map, and Fold methods
+//
+// Methods to apply a function across ALL items in a stack.
+
+// Iterate over the stack in the forward direction (bottom to top) and apply a function to each item.
+//
+// It is expected that ForwardApply does *not* update the stack items.
+// To modify the stack items, use ForwardMap.
+// To accumulate values over the stack, use ForwardFold.
+func ForwardApply[T any](stack *ArrayStack[T], f func(item T)) {
+	for index := 0; index < len(stack.stackData); index += 1 {
+		f(stack.stackData[index])
+	}
+}
+
+// Iterate over the stack in the forward direction (bottom to top) and apply a function to each item
+// The result of this function is then assigned to the node at each step.
+//
+// ForwardMap can update the node items by returning the update value.
+// If you do not need to modify the stack items, use ForwardApply.
+// To accumulate values over the stack, use ForwardFold.
+func ForwardMap[T any](stack *ArrayStack[T], f func(item T) T) {
+	for index := 0; index < len(stack.stackData); index += 1 {
+		stack.stackData[index] = f(stack.stackData[index])
+	}
+}
+
+// Iterate over the stack (bottom to top) and apply the function f to it.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on ArrayStack to allow for generic accumulators.
+func ForwardFold[T any, G any](stack *ArrayStack[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	accumulator := initialAccumulator
+	for index := 0; index < len(stack.stackData); index += 1 {
+		accumulator = f(stack.stackData[index], accumulator)
+	}
+
+	return accumulator
+}
+
+// Iterate over the stack in the reverse direction (top to bottom) and apply a function to each item.
+//
+// It is expected that ReverseApply does *not* update the stack items.
+// To modify the stack items, use ReverseMap.
+// To accumulate values over the stack, use ReverseFold.
+func ReverseApply[T any](stack *ArrayStack[T], f func(item T)) {
+	for index := len(stack.stackData) - 1; index >= 0; index -= 1 {
+		f(stack.stackData[index])
+	}
+}
+
+// Iterate over the stack in the reverse direction (top to bottom) and apply a function to each item
+// The result of this function is then assigned to the node at each step.
+//
+// ReverseMap can update the node items by returning the update value.
+// If you do not need to modify the stack items, use ReverseApply.
+// To accumulate values over the stack, use ReverseFold.
+func ReverseMap[T any](stack *ArrayStack[T], f func(item T) T) {
+	for index := len(stack.stackData) - 1; index >= 0; index -= 1 {
+		stack.stackData[index] = f(stack.stackData[index])
+	}
+}
+
+// Iterate over the stack (top to bottom) and apply the function f to it.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on ArrayStack to allow for generic accumulators.
+func ReverseFold[T any, G any](stack *ArrayStack[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	accumulator := initialAccumulator
+	for index := len(stack.stackData) - 1; index >= 0; index -= 1 {
+		accumulator = f(stack.stackData[index], accumulator)
+	}
+
+	return accumulator
+}
