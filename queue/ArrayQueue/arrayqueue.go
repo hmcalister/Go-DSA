@@ -1,6 +1,8 @@
 package arrayqueue
 
-import dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+import (
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+)
 
 // Implement a queue using a array / slice.
 //
@@ -95,4 +97,87 @@ func (queue *ArrayQueue[T]) Remove() (T, error) {
 	item := queue.queueData[0]
 	queue.queueData = queue.queueData[1:]
 	return item, nil
+}
+
+// ----------------------------------------------------------------------------
+// Apply, Map, and Fold methods
+//
+// Methods to apply a function across ALL items in a queue.
+
+// Iterate over the queue in the forward direction and apply a function to each item.
+//
+// It is expected that ForwardApply does *not* update the queue items.
+// To modify the queue items, use ForwardMap.
+// To accumulate values over the queue, use ForwardFold.
+func ForwardApply[T any](queue *ArrayQueue[T], f func(item T)) {
+	for index := 0; index < len(queue.queueData); index += 1 {
+		f(queue.queueData[index])
+	}
+}
+
+// Iterate over the queue in the forward direction and apply a function to each item
+// The result of this function is then assigned to the node at each step.
+//
+// ForwardMap can update the node items by returning the update value.
+// If you do not need to modify the queue items, use ForwardApply.
+// To accumulate values over the queue, use ForwardFold.
+func ForwardMap[T any](queue *ArrayQueue[T], f func(item T) T) {
+	for index := 0; index < len(queue.queueData); index += 1 {
+		queue.queueData[index] = f(queue.queueData[index])
+	}
+}
+
+// Iterate over the queue and apply the function f to it.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on ArrayQueue to allow for generic accumulators.
+func ForwardFold[T any, G any](queue *ArrayQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	accumulator := initialAccumulator
+	for index := 0; index < len(queue.queueData); index += 1 {
+		accumulator = f(queue.queueData[index], accumulator)
+	}
+
+	return accumulator
+}
+
+// Iterate over the queue in the reverse direction and apply a function to each item.
+//
+// It is expected that ReverseApply does *not* update the queue items.
+// To modify the queue items, use ReverseMap.
+// To accumulate values over the queue, use ReverseFold.
+func ReverseApply[T any](queue *ArrayQueue[T], f func(item T)) {
+	for index := len(queue.queueData) - 1; index >= 0; index -= 1 {
+		f(queue.queueData[index])
+	}
+}
+
+// Iterate over the queue in the reverse direction and apply a function to each item
+// The result of this function is then assigned to the node at each step.
+//
+// ReverseMap can update the node items by returning the update value.
+// If you do not need to modify the queue items, use ReverseApply.
+// To accumulate values over the queue, use ReverseFold.
+func ReverseMap[T any](queue *ArrayQueue[T], f func(item T) T) {
+	for index := len(queue.queueData) - 1; index >= 0; index -= 1 {
+		queue.queueData[index] = f(queue.queueData[index])
+	}
+}
+
+// Iterate over the queue and apply the function f to it.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on ArrayQueue to allow for generic accumulators.
+func ReverseFold[T any, G any](queue *ArrayQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	accumulator := initialAccumulator
+	for index := len(queue.queueData) - 1; index >= 0; index -= 1 {
+		accumulator = f(queue.queueData[index], accumulator)
+	}
+
+	return accumulator
 }
