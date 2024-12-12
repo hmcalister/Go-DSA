@@ -32,7 +32,7 @@ func (set *HashSet[T]) Contains(item T) bool {
 	return ok
 }
 
-// Remove an item from the set. Returns an error if the item is not contained in the set
+// Remove an item from the set. Returns an error if the item is not contained in the set.
 func (set *HashSet[T]) Remove(item T) error {
 	ok := set.Contains(item)
 	if !ok {
@@ -40,4 +40,16 @@ func (set *HashSet[T]) Remove(item T) error {
 	}
 	delete(set.setData, item)
 	return nil
+}
+
+// Get all items from the hashset. This method allocates an array of length equal to the number of items.
+// The items are not guaranteed to be in the order they were inserted into the hashset.
+func (set *HashSet[T]) Items() []T {
+	items := make([]T, set.Size())
+	itemIndex := 0
+	for item := range set.setData {
+		items[itemIndex] = item
+		itemIndex += 1
+	}
+	return items
 }
