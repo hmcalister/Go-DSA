@@ -88,6 +88,13 @@ func (heap *MinBinaryHeap[T]) FindAll(predicate func(item T) bool) []T {
 	return foundItems
 }
 
+// Get all items from the heap. This method allocates an array of length equal to the number of items.
+func (heap *MinBinaryHeap[T]) Items() []T {
+	items := make([]T, heap.Size())
+	copy(items, heap.heapData)
+	return items
+}
+
 // Get the size of this heap
 func (heap *MinBinaryHeap[T]) Size() int {
 	return len(heap.heapData)
