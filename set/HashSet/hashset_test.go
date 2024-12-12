@@ -2,6 +2,7 @@ package hashset_test
 
 import (
 	"math/rand/v2"
+	"slices"
 	"testing"
 
 	hashset "github.com/hmcalister/Go-DSA/set/HashSet"
@@ -62,6 +63,22 @@ func TestHashSetContains(t *testing.T) {
 
 	if set.Contains(0) {
 		t.Errorf("hash set claims to contain unexpected item")
+	}
+}
+
+func TestHashSetItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	set := hashset.New[int]()
+
+	for _, item := range items {
+		set.Add(item)
+	}
+
+	retrievedItems := set.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
 	}
 }
 
