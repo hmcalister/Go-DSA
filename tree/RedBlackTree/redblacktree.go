@@ -213,7 +213,7 @@ func (tree *RedBlackTree[T]) Items() []T {
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
 //
-// This method is a wrapper for PreorderTraversalFold(tree.root, initialAccumulator, f)
+// This method is a wrapper for ApplyNodePreorder(tree.root, f)
 func ApplyTreePreorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
@@ -225,7 +225,7 @@ func ApplyTreePreorder[T any](tree *RedBlackTree[T], f func(item T)) {
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
 //
-// This method is a wrapper for InorderTraversalFold(tree.root, initialAccumulator, f)
+// This method is a wrapper for ApplyNodeInorder(tree.root, f)
 func ApplyTreeInorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
@@ -236,7 +236,8 @@ func ApplyTreeInorder[T any](tree *RedBlackTree[T], f func(item T)) {
 // Apply a function f to each node in a tree Postorder.
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
-// This method is a wrapper for PostorderTraversalFold(tree.root, initialAccumulator, f)
+//
+// This method is a wrapper for ApplyNodePostorder(tree.root, f)
 func ApplyTreePostorder[T any](tree *RedBlackTree[T], f func(item T)) {
 	if tree.root == nil {
 		return
@@ -249,7 +250,7 @@ func ApplyTreePostorder[T any](tree *RedBlackTree[T], f func(item T)) {
 
 // Fold a function f over the tree preorder.
 //
-// This method is a wrapper for FoldPreorder(tree.root, initialAccumulator, f)
+// This method is a wrapper for FoldNodePreorder(tree.root, initialAccumulator, f)
 func FoldTreePreorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	if tree.root == nil {
 		return initialAccumulator
@@ -259,7 +260,7 @@ func FoldTreePreorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f f
 
 // Fold a function f over the tree Inorder.
 //
-// This method is a wrapper for FoldInorder(tree.root, initialAccumulator, f)
+// This method is a wrapper for FoldNodeInorder(tree.root, initialAccumulator, f)
 func FoldTreeInorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	if tree.root == nil {
 		return initialAccumulator
@@ -269,7 +270,7 @@ func FoldTreeInorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f fu
 
 // Fold a function f over the tree Postorder.
 //
-// This method is a wrapper for FoldPostorder(tree.root, initialAccumulator, f)
+// This method is a wrapper for FoldNodePostorder(tree.root, initialAccumulator, f)
 func FoldTreePostorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	if tree.root == nil {
 		return initialAccumulator
