@@ -53,3 +53,35 @@ func (set *HashSet[T]) Items() []T {
 	}
 	return items
 }
+
+// Iterate over the items of the hash set and apply a function to each item.
+//
+// BEWARE: Iteration over a hashset does not guarantee a specific order ---
+// you may find elements in any order, not the order they were inserted!
+// Ensure your function accounts for this.
+//
+// To accumulate values over items, use Fold.
+func Apply[T comparable](set *HashSet[T], f func(item T)) {
+	for item := range set.setData {
+		f(item)
+	}
+}
+
+// Iterate over set items and apply the function f.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// BEWARE: Iteration over a hashset does not guarantee a specific order ---
+// you may find elements in any order, not the order they were inserted!
+// Ensure your function accounts for this. This is especially important for
+// a fold!
+//
+// This function is not a method on HashSet to allow for generic accumulators.
+func Fold[T comparable, G any](set *HashSet[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	accumulator := initialAccumulator
+	for item := range set.setData {
+		accumulator = f(item, accumulator)
+	}
+
+	return accumulator
+}
