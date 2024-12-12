@@ -50,6 +50,12 @@ func (stack *LinkedListStack[T]) FindAll(predicate func(item T) bool) []T {
 	return items
 }
 
+// Get all items from the stack. This method allocates an array of length equal to the number of items.
+func (stack *LinkedListStack[T]) Items() []T {
+	items := stack.stackData.Items()
+	return items
+}
+
 // Get the size of the stack, the number of items in the stack.
 func (stack *LinkedListStack[T]) Size() int {
 	return stack.stackData.Length()
