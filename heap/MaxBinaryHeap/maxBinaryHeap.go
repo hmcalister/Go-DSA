@@ -193,3 +193,59 @@ func (heap *MaxBinaryHeap[T]) RemoveItem(item T) (T, error) {
 
 	return targetItem, nil
 }
+
+// ----------------------------------------------------------------------------
+// Apply, Map, and Fold methods
+//
+// Methods to apply a function across ALL items in a heap.
+
+// Iterate over the heap and apply a function to each item.
+// In case it matters, the iteration is effectively in "reading order" along the heap.
+// Since Apply does not update the heap items, this method does *not* call heapify.
+//
+// It is expected that Apply does *not* update the heap items.
+// To modify the heap items, use Map.
+// To accumulate values over the heap, use Fold.
+func Apply[T any](heap *MaxBinaryHeap[T], f func(item T)) {
+	for index := 0; index < len(heap.heapData); index += 1 {
+		f(heap.heapData[index])
+	}
+}
+
+// Iterate over the heap and apply a function to each item, assigning the result to the item.
+// In case it matters, the iteration is effectively in "reading order" along the heap.
+// The result of this function is then assigned to the node at each step.
+//
+// BEWARE: Since this method updates the heap data, this method calls heapify to restore heap order.
+// However, since this method may update *all* heap items, this method calls heapify on *all* non-leaf items.
+// That is potentially very expensive!
+//
+// Map can update the node items by returning the update value.
+// If you do not need to modify the heap items, use Apply.
+// To accumulate values over the heap, use Fold.
+func Map[T any](heap *MaxBinaryHeap[T], f func(item T) T) {
+	for index := 0; index < len(heap.heapData); index += 1 {
+		heap.heapData[index] = f(heap.heapData[index])
+	}
+
+	for index := len(heap.heapData) / 2; index >= 0; index -= 1 {
+		heap.maxHeapify(index)
+	}
+}
+
+// Iterate over the heap and apply the function f to it.
+// In case it matters, the iteration is effectively in "reading order" along the heap.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// This function returns the final accumulator.
+//
+// This function is not a method on MaxBinaryHeap to allow for generic accumulators.
+func Fold[T any, G any](heap *MaxBinaryHeap[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	accumulator := initialAccumulator
+	for index := 0; index < len(heap.heapData); index += 1 {
+		accumulator = f(heap.heapData[index], accumulator)
+	}
+
+	return accumulator
+}

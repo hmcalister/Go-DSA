@@ -106,3 +106,58 @@ func (queue *PriorityQueue[T]) Remove() (T, error) {
 
 	return item, nil
 }
+
+// ----------------------------------------------------------------------------
+// Apply, Map, and Fold methods
+//
+// Methods to apply a function across ALL items in a queue.
+
+// Iterate over the queue and apply a function to each item.
+//
+// BEWARE: Iteration order is not the same as priority order!
+// To iterate in priority order, use Items() and sort by priority.
+//
+// Since Apply does not update the queue items, this method does *not* call heapify (reorganize the queue).
+//
+// Internally this method calls minbinaryheap.Apply, as the backing data structure is a heap.
+//
+// It is expected that Apply does *not* update the queue items.
+// To modify the queue items, use Map.
+// To accumulate values over the queue, use Fold.
+func Apply[T any](queue *PriorityQueue[T], f func(item T)) {
+	minbinaryheap.Apply(queue.queueData, f)
+}
+
+// Iterate over the queue apply a function to each item.
+//
+// BEWARE: Iteration order is not the same as priority order!
+// To iterate in priority order, use Items() and sort by priority.
+//
+// BEWARE: Since this method updates the queue data, this method calls heapify to restore queue order.
+// However, since this method may update *all* queue items, this method calls heapify on *all* items.
+// That is potentially very expensive!
+//
+// Internally this method calls minbinaryheap.Map, as the backing data structure is a heap.
+//
+// Map can update the node items by returning the update value.
+// If you do not need to modify the queue items, use Apply.
+// To accumulate values over the queue, use Fold.
+func Map[T any](queue *PriorityQueue[T], f func(item T) T) {
+	minbinaryheap.Map(queue.queueData, f)
+}
+
+// Iterate over the queue and apply the function f to it.
+// The function f also takes the current value of the accumulator.
+// The results of f become the new value of the accumulator at each step.
+//
+// BEWARE: Iteration order is not the same as priority order!
+// To iterate in priority order, use Items() and sort by priority.
+//
+// This function returns the final accumulator.
+//
+// Internally this method calls minbinaryheap.Fold, as the backing data structure is a heap.
+//
+// This function is not a method on PriorityQueue to allow for generic accumulators.
+func Fold[T any, G any](queue *PriorityQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {
+	return minbinaryheap.Fold(queue.queueData, initialAccumulator, f)
+}
