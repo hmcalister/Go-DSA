@@ -169,7 +169,7 @@ func ForwardMap[T any](list *LinkedList[T], f func(item T) T) {
 	}
 }
 
-// Iterate over the give list and apply the function f to it.
+// Iterate over the list and apply the function f to it.
 // The function f also takes the current value of the accumulator.
 // The results of f become the new value of the accumulator at each step.
 //
@@ -214,7 +214,7 @@ func ReverseMap[T any](list *LinkedList[T], f func(item T) T) {
 	}
 }
 
-// Iterate over the give list and apply the function f to it.
+// Iterate over the list and apply the function f to it.
 // The function f also takes the current value of the accumulator.
 // The results of f become the new value of the accumulator at each step.
 //
