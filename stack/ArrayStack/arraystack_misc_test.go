@@ -1,6 +1,7 @@
 package arraystack_test
 
 import (
+	"slices"
 	"testing"
 
 	arraystack "github.com/hmcalister/Go-DSA/stack/ArrayStack"
@@ -50,5 +51,21 @@ func TestFindAllFromEmptyArrayStack(t *testing.T) {
 	items := stack.FindAll(func(item int) bool { return item == 1 })
 	if len(items) != 0 {
 		t.Errorf("found a non-zero number of items from an empty stack")
+	}
+}
+
+func TestArrayStackItems(t *testing.T) {
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	stack := arraystack.New[int]()
+
+	for _, item := range items {
+		stack.Add(item)
+	}
+
+	retrievedItems := stack.Items()
+	for _, item := range items {
+		if !slices.Contains(retrievedItems, item) {
+			t.Errorf("retrieved items %v does not contain expected item %v", retrievedItems, item)
+		}
 	}
 }
