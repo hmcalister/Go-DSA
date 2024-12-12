@@ -198,6 +198,14 @@ func (tree *RedBlackTree[T]) Find(item T) (*RedBlackTreeNode[T], error) {
 	return nil, dsa_error.ErrorItemNotFound
 }
 
+// Get all items from the tree. This method allocates an array of length equal to the number of items.
+// Items may not be present in the order they were inserted.
+func (tree *RedBlackTree[T]) Items() []T {
+	items := make([]T, tree.root.size)
+	ApplyTreeInorder(tree, func(item T) { items = append(items, item) })
+	return items
+}
+
 // ----------------------------------------------------------------------------
 // Apply Methods
 
