@@ -58,6 +58,8 @@ func (set *HashSet[T]) Items() []T {
 
 // Iterate over the items of the hash set and apply a function to each item.
 //
+// Idiomatic Go should likely use Iterator() rather than functional methods.
+//
 // BEWARE: Iteration over a hashset does not guarantee a specific order ---
 // you may find elements in any order, not the order they were inserted!
 // Ensure your function accounts for this.
@@ -72,6 +74,8 @@ func Apply[T comparable](set *HashSet[T], f func(item T)) {
 // Iterate over set items and apply the function f.
 // The function f also takes the current value of the accumulator.
 // The results of f become the new value of the accumulator at each step.
+//
+// Idiomatic Go should likely use Iterator() rather than functional methods.
 //
 // BEWARE: Iteration over a hashset does not guarantee a specific order ---
 // you may find elements in any order, not the order they were inserted!
