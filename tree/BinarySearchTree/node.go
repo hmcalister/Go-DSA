@@ -246,8 +246,6 @@ func FoldNodePostorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulat
 // Iterator Methods
 
 // Iterate over each node in a tree Preorder.
-//
-// Apply should not change the item in a Node, as this could affect the binary tree structure.
 func IteratorNodePreorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
 	return func(yield func(T) bool) {
 		if node == nil {
@@ -271,8 +269,6 @@ func IteratorNodePreorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
 }
 
 // Iterate over each node in a tree Inorder.
-//
-// Apply should not change the item in a Node, as this could affect the binary tree structure.
 func IteratorNodeInorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
 	return func(yield func(T) bool) {
 		if node == nil {
@@ -296,8 +292,6 @@ func IteratorNodeInorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
 }
 
 // Iterate over each node in a tree Postorder.
-//
-// Apply should not change the item in a Node, as this could affect the binary tree structure.
 func IteratorNodePostorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
 	return func(yield func(T) bool) {
 		if node == nil {
