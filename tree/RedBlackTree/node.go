@@ -207,6 +207,8 @@ func (node *RedBlackTreeNode[T]) Predecessor() *RedBlackTreeNode[T] {
 
 // Apply a function f to each node in a tree Preorder.
 //
+// Idiomatic Go should likely use IteratorNodePreorder() rather than functional methods.
+//
 // Apply should not change the item in a Node, as this could affect the tree structure.
 func ApplyNodePreorder[T any](node *RedBlackTreeNode[T], f func(item T)) {
 	f(node.item)
@@ -220,6 +222,8 @@ func ApplyNodePreorder[T any](node *RedBlackTreeNode[T], f func(item T)) {
 
 // Apply a function f to each node in a tree Inorder.
 //
+// Idiomatic Go should likely use IteratorNodeInorder() rather than functional methods.
+//
 // Apply should not change the item in a Node, as this could affect the tree structure.
 func ApplyNodeInorder[T any](node *RedBlackTreeNode[T], f func(item T)) {
 	if node.left != nil {
@@ -232,6 +236,8 @@ func ApplyNodeInorder[T any](node *RedBlackTreeNode[T], f func(item T)) {
 }
 
 // Apply a function f to each node in a tree Postorder.
+//
+// Idiomatic Go should likely use IteratorNodePostorder() rather than functional methods.
 //
 // Apply should not change the item in a Node, as this could affect the tree structure.
 func ApplyNodePostorder[T any](node *RedBlackTreeNode[T], f func(item T)) {
@@ -249,6 +255,8 @@ func ApplyNodePostorder[T any](node *RedBlackTreeNode[T], f func(item T)) {
 
 // Fold a function f (taking the current node item and the accumulator value) across the tree Preorder.
 // f must return the next value of the accumulator.
+//
+// Idiomatic Go should likely use IteratorNodePreorder() rather than functional methods.
 //
 // Returns the final accumulator value
 func FoldNodePreorder[T, G any](node *RedBlackTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
@@ -268,6 +276,8 @@ func FoldNodePreorder[T, G any](node *RedBlackTreeNode[T], initialAccumulator G,
 // Fold a function f (taking the current node item and the accumulator value) across the tree Inorder.
 // f must return the next value of the accumulator.
 //
+// Idiomatic Go should likely use IteratorNodeInorder() rather than functional methods.
+//
 // Returns the final accumulator value
 func FoldNodeInorder[T, G any](node *RedBlackTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	currentAccumulator := initialAccumulator
@@ -285,6 +295,8 @@ func FoldNodeInorder[T, G any](node *RedBlackTreeNode[T], initialAccumulator G, 
 
 // Fold a function f (taking the current node item and the accumulator value) across the tree Postorder.
 // f must return the next value of the accumulator.
+//
+// Idiomatic Go should likely use IteratorNodePostorder() rather than functional methods.
 //
 // Returns the final accumulator value
 func FoldNodePostorder[T, G any](node *RedBlackTreeNode[T], initialAccumulator G, f func(item T, accumulator G) G) G {

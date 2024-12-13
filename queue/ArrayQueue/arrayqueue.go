@@ -108,6 +108,8 @@ func (queue *ArrayQueue[T]) Remove() (T, error) {
 
 // Iterate over the queue in the forward direction and apply a function to each item.
 //
+// Idiomatic Go should likely use ForwardIterator() rather than functional methods.
+//
 // It is expected that ForwardApply does *not* update the queue items.
 // To modify the queue items, use ForwardMap.
 // To accumulate values over the queue, use ForwardFold.
@@ -119,6 +121,8 @@ func ForwardApply[T any](queue *ArrayQueue[T], f func(item T)) {
 
 // Iterate over the queue in the forward direction and apply a function to each item
 // The result of this function is then assigned to the node at each step.
+//
+// Idiomatic Go should likely use ForwardIterator() rather than functional methods.
 //
 // ForwardMap can update the node items by returning the update value.
 // If you do not need to modify the queue items, use ForwardApply.
@@ -135,6 +139,8 @@ func ForwardMap[T any](queue *ArrayQueue[T], f func(item T) T) {
 //
 // This function returns the final accumulator.
 //
+// Idiomatic Go should likely use ForwardIterator() rather than functional methods.
+//
 // This function is not a method on ArrayQueue to allow for generic accumulators.
 func ForwardFold[T any, G any](queue *ArrayQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	accumulator := initialAccumulator
@@ -147,6 +153,8 @@ func ForwardFold[T any, G any](queue *ArrayQueue[T], initialAccumulator G, f fun
 
 // Iterate over the queue in the reverse direction and apply a function to each item.
 //
+// Idiomatic Go should likely use ReverseIterator() rather than functional methods.
+//
 // It is expected that ReverseApply does *not* update the queue items.
 // To modify the queue items, use ReverseMap.
 // To accumulate values over the queue, use ReverseFold.
@@ -158,6 +166,8 @@ func ReverseApply[T any](queue *ArrayQueue[T], f func(item T)) {
 
 // Iterate over the queue in the reverse direction and apply a function to each item
 // The result of this function is then assigned to the node at each step.
+//
+// Idiomatic Go should likely use ReverseIterator() rather than functional methods.
 //
 // ReverseMap can update the node items by returning the update value.
 // If you do not need to modify the queue items, use ReverseApply.
@@ -173,6 +183,8 @@ func ReverseMap[T any](queue *ArrayQueue[T], f func(item T) T) {
 // The results of f become the new value of the accumulator at each step.
 //
 // This function returns the final accumulator.
+//
+// Idiomatic Go should likely use ReverseIterator() rather than functional methods.
 //
 // This function is not a method on ArrayQueue to allow for generic accumulators.
 func ReverseFold[T any, G any](queue *ArrayQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {

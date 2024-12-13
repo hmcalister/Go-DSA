@@ -79,6 +79,8 @@ func (tree *BinarySearchTree[T]) Items() []T {
 
 // Apply a function f to each node in a tree Preorder.
 //
+// Idiomatic Go should likely use IteratorTreePreorder() rather than functional methods.
+//
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 //
 // This method is a wrapper for ApplyNodePreorder(tree.root, f)
@@ -91,6 +93,8 @@ func ApplyTreePreorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 
 // Apply a function f to each node in a tree Inorder.
 //
+// Idiomatic Go should likely use IteratorTreeInorder() rather than functional methods.
+//
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 //
 // This method is a wrapper for ApplyNodeInorder(tree.root, f)
@@ -102,6 +106,8 @@ func ApplyTreeInorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 }
 
 // Apply a function f to each node in a tree Postorder.
+//
+// Idiomatic Go should likely use IteratorTreePostorder() rather than functional methods.
 //
 // Apply should not change the item in a Node, as this could affect the binary tree structure.
 //
@@ -118,6 +124,8 @@ func ApplyTreePostorder[T any](tree *BinarySearchTree[T], f func(item T)) {
 
 // Fold a function f over the tree preorder.
 //
+// Idiomatic Go should likely use IteratorTreePreorder() rather than functional methods.
+//
 // This method is a wrapper for FoldNodePreorder(tree.root, initialAccumulator, f)
 func FoldTreePreorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	if tree.root == nil {
@@ -128,6 +136,8 @@ func FoldTreePreorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G,
 
 // Fold a function f over the tree Inorder.
 //
+// Idiomatic Go should likely use IteratorTreeInorder() rather than functional methods.
+//
 // This method is a wrapper for FoldNodeInorder(tree.root, initialAccumulator, f)
 func FoldTreeInorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	if tree.root == nil {
@@ -137,6 +147,8 @@ func FoldTreeInorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, 
 }
 
 // Fold a function f over the tree Postorder.
+//
+// Idiomatic Go should likely use IteratorTreePostorder() rather than functional methods.
 //
 // This method is a wrapper for FoldNodePostorder(tree.root, initialAccumulator, f)
 func FoldTreePostorder[T, G any](tree *BinarySearchTree[T], initialAccumulator G, f func(item T, accumulator G) G) G {

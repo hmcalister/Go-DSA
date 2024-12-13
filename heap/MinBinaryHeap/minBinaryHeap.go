@@ -205,6 +205,8 @@ func (heap *MinBinaryHeap[T]) RemoveItem(item T) (T, error) {
 // In case it matters, the iteration is effectively in "reading order" along the heap.
 // Since Apply does not update the heap items, this method does *not* call heapify.
 //
+// Idiomatic Go should likely use Iterator() rather than functional methods.
+//
 // It is expected that Apply does *not* update the heap items.
 // To modify the heap items, use Map.
 // To accumulate values over the heap, use Fold.
@@ -217,6 +219,8 @@ func Apply[T any](heap *MinBinaryHeap[T], f func(item T)) {
 // Iterate over the heap and apply a function to each item, assigning the result to the item.
 // In case it matters, the iteration is effectively in "reading order" along the heap.
 // The result of this function is then assigned to the node at each step.
+//
+// Idiomatic Go should likely use Iterator() rather than functional methods.
 //
 // BEWARE: Since this method updates the heap data, this method calls heapify to restore heap order.
 // However, since this method may update *all* heap items, this method calls heapify on *all* non-leaf items.
@@ -241,6 +245,8 @@ func Map[T any](heap *MinBinaryHeap[T], f func(item T) T) {
 // The results of f become the new value of the accumulator at each step.
 //
 // This function returns the final accumulator.
+//
+// Idiomatic Go should likely use Iterator() rather than functional methods.
 //
 // This function is not a method on MinBinaryHeap to allow for generic accumulators.
 func Fold[T any, G any](heap *MinBinaryHeap[T], initialAccumulator G, f func(item T, accumulator G) G) G {

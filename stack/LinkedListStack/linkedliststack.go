@@ -92,6 +92,8 @@ func (stack *LinkedListStack[T]) Remove() (T, error) {
 
 // Iterate over the stack in the forward direction (bottom to top) and apply a function to each item.
 //
+// Idiomatic Go should likely use ForwardIterator() rather than functional methods.
+//
 // It is expected that ForwardApply does *not* update the stack items.
 // To modify the stack items, use ForwardMap.
 // To accumulate values over the stack, use ForwardFold.
@@ -103,6 +105,8 @@ func ForwardApply[T any](stack *LinkedListStack[T], f func(item T)) {
 
 // Iterate over the stack in the forward direction (bottom to top) and apply a function to each item
 // The result of this function is then assigned to the node at each step.
+//
+// Idiomatic Go should likely use ForwardIterator() rather than functional methods.
 //
 // ForwardMap can update the node items by returning the update value.
 // If you do not need to modify the stack items, use ForwardApply.
@@ -119,6 +123,8 @@ func ForwardMap[T any](stack *LinkedListStack[T], f func(item T) T) {
 //
 // This function returns the final accumulator.
 //
+// Idiomatic Go should likely use ForwardIterator() rather than functional methods.
+//
 // This function is not a method on LinkedListStack to allow for generic accumulators.
 //
 // Internally, this method calls linkedlist.ForwardFold
@@ -127,6 +133,8 @@ func ForwardFold[T any, G any](stack *LinkedListStack[T], initialAccumulator G, 
 }
 
 // Iterate over the stack in the reverse direction (top to bottom) and apply a function to each item.
+//
+// Idiomatic Go should likely use ReverseIterator() rather than functional methods.
 //
 // It is expected that ReverseApply does *not* update the stack items.
 // To modify the stack items, use ReverseMap.
@@ -139,6 +147,8 @@ func ReverseApply[T any](stack *LinkedListStack[T], f func(item T)) {
 
 // Iterate over the stack in the reverse direction (top to bottom) and apply a function to each item
 // The result of this function is then assigned to the node at each step.
+//
+// Idiomatic Go should likely use ReverseIterator() rather than functional methods.
 //
 // ReverseMap can update the node items by returning the update value.
 // If you do not need to modify the stack items, use ReverseApply.
@@ -154,6 +164,8 @@ func ReverseMap[T any](stack *LinkedListStack[T], f func(item T) T) {
 // The results of f become the new value of the accumulator at each step.
 //
 // This function returns the final accumulator.
+//
+// Idiomatic Go should likely use ReverseIterator() rather than functional methods.
 //
 // This function is not a method on LinkedListStack to allow for generic accumulators.
 //
