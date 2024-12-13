@@ -27,6 +27,7 @@ func TestMinBinaryHeapApply(t *testing.T) {
 		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
 	}
 }
+
 func TestMinBinaryHeapMap(t *testing.T) {
 	heap := minbinaryheap.New[string](comparator.DefaultStringComparator)
 	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
@@ -76,5 +77,27 @@ func TestMinBinaryHeapFold(t *testing.T) {
 
 	if !itemsContained {
 		t.Errorf("expected all items to be contained in ground truth array")
+	}
+}
+
+func TestMinBinaryIterator(t *testing.T) {
+	heap := minbinaryheap.New[string](comparator.DefaultStringComparator)
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	concatString := ""
+	for item := range heap.Iterator() {
+		concatString += item
+	}
+
+	expectedConcatString := ""
+	for _, item := range items {
+		expectedConcatString += item
+	}
+
+	if concatString != expectedConcatString {
+		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
 	}
 }
