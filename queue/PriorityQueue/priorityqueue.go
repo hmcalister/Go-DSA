@@ -116,6 +116,8 @@ func (queue *PriorityQueue[T]) Remove() (T, error) {
 
 // Iterate over the queue and apply a function to each item.
 //
+// Idiomatic Go should likely use Iterator() rather than functional methods.
+//
 // BEWARE: Iteration order is not the same as priority order!
 // To iterate in priority order, use Items() and sort by priority.
 //
@@ -131,6 +133,8 @@ func Apply[T any](queue *PriorityQueue[T], f func(item T)) {
 }
 
 // Iterate over the queue apply a function to each item.
+//
+// Idiomatic Go should likely use Iterator() rather than functional methods.
 //
 // BEWARE: Iteration order is not the same as priority order!
 // To iterate in priority order, use Items() and sort by priority.
@@ -151,6 +155,8 @@ func Map[T any](queue *PriorityQueue[T], f func(item T) T) {
 // Iterate over the queue and apply the function f to it.
 // The function f also takes the current value of the accumulator.
 // The results of f become the new value of the accumulator at each step.
+//
+// Idiomatic Go should likely use Iterator() rather than functional methods.
 //
 // BEWARE: Iteration order is not the same as priority order!
 // To iterate in priority order, use Items() and sort by priority.
