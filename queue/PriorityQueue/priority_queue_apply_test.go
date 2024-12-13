@@ -27,6 +27,7 @@ func TestPriorityQueueApply(t *testing.T) {
 		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
 	}
 }
+
 func TestPriorityQueueMap(t *testing.T) {
 	queue := priorityqueue.New[string](comparator.DefaultStringComparator)
 	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
@@ -76,5 +77,27 @@ func TestPriorityQueueFold(t *testing.T) {
 
 	if !itemsContained {
 		t.Errorf("expected all items to be contained in ground truth array")
+	}
+}
+
+func TestPriorityQueueIterator(t *testing.T) {
+	queue := priorityqueue.New[string](comparator.DefaultStringComparator)
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	for _, item := range items {
+		queue.Add(item)
+	}
+
+	concatString := ""
+	for item := range queue.Iterator() {
+		concatString += item
+	}
+
+	expectedConcatString := ""
+	for _, item := range items {
+		expectedConcatString += item
+	}
+
+	if concatString != expectedConcatString {
+		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
 	}
 }

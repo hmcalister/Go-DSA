@@ -1,6 +1,8 @@
 package linkedlistqueue
 
 import (
+	"iter"
+
 	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
@@ -157,4 +159,18 @@ func ReverseMap[T any](queue *LinkedListQueue[T], f func(item T) T) {
 // Internally, this method calls linkedlist.ReverseFold
 func ReverseFold[T any, G any](queue *LinkedListQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	return linkedlist.ReverseFold(queue.queueData, initialAccumulator, f)
+}
+
+// Iterate over the items of the queue in the forward direction (front to back).
+// Returns both the index (from the front of the queue) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (queue *LinkedListQueue[T]) ForwardIterator() iter.Seq2[int, T] {
+	return queue.queueData.ForwardIterator()
+}
+
+// Iterate over the items of the queue in the reverse direction (top to bottom).
+// Returns both the index from the back of the queue) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (queue *LinkedListQueue[T]) ReverseIterator() iter.Seq2[int, T] {
+	return queue.queueData.ReverseIterator()
 }

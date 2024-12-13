@@ -1,6 +1,8 @@
 package linkedliststack
 
 import (
+	"iter"
+
 	linkedlist "github.com/hmcalister/Go-DSA/list/LinkedList"
 	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
@@ -158,4 +160,18 @@ func ReverseMap[T any](stack *LinkedListStack[T], f func(item T) T) {
 // Internally, this method calls linkedlist.ReverseFold
 func ReverseFold[T any, G any](stack *LinkedListStack[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	return linkedlist.ReverseFold(stack.stackData, initialAccumulator, f)
+}
+
+// Iterate over the items of the stack in the forward direction (bottom to top).
+// Returns both the index (as counted from the bottom of the stack) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (stack *LinkedListStack[T]) ForwardIterator() iter.Seq2[int, T] {
+	return stack.stackData.ForwardIterator()
+}
+
+// Iterate over the items of the stack in the reverse direction (top to bottom).
+// Returns both the index (as counted from the top of the stack) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (stack *LinkedListStack[T]) ReverseIterator() iter.Seq2[int, T] {
+	return stack.stackData.ReverseIterator()
 }

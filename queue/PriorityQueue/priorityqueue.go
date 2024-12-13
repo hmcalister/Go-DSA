@@ -1,6 +1,8 @@
 package priorityqueue
 
 import (
+	"iter"
+
 	minbinaryheap "github.com/hmcalister/Go-DSA/heap/MinBinaryHeap"
 	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
@@ -160,4 +162,16 @@ func Map[T any](queue *PriorityQueue[T], f func(item T) T) {
 // This function is not a method on PriorityQueue to allow for generic accumulators.
 func Fold[T any, G any](queue *PriorityQueue[T], initialAccumulator G, f func(item T, accumulator G) G) G {
 	return minbinaryheap.Fold(queue.queueData, initialAccumulator, f)
+}
+
+// Iterate over the items of the queue.
+//
+// BEWARE: Iteration order is not the same as priority order!
+// To iterate in priority order, use Items() and sort by priority.
+//
+// If you are updating items in the queue, please note this method does *not* reheapify.
+//
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (queue *PriorityQueue[T]) Iterator() iter.Seq[T] {
+	return queue.queueData.Iterator()
 }

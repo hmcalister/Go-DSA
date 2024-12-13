@@ -1,5 +1,9 @@
 package binarysearchtree
 
+import (
+	"iter"
+)
+
 type BinarySearchTreeNode[T any] struct {
 	// The item of this node
 	item T
@@ -236,4 +240,76 @@ func FoldNodePostorder[T, G any](node *BinarySearchTreeNode[T], initialAccumulat
 	currentAccumulator = f(node.item, currentAccumulator)
 
 	return currentAccumulator
+}
+
+// ----------------------------------------------------------------------------
+// Iterator Methods
+
+// Iterate over each node in a tree Preorder.
+func IteratorNodePreorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		if node == nil {
+			return
+		}
+
+		if !yield(node.item) {
+			return
+		}
+		for item := range IteratorNodePreorder(node.left) {
+			if !yield(item) {
+				return
+			}
+		}
+		for item := range IteratorNodePreorder(node.right) {
+			if !yield(item) {
+				return
+			}
+		}
+	}
+}
+
+// Iterate over each node in a tree Inorder.
+func IteratorNodeInorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		if node == nil {
+			return
+		}
+
+		for item := range IteratorNodeInorder(node.left) {
+			if !yield(item) {
+				return
+			}
+		}
+		if !yield(node.item) {
+			return
+		}
+		for item := range IteratorNodeInorder(node.right) {
+			if !yield(item) {
+				return
+			}
+		}
+	}
+}
+
+// Iterate over each node in a tree Postorder.
+func IteratorNodePostorder[T any](node *BinarySearchTreeNode[T]) iter.Seq[T] {
+	return func(yield func(T) bool) {
+		if node == nil {
+			return
+		}
+
+		for item := range IteratorNodePostorder(node.left) {
+			if !yield(item) {
+				return
+			}
+		}
+		for item := range IteratorNodePostorder(node.right) {
+			if !yield(item) {
+				return
+			}
+		}
+		if !yield(node.item) {
+			return
+		}
+	}
 }

@@ -135,3 +135,48 @@ func TestReverseFold(t *testing.T) {
 		t.Errorf("result (%v) does not match expected result (%v)", concatString, expectedConcatString)
 	}
 }
+
+func TestForwardIterator(t *testing.T) {
+	list := linkedlist.New[int]()
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	sum := 0
+	for index, item := range list.ForwardIterator() {
+		sum += index * item
+	}
+
+	expectedSum := 0
+	for index, item := range items {
+		expectedSum += index * item
+	}
+
+	if sum != expectedSum {
+		t.Errorf("result (%v) does not match expected result (%v)", sum, expectedSum)
+	}
+}
+
+func TestReverseIterator(t *testing.T) {
+	list := linkedlist.New[int]()
+	items := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	for _, item := range items {
+		list.Add(item)
+	}
+
+	sum := 0
+	for index, item := range list.ReverseIterator() {
+		sum += index * item
+	}
+
+	slices.Reverse(items)
+	expectedSum := 0
+	for index, item := range items {
+		expectedSum += index * item
+	}
+
+	if sum != expectedSum {
+		t.Errorf("result (%v) does not match expected result (%v)", sum, expectedSum)
+	}
+}

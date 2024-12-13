@@ -1,5 +1,7 @@
 package hashset
 
+import "iter"
+
 // An implementation of a set using maps as the underlying data structure.
 type HashSet[T comparable] struct {
 	setData map[T]interface{}
@@ -84,4 +86,16 @@ func Fold[T comparable, G any](set *HashSet[T], initialAccumulator G, f func(ite
 	}
 
 	return accumulator
+}
+
+// Iterate over the items of the hashset. Note the iteration order may not be the insertion order.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (set *HashSet[T]) Iterator() iter.Seq[T] {
+	return func(yield func(T) bool) {
+		for item := range set.setData {
+			if !yield(item) {
+				return
+			}
+		}
+	}
 }

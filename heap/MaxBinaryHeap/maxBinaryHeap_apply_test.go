@@ -70,3 +70,16 @@ func TestMaxBinaryHeapFold(t *testing.T) {
 		t.Errorf("expected all items to be contained in ground truth array")
 	}
 }
+
+func TestMaxBinaryIterator(t *testing.T) {
+	heap := maxbinaryheap.New[string](comparator.DefaultStringComparator)
+	items := []string{"a", "b", "c", "d", "e", "f", "g", "h"}
+	for _, item := range items {
+		heap.Add(item)
+	}
+
+	concatString := ""
+	for item := range heap.Iterator() {
+		concatString += item
+	}
+}

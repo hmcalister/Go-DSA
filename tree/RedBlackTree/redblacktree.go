@@ -1,6 +1,8 @@
 package redblacktree
 
 import (
+	"iter"
+
 	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
@@ -276,6 +278,39 @@ func FoldTreePostorder[T, G any](tree *RedBlackTree[T], initialAccumulator G, f 
 		return initialAccumulator
 	}
 	return FoldNodePostorder(tree.root, initialAccumulator, f)
+}
+
+// ----------------------------------------------------------------------------
+// Iterator Methods
+
+// Iterate over the tree Preorder.
+//
+// This method is a wrapper for IteratorNodePreorder(tree.root)
+func IteratorTreePreorder[T any](tree *RedBlackTree[T]) iter.Seq[T] {
+	if tree.root == nil {
+		return func(yield func(T) bool) {}
+	}
+	return IteratorNodePreorder(tree.root)
+}
+
+// Iterate over the tree Inorder.
+//
+// This method is a wrapper for IteratorNodeInorder(tree.root)
+func IteratorTreeInorder[T any](tree *RedBlackTree[T]) iter.Seq[T] {
+	if tree.root == nil {
+		return func(yield func(T) bool) {}
+	}
+	return IteratorNodeInorder(tree.root)
+}
+
+// Iterate over the tree Postorder.
+//
+// This method is a wrapper for IteratorNodePostorder(tree.root)
+func IteratorTreePostorder[T any](tree *RedBlackTree[T]) iter.Seq[T] {
+	if tree.root == nil {
+		return func(yield func(T) bool) {}
+	}
+	return IteratorNodePostorder(tree.root)
 }
 
 // ----------------------------------------------------------------------------
