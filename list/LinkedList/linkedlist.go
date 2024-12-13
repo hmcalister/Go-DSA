@@ -1,6 +1,10 @@
 package linkedlist
 
-import dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+import (
+	"iter"
+
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+)
 
 // An implementation of a doubly linked list.
 type LinkedList[T any] struct {
@@ -230,6 +234,40 @@ func ReverseFold[T any, G any](list *LinkedList[T], initialAccumulator G, f func
 	}
 
 	return acc
+}
+
+// Iterate over the items of the list in the forward direction.
+// Returns both the index (as counted from the head) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (list *LinkedList[T]) ForwardIterator() iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		index := 0
+		currentNode := list.head
+		for currentNode != nil {
+			if !yield(index, currentNode.item) {
+				return
+			}
+			currentNode = currentNode.next
+			index += 1
+		}
+	}
+}
+
+// Iterate over the items of the list in the reverse direction.
+// Returns both the index (as counted from the tail) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (list *LinkedList[T]) ReverseIterator() iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		index := 0
+		currentNode := list.tail
+		for currentNode != nil {
+			if !yield(index, currentNode.item) {
+				return
+			}
+			currentNode = currentNode.prev
+			index += 1
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------
