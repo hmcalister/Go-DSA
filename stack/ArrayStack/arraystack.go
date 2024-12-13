@@ -1,6 +1,10 @@
 package arraystack
 
-import dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+import (
+	"iter"
+
+	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
+)
 
 // Implement a stack using a array (slice) as the backing data structure.
 //
@@ -180,4 +184,32 @@ func ReverseFold[T any, G any](stack *ArrayStack[T], initialAccumulator G, f fun
 	}
 
 	return accumulator
+}
+
+// Iterate over the items of the stack in the forward direction (bottom to top).
+// Returns both the index (as counted from the bottom of the stack) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (stack *ArrayStack[T]) ForwardIterator() iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		for index := 0; index < len(stack.stackData); index += 1 {
+			item := stack.stackData[index]
+			if !yield(index, item) {
+				break
+			}
+		}
+	}
+}
+
+// Iterate over the items of the stack in the reverse direction (top to bottom).
+// Returns both the index (as counted from the top of the stack) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (stack *ArrayStack[T]) ReverseIterator() iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		for index := 0; index < len(stack.stackData); index += 1 {
+			item := stack.stackData[len(stack.stackData)-index-1]
+			if !yield(index, item) {
+				break
+			}
+		}
+	}
 }
