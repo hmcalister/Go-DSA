@@ -1,6 +1,8 @@
 package arrayqueue
 
 import (
+	"iter"
+
 	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
 
@@ -180,4 +182,32 @@ func ReverseFold[T any, G any](queue *ArrayQueue[T], initialAccumulator G, f fun
 	}
 
 	return accumulator
+}
+
+// Iterate over the items of the queue in the forward direction (front to back).
+// Returns both the index (as counted from the front of the queue) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (queue *ArrayQueue[T]) ForwardIterator() iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		for index := 0; index < len(queue.queueData); index += 1 {
+			item := queue.queueData[index]
+			if !yield(index, item) {
+				break
+			}
+		}
+	}
+}
+
+// Iterate over the items of the queue in the reverse direction (back to front).
+// Returns both the index (as counted from the back of the queue) and item.
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (queue *ArrayQueue[T]) ReverseIterator() iter.Seq2[int, T] {
+	return func(yield func(int, T) bool) {
+		for index := 0; index < len(queue.queueData); index += 1 {
+			item := queue.queueData[len(queue.queueData)-index-1]
+			if !yield(index, item) {
+				break
+			}
+		}
+	}
 }
