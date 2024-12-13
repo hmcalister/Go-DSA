@@ -1,6 +1,8 @@
 package minbinaryheap
 
 import (
+	"iter"
+
 	comparator "github.com/hmcalister/Go-DSA/utils/Comparator"
 	dsa_error "github.com/hmcalister/Go-DSA/utils/DSA_Error"
 )
@@ -248,4 +250,23 @@ func Fold[T any, G any](heap *MinBinaryHeap[T], initialAccumulator G, f func(ite
 	}
 
 	return accumulator
+}
+
+// Iterate over the items of the heap.
+// In case it matters, the iteration is effectively in "reading order" along the heap.
+// This is *not* a sorted order. To iterate in sorted order you may either extract the heap items with Items() and sort,
+// or continually pop items from the heap (which will naturally update the heap).
+//
+// If you are updating items in the heap, please note this method does *not* reheapify.
+//
+// This method is not concurrency safe. For concurrent applications, consider using a mutex, or pull the data out using Items().
+func (heap *MinBinaryHeap[T]) Iterator() iter.Seq[T] {
+	return func(yield func(T) bool) {
+		for index := 0; index < len(heap.heapData); index += 1 {
+			item := heap.heapData[index]
+			if !yield(item) {
+				break
+			}
+		}
+	}
 }
